@@ -1,0 +1,70 @@
+main{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 130px 0 200px;
+}
+
+main h1{
+    font-size: 3em;
+    margin: 20px 0;
+}
+
+#inspeccion-form{
+    width: 100%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+padding: 0 50px;
+}
+
+#inspeccion-direccion.fill-input{
+    width: 30%;
+    margin: 5px 0 15px;
+}
+
+#inspeccion-form button{
+    width: 10%;
+    height: 40px;
+    background-color: rgb(1, 1, 97);
+    box-shadow: rgb(0, 0, 0) 1px 1px 1px;
+    border: 0;
+    color: white;
+    align-self: center;
+}
+
+#inspeccion-form button:hover {
+    cursor: pointer;
+    background-color: rgb(4, 1, 197);
+    transition: ease 0.2s;
+
+}
+
+.inspeccion-info{
+    margin: 10px 0;
+}
+
+.inspeccion-info:last-of-type{
+    margin-bottom: 30px;
+}
+
+#servicios-group{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 60%;
+    margin: 15px ;
+}
+
+.servicio-wrapper{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#servicios-group input[type="checkbox"],label{
+    margin: 10px;
+}

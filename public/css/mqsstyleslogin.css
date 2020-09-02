@@ -1,0 +1,38 @@
+
+@media only screen and (max-width:1300px){
+    #login-container{
+        margin-top: 80px;
+    }
+}
+
+@media only screen and (max-width:800px){
+    #login-container{
+        margin-top: 60px;
+    }
+}
+
+@media only screen and (max-width:500px){
+    #panel-buttons button {
+        width: 140px;
+    }
+
+    .panel-body{
+        width: 280px;
+    }
+
+    .register-field-label{
+        font-size: 14px;
+    }
+
+    #register-gender-group div label{
+        font-size: 0.8em;
+    }
+
+    #register-date-group input {
+        flex-basis: 55%;
+    }
+
+    #register-terms-group{
+        font-size: 14px;
+    }
+}

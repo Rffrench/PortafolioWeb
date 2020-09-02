@@ -1,0 +1,11 @@
+
+.error-section{
+    width: 100%;
+    margin: 200px 15px;
+    text-align: center;
+}
+
+.error-section h1, p{
+    font-weight: bold;
+    font-size: 50px;
+}

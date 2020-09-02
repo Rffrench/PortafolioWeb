@@ -1,0 +1,157 @@
+/* BASE HTML MEDIA QUERIES: HEADER AND FOOTER */
+
+@media only screen and (max-width:1200px){
+
+    #menu-pages {
+        flex-basis: 40%;
+    }
+
+    #menu-pages a{
+        padding: 0 5px;
+    }
+
+    #menu-main-pages{
+        flex-basis: 30%;
+        
+    }
+
+    #menu-main-pages a{
+        margin: 10px 3%;
+        padding: 0 15%;
+    }
+
+
+    #footer-pages{
+        flex-basis: 100%;
+    }
+
+    #footer-pages a{
+        
+        padding-bottom: 15px;
+    }
+
+    #contact-info{
+        justify-content: center;
+        flex-basis: 100%;
+        margin: 0 30%;
+    }
+
+    #contact-info h3{
+        flex-basis: 50%;
+    }
+
+    #contact-info address a{
+        padding: 0 10px;
+    }
+
+    #footer-info h5{
+        padding: 0 5px;
+    }
+}
+
+@media only screen and (max-width:800px){
+    
+    #topmenu{
+        padding: 0 0px;
+    }
+
+    .mobile-menu{
+        padding-left: 6px ;
+        display: inline-block;
+    }
+
+
+    #logo{
+        padding-top: 5px;
+        margin-right: 10%;
+        flex-basis: 30%;
+        align-self: center;
+    }
+
+    #logo img{
+        width: 50px;
+    }
+    
+    #menu-pages{
+        display: none;
+    }
+
+    #menu-main-pages{
+        display: none;
+    }
+
+    #mobile-plans-icon{
+        flex-basis: 25%;
+        display: flex;
+        align-items: center;
+    }
+
+    #mobile-plans-icon i{
+        color: rgb(1, 1, 97);
+        font-size: 35px;
+    }
+
+    #mobile-login-icon{
+        padding-right: 6px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        
+    }
+
+    #mobile-login-icon i{
+        color: rgb(1, 1, 97);
+        font-size: 35px;
+    }
+    
+    #main-footer{
+        width: 100%;
+    }
+
+    #contact-info{
+        flex-flow: row wrap;
+        margin: 0;
+        padding: 0;
+        flex-basis: 100%;
+    }
+
+    #contact-info h3{
+        font-size: 1em;
+        padding: 0;
+        flex-basis: 0;
+    }
+
+    #contact-info address{
+        width: 100%;
+        flex-basis: 0;
+    }
+
+    #contact-info address a{
+        padding: 0 4px;
+    }
+
+    #footer-info{
+        margin: 5px 0;
+        flex-wrap: wrap;
+    }
+
+    #footer-info h5{
+        padding: 3px 0;
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+    }
+
+}
+
+
+@media only screen and (max-width:400px){
+    #footer-pages a{
+        font-size: 0.7em;
+    }
+
+    #contact-info address{
+        flex-wrap: wrap;
+    }
+
+}

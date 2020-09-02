@@ -1,0 +1,58 @@
+<!--Página 404. Se importan igual que en todas módulos HTML repetidos-->
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/notfound.css">
+<!--NO hay que poner toda la ruta pq Express ya tiene claro que el contenido static esta en public.-->
+</head>
+
+
+<body>
+    <%- include('../includes/navigation.ejs') %>
+
+    <div id="login-container">
+
+        <div id="login-register-panel">
+            <div id="panel-buttons">
+                <button id="btn-login-panel" class="btn-selected" type="button">Iniciar Sesión</button>
+                <button id="btn-register-panel" class="btn-not-selected" type="button">Registrarse</button>
+            </div>
+            <div id="login-panel" class="panel-body">
+                <form id="login-form" class="panel-form" action="/auth/login" method="POST">
+                    <input type="text" name="username" id="login-username" class="fill-input"
+                        placeholder="Nombre de Usuario" autofocus="true" maxlength="15" required>
+                    <input name="password" id="login-password" class="fill-input" type="password"
+                        placeholder="Contraseña" maxlength="35" required>
+
+                    <div id="login-remember-me-group">
+                        <input type="checkbox" name="login-remember-me-btn" id="login-remember-me-btn">
+                        <label for="login-remember-me-btn" id="login-remember-me-label">Recordarme</label>
+                    </div>
+
+                    <button type="submit">Iniciar Sesión</button>
+                    <a id="login-forgot-password-link" href="#">No puedo acceder a mi cuenta</a>
+                </form>
+            </div>
+
+            <div id="register-panel" class="panel-body">
+                <form id="register-form" class="panel-form" action="/registerauth" method="POST">
+                    <input type="email" name="email" id="register-email" class="fill-input" placeholder="Email *"
+                        maxlength="254" required>
+                    <input type="text" name="username" id="register-username" class="fill-input"
+                        placeholder="Nombre de Usuario *" autofocus="true" maxlength="15" required>
+                    <input type="password" name="password" id="register-password" class="fill-input"
+                        placeholder="Contraseña *" maxlength="30" required>
+
+                    <div id="register-form-name-group">
+                        <input type="text" name="name" id="register-name" class="fill-input"
+                            placeholder="Primer Nombre *" maxlength="20" required>
+                        <input type="text" name="lastname" id="register-lastname" class="fill-input"
+                            placeholder="Apellido *" maxlength="30" required>
+                    </div>
+
+                    <button type="submit">Registrarse</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/footer.ejs') %>
+
+    <%- include('../includes/end.ejs') %>
