@@ -1,4 +1,6 @@
 // Main File
+require('dotenv').config(); // .env files
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
@@ -7,8 +9,10 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
+//app.use(bodyParser.json()); // Acá no necesito que sea JSON la data pq los formularios la mandan como urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Controlador de Error (para que el middleware sea agregado a cada request en caso de un 404)
 const errorController = require('./controllers/errorController');
