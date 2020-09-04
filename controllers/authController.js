@@ -12,12 +12,12 @@ exports.postSignup = (req, res, next) => {
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
     axios.post(`${process.env.ORCHESTRATOR}/auth/signup`, user)
         .then(response => {
-            console.log('Usuario Ingresado');
-            res.redirect('/auth/login');
+            console.log(response);
+            res.redirect('/');
         })
         .catch(err => {
             console.log(err);
-            res.redirect('/');
+            res.redirect('/auth/login');
         })
 
 }
@@ -28,19 +28,28 @@ exports.getLogin = (req, res, next) => {
 }
 
 exports.postLogin = (req, res, next) => {
-    //const user = new User(req.body.username, req.body.password, "Juan");
     const user = { username: req.body.username, password: req.body.password };
 
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
     axios.post(`${process.env.ORCHESTRATOR}/auth/login`, user)
         .then(response => {
             console.log(response);
-            res.redirect('/auth/login');
+            res.redirect('/');
         })
         .catch(err => {
             console.log(err);
-            res.redirect('/');
+            res.redirect('/auth/login');
         })
+
+}
+
+
+
+
+
+
+
+
 
 
     // const data = {
@@ -64,4 +73,3 @@ exports.postLogin = (req, res, next) => {
     //     })
 
 
-}
