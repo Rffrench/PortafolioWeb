@@ -4,7 +4,8 @@
   "description": "Proyecto final de Carrera. Sitio Web con arquitectura inspirada en microservicios usando principalmente Node JS y APIs REST en Node y Django",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +22,8 @@
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
     "ejs": "^3.1.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "express-session": "^1.17.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

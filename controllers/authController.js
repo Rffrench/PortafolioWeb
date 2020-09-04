@@ -4,21 +4,42 @@ const User = require('../models/userModel');
 const axios = require('axios');
 const qs = require('qs');
 
+
+exports.postSignup = (req, res, next) => {
+    const user = new User(req.body.email, req.body.username, req.body.password, req.body.name, req.body.lastName);
+
+
+    // Se envia POST al orchestador para que maneje las peticiones a los microservicios
+    axios.post(`${process.env.ORCHESTRATOR}/auth/signup`, user)
+        .then(response => {
+            console.log('Usuario Ingresado');
+            res.redirect('/auth/login');
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect('/');
+        })
+
+}
+
+
 exports.getLogin = (req, res, next) => {
     res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login' });
 }
 
 exports.postLogin = (req, res, next) => {
-    const user = new User(req.body.username, req.body.password, "Juan");
+    //const user = new User(req.body.username, req.body.password, "Juan");
+    const user = { username: req.body.username, password: req.body.password };
 
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
-    axios.post(process.env.ORCHESTRATOR, user)
+    axios.post(`${process.env.ORCHESTRATOR}/auth/login`, user)
         .then(response => {
             console.log(response);
             res.redirect('/auth/login');
         })
         .catch(err => {
             console.log(err);
+            res.redirect('/');
         })
 
 

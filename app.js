@@ -6,6 +6,7 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const app = express();
 
+// Motor de plantillas EJS
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -19,10 +20,13 @@ const errorController = require('./controllers/errorController');
 
 // Rutas
 const authRoutes = require('./routes/authRoutes');
+const restaurantRoutes = require('./routes/restaurantRoutes');
 
 // Registrando rutas
 app.use('/auth', authRoutes); // Primer arg es un path que va previo a cualquier ruta registrada en authRoutes
+app.use(restaurantRoutes);
 
+// Se registra controlador para errores 404
 app.use(errorController.get404);
 
 
