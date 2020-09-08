@@ -33,16 +33,29 @@ exports.postSignup = (req, res, next) => {
 
 
 exports.getLogin = (req, res, next) => {
+    // Chequeando si el usuario ya inició sesión en base a la existencia de Token.
+    if (localStorage.getItem('token')) {
+        res.send(`
+        <h1>Error, ya inició sesión </h1>
+        <a href="/">Volver al Inicio</a>
+        `);
+        return; // return para que no continue
+    }
     res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login' });
 }
 
 exports.postLogin = (req, res, next) => {
+
     const user = { username: req.body.username, password: req.body.password };
 
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
     axios.post(`${process.env.ORCHESTRATOR}/auth/login`, user)
         .then(response => {
             console.log(response.data);
+
+            // Se guarda info del Token
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('userId', response.data.userId);
             res.redirect('/');
         })
         .catch(err => {
@@ -51,6 +64,13 @@ exports.postLogin = (req, res, next) => {
         })
 
 
+}
+
+exports.postLogout = (req, res, next) => {
+    // Se remueve el Token del sistema
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    res.redirect('/');
 }
 
 

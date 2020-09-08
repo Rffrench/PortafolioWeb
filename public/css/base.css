@@ -65,12 +65,14 @@ input[type="checkbox"]:checked {
     justify-content: space-between;
 }
 
-#topmenu a {
+#topmenu a,
+#topmenu button {
     text-decoration: none;
     font-weight: bold;
 }
 
-#topmenu a:active {
+#topmenu a:active,
+#topmenu button:active  {
     outline: none;
 }
 
@@ -140,6 +142,10 @@ input[type="checkbox"]:checked {
     display: none;
 }
 
+#mobile-logout-icon{
+    display: none;
+}
+
 #logo a {
     outline: none;
 }
@@ -184,7 +190,8 @@ input[type="checkbox"]:checked {
     align-items: center;
 }
 
-#menu-main-pages a:hover {
+#menu-main-pages a:hover,
+#menu-main-pages button:hover {
     transition: ease 0.1s;
     transform: scale(1.1);
 }
@@ -205,12 +212,39 @@ input[type="checkbox"]:checked {
     border-color: rgb(10, 7, 212);
 }
 
+#form-logout{
+    width: 50%;
+    height: 80%;
+    display: flex;
+    align-self: center;
+}
+
+#btn-logout{
+    font-size: 17px;
+    width: 100%;
+    height: 100%;
+    border: 3px solid red;
+    margin: 1.5% 3%;
+    padding: 0% 12%;
+    /*border-radius: 30px;*/
+    box-shadow: #999 1px 1px 5px;
+    color: red;
+}
+
+#btn-logout:hover{
+    cursor: pointer;
+}
+
 #btn-request:active {
     background: rgb(6, 10, 201);
 }
 
 #btn-login:active {
     background: rgba(148, 147, 147, 0.322);
+}
+
+.btn-logout{
+    color: red;
 }
 
 #main-footer {

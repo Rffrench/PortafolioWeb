@@ -1,10 +1,17 @@
 // Main File
 require('dotenv').config(); // .env files
 
+// Local Storage para los tokens. La comprobación se hace para no confundir el storage del browser y el de node
+if (typeof localStorage === "undefined" || localStorage === null) {
+    const LocalStorage = require('node-localstorage').LocalStorage;
+    localStorage = new LocalStorage('./scratch');
+}
+
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser')
 const app = express();
+
 
 // Motor de plantillas EJS
 app.set('view engine', 'ejs');

@@ -6,18 +6,25 @@
         flex-basis: 40%;
     }
 
-    #menu-pages a{
+    #menu-pages a,
+    #menu-pages button{
         padding: 0 5px;
     }
 
     #menu-main-pages{
-        flex-basis: 30%;
+        flex-basis: 40%;
         
     }
 
-    #menu-main-pages a{
+    #menu-main-pages a,
+    #menu-main-pages button 
+    {
         margin: 10px 3%;
         padding: 0 15%;
+    }
+
+    #form-logout{
+        width: 100%;
     }
 
 
@@ -102,6 +109,24 @@
     #mobile-login-icon i{
         color: rgb(1, 1, 97);
         font-size: 35px;
+    }
+
+    #mobile-logout-icon{
+        padding-right: 6px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        
+    }
+
+    #mobile-logout-icon i{
+        color: red;
+        font-size: 35px;
+    }
+    
+    #mobile-logout-icon button{
+        background-color: none;
+        border: none;
     }
     
     #main-footer{

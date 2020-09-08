@@ -25,9 +25,19 @@
             <a href="/"><img src="/media/logo.png"></a>
         </div>
 
+        <!--Se comprueba existencia de Token para ver si el boton es de Login o Logout-->
+        <% if (localStorage.getItem('token')) { %>
+        <div id="mobile-logout-icon">
+            <form action="/auth/logout" method="POST" id="form-logout">
+                <button type="submit"><i class="fas fa-user"></i></a>
+            </form>
+        </div>
+        <% } else { %>
         <div id="mobile-login-icon">
             <a href="/auth/login"><i class="fas fa-user"></i></a>
         </div>
+        <% } %>
+
 
         <nav id="menu-pages">
             <!-- Main links -->
@@ -38,6 +48,14 @@
         <nav id="menu-main-pages">
             <!-- Main buttons -->
             <a href="/solicitar-inspeccion" id="btn-request"><i class="fas fa-file-signature"></i>Generar Orden</a>
+
+            <!--Se comprueba existencia de Token para ver si el boton dice Login o Logout-->
+            <% if (localStorage.getItem('token')) { %>
+            <form action="/auth/logout" method="POST" id="form-logout">
+                <button id="btn-logout" type="submit"><i class="fas fa-user"></i>Logout</a>
+            </form>
+            <% } else { %>
             <a href="/auth/login" id="btn-login"><i class="fas fa-user"></i>Login</a>
+            <% } %>
         </nav>
     </header>
