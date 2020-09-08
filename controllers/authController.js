@@ -5,6 +5,16 @@ const axios = require('axios');
 const qs = require('qs');
 
 
+
+function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 exports.postSignup = (req, res, next) => {
     const user = new User(req.body.email, req.body.username, req.body.password, req.body.name, req.body.lastName);
 
@@ -12,14 +22,13 @@ exports.postSignup = (req, res, next) => {
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
     axios.post(`${process.env.ORCHESTRATOR}/auth/signup`, user)
         .then(response => {
-            console.log(response);
+            console.log(response.data);
             res.redirect('/');
         })
         .catch(err => {
             console.log(err);
             res.redirect('/auth/login');
         })
-
 }
 
 
@@ -33,13 +42,14 @@ exports.postLogin = (req, res, next) => {
     // Se envia POST al orchestador para que maneje las peticiones a los microservicios
     axios.post(`${process.env.ORCHESTRATOR}/auth/login`, user)
         .then(response => {
-            console.log(response);
+            console.log(response.data);
             res.redirect('/');
         })
         .catch(err => {
             console.log(err);
             res.redirect('/auth/login');
         })
+
 
 }
 

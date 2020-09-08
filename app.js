@@ -30,4 +30,15 @@ app.use(restaurantRoutes);
 app.use(errorController.get404);
 
 
+// TODO: ARREGLAR ERRORS
+app.use((error, req, res, next) => {
+    console.log(error);
+    const status = error.statusCode || 500;
+    const message = error.message;
+    const data = error.data;
+    res.status(status).json({ message: message, data: data });
+});
+
+
+
 app.listen(3000);
