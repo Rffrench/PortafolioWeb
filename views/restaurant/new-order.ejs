@@ -1,0 +1,37 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/stylesnew-order.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Ingresar Nueva Orden</h1>
+
+        <form action="/solicitarinsp" id="inspeccion-form" method="POST">
+            <input type="text" name="inspeccion-direccion" id="inspeccion-direccion" class="fill-input"
+                placeholder="Buscar" autofocus="true" maxlength="25" required>
+
+
+            <div id="servicios-group">
+                <input type="checkbox" name="servicio1" id="servicio1">
+                <label for="servicio1" id="servicio1-label"></label>
+                <input type="checkbox" name="servicio2" id="servicio2">
+                <label for="servicio2" id="servicio2-label"></label>
+                <input type="checkbox" name="servicio3" id="servicio3">
+                <label for="servicio3" id="servicio3-label"></label>
+                <input type="checkbox" name="servicio4" id="servicio4">
+                <label for="servicio4" id="servicio4-label"></label>
+            </div>
+
+            <h3 class="inspeccion-info">Descuento: </h3>
+            <h3 class="inspeccion-info">Total: </h3>
+
+            <button type="submit">Ingresar Orden</button>
+        </form>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
