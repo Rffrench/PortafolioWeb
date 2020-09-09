@@ -24,9 +24,9 @@ exports.getNewOrder = (req, res, next) => {
             // TODO: Refactorizar esto
             let errorCode = err.response.status;
             let errorMessage = '';
-            if (errorCode == 401) { // se ven los codigos de errores, dependiendo el codigo se identifica el problema
+            if (errorCode == 403) { // se ven los codigos de errores, dependiendo el codigo se identifica el problema
                 errorMessage = 'No está autorizado para acceder a esta página';
-            } else if (errorCode == 500) {
+            } else {
                 errorMessage = 'No ha iniciado sesión para acceder a esta página o ha ocurrido un error de servidor';
             }
             res.send(`

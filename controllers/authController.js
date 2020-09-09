@@ -56,6 +56,7 @@ exports.postLogin = (req, res, next) => {
             // Se guarda info del Token
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('userId', response.data.userId);
+            localStorage.setItem('roleId', response.data.roleId);
             res.redirect('/');
         })
         .catch(err => {
@@ -70,6 +71,7 @@ exports.postLogout = (req, res, next) => {
     // Se remueve el Token del sistema
     localStorage.removeItem('token');
     localStorage.removeItem('userId');
+    localStorage.removeItem('roleId');
     res.redirect('/');
 }
 
