@@ -5,16 +5,6 @@ const axios = require('axios');
 const qs = require('qs');
 
 
-
-function IsJsonString(str) {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
-
 exports.postSignup = (req, res, next) => {
     const user = new User(req.body.email, req.body.username, req.body.password, req.body.name, req.body.lastName);
 
@@ -35,10 +25,9 @@ exports.postSignup = (req, res, next) => {
 exports.getLogin = (req, res, next) => {
     // Chequeando si el usuario ya inició sesión en base a la existencia de Token.
     if (localStorage.getItem('token')) {
-        res.send(`
-        <h1>Error, ya inició sesión </h1>
-        <a href="/">Volver al Inicio</a>
-        `);
+        let errorCode = undefined;
+        let errorMessage = 'Ya inició sesión en el sistema';
+        res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
         return; // return para que no continue
     }
     res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login' });

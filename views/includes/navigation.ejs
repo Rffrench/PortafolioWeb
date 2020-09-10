@@ -12,13 +12,13 @@
         <div id="mobile-menu-pages">
             <a href="/">Inicio</a>
             <a href="#">Órdenes</a>
-            <a href="/new-order">Crear Orden</a>
+            <a href="/reservations">Crear Reserva</a>
             <a href="/auth/login">Login</a>
 
         </div>
 
         <div id="mobile-request-icon">
-            <a href="/new-order"><i class="fas fa-file-signature"></i></a>
+            <a href="/reservations"><i class="fas fa-file-signature"></i></a>
         </div>
 
         <div id="logo">
@@ -47,7 +47,7 @@
 
         <nav id="menu-main-pages">
             <!-- Main buttons -->
-            <a href="/new-order" id="btn-request"><i class="fas fa-file-signature"></i>Generar Orden</a>
+            <a href="/reservations" id="btn-request"><i class="fas fa-file-signature"></i>Crear Reserva</a>
 
             <!--Se comprueba existencia de Token para ver si el boton dice Login o Logout-->
             <% if (localStorage.getItem('token')) { %>
