@@ -2,6 +2,11 @@
     <header id="topmenu" role="menu">
         <!-- Top bar -->
 
+
+        <!--Se obtiene el rol para determinar el menú que se le muestra-->
+        <% let roleId = localStorage.getItem('roleId');%>
+
+
         <div class="mobile-menu">
             <!-- Menu icon for screens under 800px -->
             <div class="bar1"></div>
@@ -9,21 +14,118 @@
             <div class="bar3"></div>
         </div>
 
+
+        <% switch (roleId) {
+            case '2': %>
         <div id="mobile-menu-pages">
             <a href="/">Inicio</a>
-            <a href="#">Órdenes</a>
-            <a href="/reservations">Crear Reserva</a>
-            <a href="/auth/login">Login</a>
 
-        </div>
-
-        <div id="mobile-request-icon">
-            <a href="/reservations"><i class="fas fa-file-signature"></i></a>
         </div>
 
         <div id="logo">
             <a href="/"><img src="/media/logo.png"></a>
         </div>
+
+        <nav id="menu-pages">
+            <!-- Main links -->
+            <a href="/">Inicio</a>
+
+        </nav>
+        <% break; %>
+
+
+
+        <% case '3': %>
+        <div id="mobile-menu-pages">
+            <a href="/">Inicio</a>
+            <a href="#">Solicitar Insumos</a>
+            <a href="/#">Reponer Insumos</a>
+            <a href="/#">Controlar Stock </a>
+        </div>
+
+        <div id="logo">
+            <a href="/"><img src="/media/logo.png"></a>
+        </div>
+
+        <nav id="menu-pages">
+            <!-- Main links -->
+            <a href="/">Inicio</a>
+            <a href="#">Solicitar Insumos</a>
+            <a href="/#">Reponer Insumos</a>
+            <a href="/#">Controlar Stock </a>
+        </nav>
+        <% break; %>
+
+
+
+        <% case '4': %>
+        <div id="mobile-menu-pages">
+            <a href="/">Inicio</a>
+            <a href="#">Calcular Ganancias</a>
+            <a href="/#">Administrar Ordenes</a>
+
+        </div>
+
+        <div id="logo">
+            <a href="/"><img src="/media/logo.png"></a>
+        </div>
+
+        <nav id="menu-pages">
+            <!-- Main links -->
+            <a href="/">Inicio</a>
+            <a href="#">Calcular Ganancias</a>
+            <a href="/#">Administrar Ordenes</a>
+
+        </nav>
+        <% break; %>
+
+
+
+        <% case '5': %>
+        <div id="mobile-menu-pages">
+            <a href="/">Inicio</a>
+            <a href="#">Tabla de Órdenes</a>
+            <a href="/#">Ingresar Recetas</a>
+
+        </div>
+
+        <div id="logo">
+            <a href="/"><img src="/media/logo.png"></a>
+        </div>
+
+        <nav id="menu-pages">
+            <!-- Main links -->
+            <a href="/">Inicio</a>
+            <a href="#">Tabla de Órdenes</a>
+            <a href="/#">Ingresar Recetas</a>
+
+        </nav>
+        <% break; %>
+
+
+        <% default: %>
+        <div id="mobile-menu-pages">
+            <a href="/">Inicio</a>
+            <a href="#">Órdenes</a>
+            <a href="/reservations">Crear Reserva</a>
+            <a href="/reservations">Ingresar Orden</a>
+        </div>
+
+        <div id="logo">
+            <a href="/"><img src="/media/logo.png"></a>
+        </div>
+
+        <nav id="menu-pages">
+            <!-- Main links -->
+            <a href="/">Inicio</a>
+            <a href="/reservations">Crear Reserva</a>
+            <a href="/reservations">Ingresar Orden</a>
+        </nav>
+
+        <% break; } %>
+
+
+
 
         <!--Se comprueba existencia de Token para ver si el boton es de Login o Logout-->
         <% if (localStorage.getItem('token')) { %>
@@ -39,15 +141,7 @@
         <% } %>
 
 
-        <nav id="menu-pages">
-            <!-- Main links -->
-            <a href="/">Inicio</a>
-            <a href="#">Órdenes</a>
-        </nav>
-
         <nav id="menu-main-pages">
-            <!-- Main buttons -->
-            <a href="/reservations" id="btn-request"><i class="fas fa-file-signature"></i>Crear Reserva</a>
 
             <!--Se comprueba existencia de Token para ver si el boton dice Login o Logout-->
             <% if (localStorage.getItem('token')) { %>
