@@ -4,7 +4,7 @@
 
 
     #menu-pages {
-        flex-basis: 40%;
+        flex-basis: 70%;
     }
 
     #menu-pages a,
@@ -13,7 +13,7 @@
     }
 
     #menu-main-pages{
-        flex-basis: 40%;
+        flex-basis: 30%;
         
     }
 
@@ -59,6 +59,12 @@
 
 @media only screen and (max-width:800px){
     
+    .selection-button{
+        width: 90%;
+        margin: 4%;
+        align-self: center;
+    }
+
     #topmenu{
         padding: 0 0px;
     }

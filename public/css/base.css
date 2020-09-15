@@ -51,6 +51,27 @@ input[type="checkbox"]:checked {
     
 }
 
+.main-button{
+    margin: 5%;
+    padding: 15px 25px;
+    color: white;
+    background-color: rgb(1, 1, 97);
+    box-shadow: rgb(0, 0, 0) 1px 1px 1px ;
+    font-weight: bold;
+    text-decoration: none;
+    
+}
+
+.main-button:hover{
+    background-color: rgb(4, 1, 197);
+    transition: ease 0.2s;
+}
+
+.selection-button{
+    width: 30%;
+    margin: 1%;
+    align-self: center;
+}
 
 
 #topmenu {
@@ -155,8 +176,8 @@ input[type="checkbox"]:checked {
 }
 
 #menu-pages {
-    flex-basis: 60%;
-    margin: 0 20% 0 0%;
+    flex-basis: 70%;
+    margin: 0 10% 0 0%;
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-evenly;

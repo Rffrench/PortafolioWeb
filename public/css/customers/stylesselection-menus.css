@@ -1,0 +1,21 @@
+main{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 150px 0 60px;
+}
+
+main h1{
+    font-size: 3em;
+    margin: 10px 0 30px;
+}
+
+.selection-section{
+    width: 90%;
+    margin: 0px 5% 100px;
+    padding: 0% 5%;
+    text-align: center;
+    display: flex;
+    flex-flow: column wrap;
+    }

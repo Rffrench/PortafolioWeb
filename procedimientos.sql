@@ -11,6 +11,12 @@ DROP procedure IF EXISTS `addProduct`;
 DROP procedure IF EXISTS `updateProduct`;
 DROP procedure IF EXISTS `deleteProduct`;
 
+DROP procedure IF EXISTS `getTables`;
+DROP procedure IF EXISTS `getTable`;
+DROP procedure IF EXISTS `addTable`;
+DROP procedure IF EXISTS `updateTable`;
+DROP procedure IF EXISTS `deleteTable`;
+
 DELIMITER $$
 USE `portafoliodb`$$
 
@@ -103,6 +109,57 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+
+
+-- MESAS
+
+DELIMITER $$
+CREATE PROCEDURE `getTables` ()
+BEGIN
+	SELECT * FROM portafoliodb.Tables;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `getTable` (IN p_id INT)
+BEGIN
+	SELECT * FROM portafoliodb.Tables WHERE id = p_id;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `addTable` (IN p_capacity INT, IN p_isAvailable BOOLEAN)
+BEGIN
+	INSERT INTO portafoliodb.Tables VALUES (DEFAULT,p_capacity, p_isAvailable, null, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `updateTable` (IN p_id INT, IN p_capacity INT, IN p_isAvailable BOOLEAN, IN p_userId INT)
+BEGIN
+	UPDATE portafoliodb.Tables
+		SET 
+        capacity = p_capacity,
+        isAvailable = p_isAvailable,
+        userId = p_userId,
+        updatedAt = CURRENT_TIMESTAMP()
+    WHERE id = p_id;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `deleteTable` (IN p_id INT)
+BEGIN
+	DELETE FROM portafoliodb.Tables
+    WHERE id = p_id;
+END $$
+DELIMITER ;
 
 
 

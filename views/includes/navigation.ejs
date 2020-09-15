@@ -106,9 +106,8 @@
         <% default: %>
         <div id="mobile-menu-pages">
             <a href="/">Inicio</a>
-            <a href="#">Órdenes</a>
-            <a href="/reservations">Crear Reserva</a>
-            <a href="/reservations">Ingresar Orden</a>
+            <a href="/orders">Órdenes</a>
+            <a href="/reservations">Reservas</a>
         </div>
 
         <div id="logo">
@@ -118,8 +117,8 @@
         <nav id="menu-pages">
             <!-- Main links -->
             <a href="/">Inicio</a>
-            <a href="/reservations">Crear Reserva</a>
-            <a href="/reservations">Ingresar Orden</a>
+            <a href="/orders">Órdenes</a>
+            <a href="/reservations">Reservas</a>
         </nav>
 
         <% break; } %>
@@ -146,7 +145,7 @@
             <!--Se comprueba existencia de Token para ver si el boton dice Login o Logout-->
             <% if (localStorage.getItem('token')) { %>
             <form action="/auth/logout" method="POST" id="form-logout">
-                <button id="btn-logout" type="submit"><i class="fas fa-user"></i>Logout</a>
+                <button id="btn-logout" type="submit"><i class="fas fa-user"></i>Cerrar Sesión</a>
             </form>
             <% } else { %>
             <a href="/auth/login" id="btn-login"><i class="fas fa-user"></i>Login</a>
