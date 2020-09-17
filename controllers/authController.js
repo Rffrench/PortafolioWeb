@@ -30,7 +30,7 @@ exports.getLogin = (req, res, next) => {
         res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
         return; // return para que no continue
     }
-    res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login' });
+    res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: null });
 }
 
 exports.postLogin = (req, res, next) => {
@@ -49,8 +49,8 @@ exports.postLogin = (req, res, next) => {
             res.redirect('/');
         })
         .catch(err => {
-            console.log(err);
-            res.redirect('/auth/login');
+            console.log(err.response.status);
+            res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Usuario o contraseña incorrectos' });
         })
 
 

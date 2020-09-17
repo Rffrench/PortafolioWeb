@@ -5,7 +5,8 @@ const getErrorInfo = (errorCode) => {
     let errorMessage = '';
     if (errorCode == 403) { // se ven los codigos de errores, dependiendo el codigo se identifica el problema
         errorMessage = 'No está autorizado para acceder a esta página';
-    } else {
+    }
+    else {
         errorMessage = 'No ha iniciado sesión para acceder a esta página o ha ocurrido un error de servidor';
     }
     errorInfo.push(errorCode, errorMessage); // Se agregna a un array los datos y luego con Deestructuirng se sacan los valores

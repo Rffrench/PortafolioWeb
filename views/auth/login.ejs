@@ -1,6 +1,8 @@
 <!--Página 404. Se importan igual que en todas módulos HTML repetidos-->
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/notfound.css">
+<link rel="stylesheet" href="/css/styleslogin.css">
+<link rel="stylesheet" href="/css/mqsstyleslogin.css">
 <!--NO hay que poner toda la ruta pq Express ya tiene claro que el contenido static esta en public.-->
 </head>
 
@@ -16,6 +18,12 @@
                 <button id="btn-register-panel" class="btn-not-selected" type="button">Registrarse</button>
             </div>
             <div id="login-panel" class="panel-body">
+                <!--Si hay ERRORES se muestra esto-->
+                <% if (errorMessage) { %>
+                <p class="error-message">ERROR: <%= errorMessage %></p>
+                <% } %>
+
+
                 <form id="login-form" class="panel-form" action="/auth/login" method="POST">
                     <input type="text" name="username" id="login-username" class="fill-input"
                         placeholder="Nombre de Usuario" autofocus="true" maxlength="15" required>

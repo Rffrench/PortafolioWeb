@@ -41,6 +41,42 @@ input[type="checkbox"]:checked {
     
 }
 
+input[type="number"]{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 75px;
+    border: 1px solid black;
+    transition: 0.2s all linear;
+}
+
+.input-datepicker:focus {
+    outline: none;
+    border: 2px solid rgb(1, 1, 97);
+    box-shadow: rgb(1, 1, 97) 3px 3px 2px;
+    transition: 0.1s ease;
+}
+
+.fill-input {
+    padding: 4px;
+    height: 30px;
+    margin: 7px 0px;
+    border: 1.5px solid rgb(0, 0, 0);
+}
+
+.fill-input:focus {
+    outline: none;
+    border: 2px solid rgb(1, 1, 97);
+    box-shadow: rgb(1, 1, 97) 3px 3px 2px;
+    transition: 0.1s ease;
+}
+
+/* disabling firefox  default outline */
+::-moz-focus-inner {
+    border: 0;
+}
+
+
 .intext-links{ /* Links that will be used inside text like future paragraphs, blog posts, terms and conditions, etc */
     color: rgb(10, 7, 212);
     text-decoration: none;
@@ -51,18 +87,49 @@ input[type="checkbox"]:checked {
     
 }
 
+.common-form{
+    width: 40%;
+    margin: 2% 5%;
+    padding: 1% 4%;
+    display: flex;
+    flex-flow: column wrap;
+    border: 2px solid black;
+    align-self: center;
+}
+
+.common-form button{
+    margin: initial auto;
+    align-self: right;
+}
+
+.form-field-group{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.error-message{
+    color: red;
+    font-weight: normal;
+    font-size: 1em;
+    padding: 10px ;
+}
+
 .main-button{
     margin: 5%;
     padding: 15px 25px;
     color: white;
     background-color: rgb(1, 1, 97);
     box-shadow: rgb(0, 0, 0) 1px 1px 1px ;
+    border: 0;
     font-weight: bold;
     text-decoration: none;
     
 }
 
 .main-button:hover{
+    cursor: pointer;
     background-color: rgb(4, 1, 197);
     transition: ease 0.2s;
 }
@@ -267,6 +334,8 @@ input[type="checkbox"]:checked {
 .btn-logout{
     color: red;
 }
+
+
 
 #main-footer {
     

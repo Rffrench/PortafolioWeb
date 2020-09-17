@@ -6,10 +6,15 @@ const restaurantController = require('../controllers/restaurantController');
 
 router.get('/', restaurantController.getIndex);
 
-router.get('/reservations', restaurantController.getReservations);
+// VISTAS RESERVAS
+router.get('/reservations', restaurantController.getReservationsMenu);
 router.get('/reservations/new', restaurantController.getNewReservation);
+router.get('/reservations/cancel', restaurantController.getCancelReservation);
+// ENDPOINTS RESERVAS
+router.post('/reservations', restaurantController.postReservation);
+router.post('/reservations/cancel', restaurantController.deleteReservation);
 
-router.get('/orders', restaurantController.getOrders);
+router.get('/orders', restaurantController.getOrdersMenu);
 router.get('/orders/new', restaurantController.getNewOrder);
 
 

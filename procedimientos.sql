@@ -17,6 +17,11 @@ DROP procedure IF EXISTS `addTable`;
 DROP procedure IF EXISTS `updateTable`;
 DROP procedure IF EXISTS `deleteTable`;
 
+DROP procedure IF EXISTS `getReservations`;
+DROP procedure IF EXISTS `getReservation`;
+DROP procedure IF EXISTS `addReservation`;
+DROP procedure IF EXISTS `cancelReservation`;
+
 DELIMITER $$
 USE `portafoliodb`$$
 
@@ -45,7 +50,8 @@ BEGIN
 		SET 
         email = p_email,
         name = p_name,
-        lastName = p_lastName
+        lastName = p_lastName,
+        updatedAt = CURRENT_TIMESTAMP()
     WHERE id = p_id;
 END $$
 DELIMITER ;
@@ -95,7 +101,8 @@ BEGIN
 	UPDATE portafoliodb.Products
 		SET 
         name = p_name,
-        quantity = p_quantity
+        quantity = p_quantity,
+        updatedAt = CURRENT_TIMESTAMP()
     WHERE id = p_id;
 END $$
 DELIMITER ;
@@ -161,6 +168,44 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+
+
+
+-- RESERVAS
+
+DELIMITER $$
+CREATE PROCEDURE `getReservations` ()
+BEGIN
+	SELECT * FROM portafoliodb.Reservations;
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `getReservation` (IN p_userId INT)
+BEGIN
+	SELECT * FROM portafoliodb.Reservations WHERE userId = p_userId AND reservationDate > CURRENT_DATE();
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `addReservation` (IN p_reservationDate DATE, IN p_reservationTime TIME, IN p_party INT, IN p_userId INT)
+BEGIN
+	INSERT INTO portafoliodb.Reservations VALUES (DEFAULT,p_reservationDate, p_reservationTime, p_party, p_userId, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+END $$
+DELIMITER ;
+
+
+DELIMITER $$
+CREATE PROCEDURE `cancelReservation` (IN p_id INT)
+BEGIN
+	DELETE FROM portafoliodb.Reservations
+    WHERE id = p_id;
+END $$
+DELIMITER ;
 
 
 

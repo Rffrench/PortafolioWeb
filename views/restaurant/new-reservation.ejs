@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/customers/stylesnew-order.css">
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
 </head>
 
 <body>
@@ -8,27 +9,41 @@
     <main>
 
         <h1>Crear Reserva</h1>
+        <h3 class="reservation-info">Ingrese los datos de la reserva para agendarla: </h3>
 
-        <form action="/solicitarinsp" id="inspeccion-form" method="POST">
-            <input type="text" name="inspeccion-direccion" id="inspeccion-direccion" class="fill-input"
-                placeholder="Buscar" autofocus="true" maxlength="25" required>
+        <form action="/reservations" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
 
 
-            <div id="servicios-group">
-                <input type="checkbox" name="servicio1" id="servicio1">
-                <label for="servicio1" id="servicio1-label"></label>
-                <input type="checkbox" name="servicio2" id="servicio2">
-                <label for="servicio2" id="servicio2-label"></label>
-                <input type="checkbox" name="servicio3" id="servicio3">
-                <label for="servicio3" id="servicio3-label"></label>
-                <input type="checkbox" name="servicio4" id="servicio4">
-                <label for="servicio4" id="servicio4-label"></label>
+            <div class="form-field-group">
+                <label for="reservationDate">*<span class="reservation-field-label">Fecha de Reserva: </span>
+                </label>
+                <input type="date" name="reservationDate" id="reservationDate" class="input-datepicker fill-input"
+                    min="1900-01-01" required>
             </div>
 
-            <h3 class="inspeccion-info">Descuento: </h3>
-            <h3 class="inspeccion-info">Total: </h3>
+            <div class="form-field-group">
+                <label for="reservationTime">*<span class="reservation-field-label">Hora de Reserva: </span>
+                </label>
+                <input type="time" name="reservationTime" id="reservationTime" class="fill-input" value="13:00"
+                    min="13:00" max="22:00" required>
+            </div>
 
-            <button type="submit">Ingresar Orden</button>
+            <div class="form-field-group">
+                <label for="party">*<span class="reservation-field-label">Nro. de Personas: </span>
+                </label>
+                <input type="number" name="party" id="party" class="fill-input" min="1" value="1"
+                    placeholder="Nro. Personas *" step="1" required>
+            </div>
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+            <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+
+            <button class="main-button" type="submit">Crear Reserva</button>
         </form>
 
     </main>

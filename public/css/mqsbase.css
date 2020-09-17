@@ -2,6 +2,9 @@
 
 @media only screen and (max-width:1200px){
 
+    .common-form{
+        width: 60%;
+    }
 
     #menu-pages {
         flex-basis: 70%;
@@ -59,6 +62,10 @@
 
 @media only screen and (max-width:800px){
     
+    .common-form{
+        width: 90%;
+    }
+
     .selection-button{
         width: 90%;
         margin: 4%;

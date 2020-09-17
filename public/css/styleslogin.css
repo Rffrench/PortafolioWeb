@@ -22,11 +22,6 @@
     outline: none;
 }
 
-::-moz-focus-inner {
-    border: 0;
-}
-
-/* disabling firefox  default outline */
 
 #login-register-panel {
     margin: 80px 0 140px;
@@ -37,20 +32,6 @@
     flex-flow: column wrap;
     justify-content: center;
     align-items: center;
-}
-
-.fill-input {
-    padding: 4px;
-    height: 30px;
-    margin: 7px 0px;
-    border: 1.5px solid rgb(0, 0, 0);
-}
-
-.fill-input:focus {
-    outline: none;
-    border: 2px solid rgb(1, 1, 97);
-    box-shadow: rgb(1, 1, 97) 3px 3px 2px;
-    transition: 0.1s ease;
 }
 
 #panel-buttons {
@@ -172,13 +153,6 @@
     border: 1.5px solid black;
     text-align: center;
     flex-basis: 50%;
-}
-
-.input-datepicker:focus {
-    outline: none;
-    border: 2px solid rgb(1, 1, 97);
-    box-shadow: rgb(1, 1, 97) 3px 3px 2px;
-    transition: 0.1s ease;
 }
 
 #register-gender-group {

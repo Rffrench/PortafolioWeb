@@ -1,20 +1,36 @@
 /* BASE TEMPLATE JAVASCRIPT */
 document.addEventListener('DOMContentLoaded', function () {
-    elementsEvents();
     elementsAttributes();
+    elementsEvents();
+
+
 
 });
 
+// Van en try-catch las funciones pq no en todas las vistas existen estos elementos. 
 function elementsEvents() {
-    menuEvent();
-    loginRegisterBtnEvent();
+    try {
+        menuEvent();
+        loginRegisterBtnEvent();
+    } catch (error) {
+        console.log(error);
+
+    }
+
 }
 
-function elementsAttributes(){
-    inputDateMax();
+function elementsAttributes() {
+    try {
+        inputDateMin();
+    } catch (error) {
+        console.log(error);
+
+    }
+
 }
 
-function inputDateMax() {
+
+function inputDateMin() {
     let today = new Date();
     let dd = today.getDate();
     let mm = today.getMonth() + 1; //January is 0!
@@ -27,7 +43,7 @@ function inputDateMax() {
     }
 
     today = yyyy + '-' + mm + '-' + dd;
-    document.querySelector(".input-datepicker").setAttribute("max", today);
+    document.querySelector(".input-datepicker").setAttribute("min", today); // se debe setear el min attr primero
 }
 
 
