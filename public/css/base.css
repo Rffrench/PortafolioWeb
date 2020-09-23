@@ -113,11 +113,24 @@ input[type="number"]{
     color: red;
     font-weight: normal;
     font-size: 1em;
-    padding: 10px ;
+    padding: 10px;
+}
+
+.success-message{
+    color: white;
+    background-color: rgb(6, 173, 6);
+    border-radius: 20px;
+    box-shadow: rgb(6, 173, 6) 1px 1px 2px ;
+    font-family: 'Abel', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 10px;
+    margin: 10px 0;
+    
 }
 
 .main-button{
-    margin: 5%;
+    margin: 2%;
     padding: 15px 25px;
     color: white;
     background-color: rgb(1, 1, 97);

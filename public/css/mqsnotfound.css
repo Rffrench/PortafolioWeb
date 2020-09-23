@@ -1,0 +1,14 @@
+
+
+@media only screen and (max-width:800px){
+
+    .error-section{
+        margin: 120px 10%;
+        padding: 2%;
+    }
+
+    .error-section h1,p{
+        font-size: 2em;
+    }
+
+}

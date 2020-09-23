@@ -72,6 +72,10 @@
         align-self: center;
     }
 
+    .success-message{
+        width: 80%;
+    }
+
     #topmenu{
         padding: 0 0px;
     }

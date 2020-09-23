@@ -8,7 +8,9 @@
     <main>
 
         <h1>Reservas</h1>
-
+        <% if (successMessage) { %>
+        <p class="success-message"><%= successMessage %></p>
+        <% } %>
         <div class="selection-section">
             <a class="main-button selection-button" href="/reservations/new">Crear Reserva</a>
             <a class="main-button selection-button" href="/reservations/cancel">Cancelar Reserva</a>

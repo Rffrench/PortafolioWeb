@@ -19,7 +19,7 @@ exports.getReservationsMenu = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
         })
         .then(response => {
-            res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations' })
+            res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: null })
         })
         .catch(err => {
             const [errorCode, errorMessage] = getErrorInfo(err.response.status);
@@ -62,7 +62,26 @@ exports.getCancelReservation = (req, res, next) => {
         })
         .then(response => {
             // Si el token estaba bien se puede acceder a la pag
-            console.log(response.data.reservations);
+
+            // Creando fecha para el manejo correcto de estas
+            const reservationDate = response.data.reservations[0].reservationDate;
+            const [year, month, day] = [...reservationDate.split('-')]
+            const monthIndex = month - 1 // remember that Date's contructor 2nd param is monthIndex (0-11) not month number (1-12)!
+            const reservationDateJS = new Date(year, monthIndex, day)
+            console.log(reservationDateJS);
+
+
+            const options = {
+                year: '2-digit', month: '2-digit', day: '2-digit',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                timeZone: 'America/Santiago',
+                timeZoneName: 'short'
+            }
+            const formatter = new Intl.DateTimeFormat('es-cl', options)
+            const date = formatter.format(reservationDateJS);
+            console.log(date);
+
+            //console.log(reservationDate.replace(/-/g, '/'));
             res.render('restaurant/cancel-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/cancel', reservationData: response.data.reservations[0] }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
         })
         .catch(err => {
@@ -94,13 +113,21 @@ exports.postReservation = (req, res, next) => {
     axios.post(`${process.env.ORCHESTRATOR}/reservations`, reservation)
         .then(response => {
             console.log(response.data);
-            res.redirect('/');
+            res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: 'Su reserva ha sido CREADA! Nos vemos pronto :)' })
         })
         .catch(err => {
             console.log(err.response.status);
             //res.redirect('/reservations/new');
-            res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: 'Ya existe una reserva o ocurrió un problema de servidor' });
-            return;
+
+            // Si se recibe un 409, significa que ya existe la reserva, sino se cayo el server o otro error
+            const httpCode = err.response.status;
+            if (httpCode === 409) {
+                res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: 'Ya existe una reserva agendada' });
+                return;
+            } else {
+                res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde' });
+                return;
+            }
         })
 }
 
@@ -109,7 +136,7 @@ exports.deleteReservation = (req, res, next) => {
 
     axios.delete(`${process.env.ORCHESTRATOR}/reservations/${userId}`)
         .then(response => {
-            res.redirect('/reservations');
+            res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: 'Su reserva al restaurante ha sido CANCELADA.' })
         })
         .catch(err => {
             console.log(err);

@@ -186,7 +186,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE PROCEDURE `getReservation` (IN p_userId INT)
 BEGIN
-	SELECT * FROM portafoliodb.Reservations WHERE userId = p_userId AND reservationDate > CURRENT_DATE();
+	SELECT * FROM portafoliodb.Reservations WHERE userId = p_userId AND reservationDate >= CURRENT_DATE();
 END $$
 DELIMITER ;
 

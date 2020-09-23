@@ -16,8 +16,18 @@ exports.postSignup = (req, res, next) => {
             res.redirect('/');
         })
         .catch(err => {
-            console.log(err);
-            res.redirect('/auth/login');
+            console.log(err.response.status);
+            const httpCode = err.response.status;
+
+            // Se recibe el codigo de error del servicio y luego el orquestador lo vuelve a agregar en el objeto de error. Ahora, dependiendo del error se sabe si el usuario ya existe o los campos estan mal ingresados o si de lleno ocurrió otro error como el 500 de servidor
+
+            if (httpCode === 401) {
+                res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Los datos ingresados no están correctos o el nombre de usuario ya existe' });
+                return;
+            } else {
+                res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde' });
+                return;
+            }
         })
 }
 
@@ -48,9 +58,19 @@ exports.postLogin = (req, res, next) => {
             localStorage.setItem('roleId', response.data.roleId);
             res.redirect('/');
         })
-        .catch(err => {
+        .catch(err => { // TODO: Handle error codes if server is down
             console.log(err.response.status);
-            res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Usuario o contraseña incorrectos' });
+            const httpCode = err.response.status;
+
+            // Se recibe el codigo de error del servicio y luego el orquestador lo vuelve a agregar en el objeto de error. Ahora, dependiendo del error se sabe si el usuario o contraseña estan mal o si de lleno ocurrió otro error como el 500 de servidor
+
+            if (httpCode === 401) {
+                res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Usuario o contraseña incorrectos' });
+                return;
+            } else {
+                res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde' });
+                return;
+            }
         })
 
 
