@@ -139,21 +139,21 @@ DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE `addTable` (IN p_capacity INT, IN p_isAvailable BOOLEAN)
+CREATE PROCEDURE `addTable` (IN p_capacity INT)
 BEGIN
-	INSERT INTO portafoliodb.Tables VALUES (DEFAULT,p_capacity, p_isAvailable, null, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
+	INSERT INTO portafoliodb.Tables VALUES (DEFAULT,p_capacity, null, null, CURRENT_TIMESTAMP(), CURRENT_TIMESTAMP());
 END $$
 DELIMITER ;
 
 
 DELIMITER $$
-CREATE PROCEDURE `updateTable` (IN p_id INT, IN p_capacity INT, IN p_isAvailable BOOLEAN, IN p_userId INT)
+CREATE PROCEDURE `updateTable` (IN p_id INT, IN p_capacity INT, IN p_customerId INT, IN p_waiterId INT)
 BEGIN
 	UPDATE portafoliodb.Tables
 		SET 
         capacity = p_capacity,
-        isAvailable = p_isAvailable,
-        userId = p_userId,
+        customerId = p_customerId,
+        waiterId = p_waiterId,
         updatedAt = CURRENT_TIMESTAMP()
     WHERE id = p_id;
 END $$

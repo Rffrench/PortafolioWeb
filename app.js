@@ -9,7 +9,8 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 
 const express = require('express');
 const path = require('path');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const methodOverride = require('method-override'); // para que los forms funcionen con PUT y DELETE
 const app = express();
 
 
@@ -20,6 +21,14 @@ app.set('views', 'views');
 //app.use(bodyParser.json()); // Acá no necesito que sea JSON la data pq los formularios la mandan como urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride(function (req, res) { // PUT & DELETE en los forms
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        const method = req.body._method
+        delete req.body._method
+        return method
+    }
+}))
 
 
 // Controlador de Error (para que el middleware sea agregado a cada request en caso de un 404)
@@ -28,10 +37,12 @@ const errorController = require('./controllers/errorController');
 // Rutas
 const authRoutes = require('./routes/authRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 // Registrando rutas
 app.use('/auth', authRoutes); // Primer arg es un path que va previo a cualquier ruta registrada en authRoutes
 app.use(restaurantRoutes);
+app.use('/admin', adminRoutes); // Rutas de administración. Distinto a la app del administrador pero ambas cosas se conectan al servicio de administración
 
 // Se registra controlador para errores 404
 app.use(errorController.get404);

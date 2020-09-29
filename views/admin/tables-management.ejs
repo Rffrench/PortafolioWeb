@@ -1,0 +1,52 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Gestionar Mesas</h1>
+        <h3 class="reservation-info">Ingrese los datos de la reserva para agendarla: </h3>
+
+        <form action="/reservations" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
+
+
+            <div class="form-field-group">
+                <label for="reservationDate">*<span class="reservation-field-label">Fecha de Reserva: </span>
+                </label>
+                <input type="date" name="reservationDate" id="reservationDate" class="input-datepicker fill-input"
+                    min="1900-01-01" required>
+            </div>
+
+            <div class="form-field-group">
+                <label for="reservationTime">*<span class="reservation-field-label">Hora de Reserva: </span>
+                </label>
+                <input type="time" name="reservationTime" id="reservationTime" class="fill-input" value="13:00"
+                    min="13:00" max="22:00" required>
+            </div>
+
+            <div class="form-field-group">
+                <label for="party">*<span class="reservation-field-label">Nro. de Personas: </span>
+                </label>
+                <input type="number" name="party" id="party" class="fill-input" min="1" value="1"
+                    placeholder="Nro. Personas *" step="1" required>
+            </div>
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+            <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+
+            <button class="main-button" type="submit">Crear Reserva</button>
+        </form>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>

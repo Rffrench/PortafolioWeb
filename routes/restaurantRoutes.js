@@ -6,14 +6,17 @@ const restaurantController = require('../controllers/restaurantController');
 
 router.get('/', restaurantController.getIndex);
 
-// VISTAS RESERVAS
-router.get('/reservations', restaurantController.getReservationsMenu);
-router.get('/reservations/new', restaurantController.getNewReservation);
-router.get('/reservations/cancel', restaurantController.getCancelReservation);
 // ENDPOINTS RESERVAS
+router.get('/reservations', restaurantController.getReservationsMenu);
 router.post('/reservations', restaurantController.postReservation);
-router.post('/reservations/cancel', restaurantController.deleteReservation);
 
+router.get('/reservations/new', restaurantController.getNewReservation);
+
+router.get('/reservations/cancel', restaurantController.getCancelReservation);
+router.delete('/reservations/cancel', restaurantController.deleteReservation); // DELETE funciona gracias a method-override
+
+
+// ENDPOINTS ORDERS
 router.get('/orders', restaurantController.getOrdersMenu);
 router.get('/orders/new', restaurantController.getNewOrder);
 
