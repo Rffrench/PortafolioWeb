@@ -1,6 +1,6 @@
 // Controlador restaurante
 const axios = require('axios');
-const getErrorInfo = require('../util/errorInfo'); // Funcion para info de errores comunes al acceder a pags sin estar autorizado
+const sendErrors = require('../util/errorFunctions'); // Funcion para info de errores comunes al acceder a pags sin estar autorizado
 const Reservation = require('../models/reservationsModel');
 const helperFunctions = require('../util/helperFunctions');
 
@@ -22,9 +22,11 @@ exports.getReservationsMenu = (req, res, next) => {
             res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: null })
         })
         .catch(err => {
-            const [errorCode, errorMessage] = getErrorInfo(err.response.status);
-            res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-            return;
+            // if there is a response we know the error. if there is no response the orchestrator is probably down
+            sendErrors(err.response, res);
+            return; // no es necesario ahora si
+
+            //const [errorCode, errorMessage] = errorResponse ? getErrorInfo(errorResponse.status) : getErrorInfo(500);
         })
 }
 
@@ -43,9 +45,9 @@ exports.getNewReservation = (req, res, next) => {
             res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: null })
         })
         .catch(err => {
-            const [errorCode, errorMessage] = getErrorInfo(err.response.status); // Se devuelve array
-            res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-            return; // return para que no continue
+            // if there is a response we know the error. if there is no response the orchestrator is probably down
+            sendErrors(err.response, res);
+            return; // return para que no continue. NO es necesario ahora pero antes lo era
 
         })
 }
@@ -85,10 +87,11 @@ exports.getCancelReservation = (req, res, next) => {
             res.render('restaurant/cancel-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/cancel', reservationData: response.data.reservations[0] }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
         })
         .catch(err => {
-            if (err.response.status != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
-                const [errorCode, errorMessage] = getErrorInfo(err.response.status); // Se devuelve array
-                res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-                return; // return para que no continue
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
             } else {
                 res.render('restaurant/cancel-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/cancel', reservationData: null }) // si es 404 se pasa nulo como info de reserva
                 return;
@@ -116,18 +119,25 @@ exports.postReservation = (req, res, next) => {
             res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: 'Su reserva ha sido CREADA! Nos vemos pronto :)' })
         })
         .catch(err => {
-            console.log(err.response.status);
             //res.redirect('/reservations/new');
 
             // Si se recibe un 409, significa que ya existe la reserva, sino se cayo el server o otro error
-            const httpCode = err.response.status;
-            if (httpCode === 409) {
-                res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: 'Ya existe una reserva agendada' });
-                return;
-            } else {
-                res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde' });
-                return;
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            let errorMessage;
+
+            switch (errorStatus) {
+                case 409:
+                    errorMessage = 'Ya existe una reserva agendada';
+                    break;
+
+                default:
+                    errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                    break;
             }
+
+            res.render('restaurant/new-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/new', errorMessage: errorMessage });
+            return;
         })
 }
 
@@ -139,7 +149,6 @@ exports.deleteReservation = (req, res, next) => {
             res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: 'Su reserva al restaurante ha sido CANCELADA.' })
         })
         .catch(err => {
-            console.log(err);
             res.redirect('/reservations/cancel');
         })
 }
@@ -161,9 +170,7 @@ exports.getOrdersMenu = (req, res, next) => {
             res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders' })
         })
         .catch(err => {
-            const [errorCode, errorMessage] = getErrorInfo(err.response.status);
-            res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-            return;
+            sendErrors(err.response, res);
         })
 }
 
@@ -179,8 +186,6 @@ exports.getNewOrder = (req, res, next) => {
             res.render('restaurant/new-order', { pageTitle: 'Órdenes', path: '/orders/new' })
         })
         .catch(err => {
-            const [errorCode, errorMessage] = getErrorInfo(err.response.status);
-            res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-            return;
+            sendErrors(err.response, res);
         })
 }

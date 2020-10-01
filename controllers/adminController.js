@@ -1,6 +1,6 @@
 // Controlador administración
 const axios = require('axios');
-const getErrorInfo = require('../util/errorInfo'); // Funcion para info de errores comunes al acceder a pags sin estar autorizado
+const sendErrors = require('../util/errorFunctions'); // Funcion para info de errores comunes al acceder a pags sin estar autorizado
 const helperFunctions = require('../util/helperFunctions');
 
 exports.getTablesView = (req, res, next) => {
@@ -14,8 +14,7 @@ exports.getTablesView = (req, res, next) => {
             res.render('admin/tables-management', { pageTitle: 'Administrar Mesas', path: '/tables', errorMessage: JSON.stringify(response.data.tables) });
         })
         .catch(err => {
-            const [errorCode, errorMessage] = getErrorInfo(err.response.status);
-            res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
-            return;
+            sendErrors(err.response, res);
+            return; // return para que no continue. no es necesario aca eso si
         })
 }

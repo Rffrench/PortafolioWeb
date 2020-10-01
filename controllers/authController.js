@@ -16,12 +16,11 @@ exports.postSignup = (req, res, next) => {
             res.redirect('/');
         })
         .catch(err => {
-            console.log(err.response.status);
-            const httpCode = err.response.status;
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
 
             // Se recibe el codigo de error del servicio y luego el orquestador lo vuelve a agregar en el objeto de error. Ahora, dependiendo del error se sabe si el usuario ya existe o los campos estan mal ingresados o si de lleno ocurrió otro error como el 500 de servidor
-
-            if (httpCode === 401) {
+            if (errorStatus === 401) {
                 res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Los datos ingresados no están correctos o el nombre de usuario ya existe' });
                 return;
             } else {
@@ -35,7 +34,7 @@ exports.postSignup = (req, res, next) => {
 exports.getLogin = (req, res, next) => {
     // Chequeando si el usuario ya inició sesión en base a la existencia de Token.
     if (localStorage.getItem('token')) {
-        let errorCode = undefined;
+        let errorCode = 409;
         let errorMessage = 'Ya inició sesión en el sistema';
         res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
         return; // return para que no continue
@@ -59,12 +58,11 @@ exports.postLogin = (req, res, next) => {
             res.redirect('/');
         })
         .catch(err => { // TODO: Handle error codes if server is down
-            console.log(err.response.status);
-            const httpCode = err.response.status;
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
 
             // Se recibe el codigo de error del servicio y luego el orquestador lo vuelve a agregar en el objeto de error. Ahora, dependiendo del error se sabe si el usuario o contraseña estan mal o si de lleno ocurrió otro error como el 500 de servidor
-
-            if (httpCode === 401) {
+            if (errorStatus === 401) {
                 res.render('auth/login', { pageTitle: 'Login Restaurante', path: '/auth/login', errorMessage: 'Usuario o contraseña incorrectos' });
                 return;
             } else {
@@ -78,10 +76,18 @@ exports.postLogin = (req, res, next) => {
 
 exports.postLogout = (req, res, next) => {
     // Se remueve el Token del sistema
-    localStorage.removeItem('token');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('roleId');
-    res.redirect('/');
+    try {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('roleId');
+
+    } catch (error) {
+        console.log(error);
+
+    } finally {
+        res.redirect('/');
+    }
+
 }
 
 
