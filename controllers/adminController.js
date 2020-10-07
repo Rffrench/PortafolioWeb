@@ -19,6 +19,29 @@ exports.getTablesView = (req, res, next) => {
         })
 }
 
+
+// Vistas Products
+exports.getProductsMenu = (req, res, next) => {   
+    const token = localStorage.getItem('token') || null;
+
+    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token } 
+        })
+        .then(response => {
+            console.log(response.data);
+            res.render('warehouse/products', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, errorMessage: null, products:response.data.products });
+        })
+        .catch(err => {
+            sendErrors(err.response, res);
+            return; 
+
+        })
+}
+
+
+
+
 // VISTAS Recetas
 exports.getRecipesMenu = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;

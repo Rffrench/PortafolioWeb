@@ -8,6 +8,10 @@ const adminController = require('../controllers/adminController');
 router.get('/tables', adminController.getTablesView);
 //router.put('/tables/:tableId', adminController.putTables); // PUT funciona gracias a method-override
 
+router.get('/products', adminController.getProductsMenu);
+
+
+
 router.get('/recipes', adminController.getRecipesMenu);
 router.get('/recipes/new', adminController.getNewRecipe);
 router.post('/recipes',adminController.postRecipe);

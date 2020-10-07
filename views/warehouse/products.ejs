@@ -1,0 +1,44 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Reponer insumos</h1>
+       
+     
+            <table class="table col-8">
+                <thead>
+                  <tr>
+                    <th scope="col-2">#</th>
+                    <th scope="col-2">Nombre</th>
+                    <th scope="col-2">Stock</th>
+                    <th scope="col-2">Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for (var product of products) { %>
+                  <tr>
+                    <th scope="row"><%= product.id %></th>
+                    <td><%= product.name %></td>
+                    <td><%= product.quantity %></td>
+                    <td>Actualizar</td>
+                  </tr>
+                  <% } %>
+                  
+                </tbody>
+              </table>
+
+      
+
+        
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+
