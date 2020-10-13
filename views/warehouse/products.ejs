@@ -1,6 +1,7 @@
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/customers/stylesreservations.css">
 <link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
 </head>
 
 <body>
@@ -9,8 +10,10 @@
     <main>
 
         <h1>Reponer insumos</h1>
-       
-     
+      
+        <% if (errorMessage) { %>
+          <p class="error-message">ERROR: <%= errorMessage %></p>
+          <% } %>
             <table class="table col-8">
                 <thead>
                   <tr>
@@ -23,11 +26,21 @@
                 <tbody>
                     <% for (var product of products) { %>
                   <tr>
+                    <form action="/admin/product/update" class="common-form" method="POST">
                     <th scope="row"><%= product.id %></th>
+                    <input type="hidden" id="productId" name="productId" value="<%= product.id %>" >
+
                     <td><%= product.name %></td>
-                    <td><%= product.quantity %></td>
-                    <td>Actualizar</td>
+                    <input type="hidden" id="name" name="name" value="<%= product.name %>">
+
+                    <td><%= product.quantity %> </td>
+                    <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">
+                    <td><button class="main-button" type="submit">Actualizar</button> </td>
+                  </form>
                   </tr>
+                  
+                
+        
                   <% } %>
                   
                 </tbody>

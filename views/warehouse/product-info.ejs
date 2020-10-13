@@ -1,0 +1,24 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesselection-menus.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Productos</h1>
+        <% if (successMessage) { %>
+        <p class="success-message"><%= successMessage %></p>
+        <% } %>
+        <div class="selection-section">
+            <a class="main-button selection-button" href="/admin/product/list">Reponer Productos</a> 
+            <a class="main-button selection-button" href="#">Crear Solicitud de Productos</a>        
+           
+        </div>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+    
