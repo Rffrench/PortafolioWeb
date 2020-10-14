@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Crear Orden de Inventario</h1>
+       
+        <h3 class="reservation-info">El primer paso para crear tu orden es definir un motivo! </h3>
+
+        <form action="/admin/inventory-order" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
+           
+            <div class="form-field-group">
+                <label for="description">*<span class="reservation-field-label">Motivo </span>
+                </label>
+                <textarea name="description" id="description" rows="10" cols="50" required></textarea>
+                
+            </div>                        
+
+           
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+            <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+
+            <button class="main-button" type="submit">Crear Orden de Inventario</button>
+        </form>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>

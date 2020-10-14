@@ -9,7 +9,7 @@
     <%- include('../includes/navigation.ejs') %>
     <main>
 
-        <h1>Reponer insumos</h1>
+        <h1>Ordenes de Inventario</h1>
       
         <% if (errorMessage) { %>
           <p class="error-message">ERROR: <%= errorMessage %></p>
@@ -20,24 +20,26 @@
                 <thead>
                   <tr>
                     <th scope="col-2">#</th>
-                    <th scope="col-2">Nombre</th>
-                    <th scope="col-2">Stock</th>
-                    <th scope="col-2">Opciones</th>
+                    <th scope="col-2">Motivo</th>
+                    <th scope="col-2">Id Estado</th>
+                    <th scope="col-2">Estado de Orden</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <% for (var product of products) { %>
+                    <% for (var order of orders) { %>
                   <tr>
                     <form action="/admin/product/update" class="common-form" method="POST">
-                    <th scope="row"><%= product.id %></th>
-                    <input type="hidden" id="productId" name="productId" value="<%= product.id %>" >
+                    <th scope="row"><%= order.id %></th>
+                    <input type="hidden" id="productId" name="productId" value="" >
 
-                    <td><%= product.name %></td>
-                    <input type="hidden" id="name" name="name" value="<%= product.name %>">
+                    <td><%= order.orderDescription %></td>
+                    <input type="hidden" id="name" name="name" value="">
 
-                    <td><%= product.quantity %> </td>
-                    <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">
-                    <td><button class="main-button" type="submit">Actualizar</button> </td>
+                    <td><%= order.statusId %> </td>
+                    <input type="hidden" id="quantity" name="quantity" value="">
+                    <td><%= order.statusDescription %> </td>
+                    
+                    <td><button class="main-button" type="submit">Ver</button> </td>
                   </form>
                   </tr>
                   
