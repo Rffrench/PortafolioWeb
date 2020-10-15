@@ -1,6 +1,9 @@
 # Local Storage
 scratch
 
+#menu items images
+public/media/menuItemsImages/*
+
 # Logs
 logs
 *.log
