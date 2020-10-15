@@ -6,14 +6,47 @@ const Product = require('../models/productModel');
 
 
 // Order Products
+
+exports.getOrderProductsTestView = (req, res, next) => {   
+    const token = localStorage.getItem('token') || null;
+    
+    const order = req.query.order;
+    console.log(order);
+  
+    axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token } 
+        })
+        .then(response => {
+            console.log(response.data);
+            res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:response.data.OrderProducts, order});
+        })
+        .catch(err => {
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
+            } else {
+                res.render('warehouse/order-products-test', { pageTitle: 'Nueva Reserva', path: '', orderProducts: null, errorMessage:null, order }) // si es 404 se pasa nulo como info de reserva
+                return;
+            }
+            
+
+        })
+}
 exports.deleteOrderProduct = (req, res, next) => {
     const order = req.body.order;
     const product =req.body.product;
+    const orderProducts = req.body.orderProducts;
+    console.dir(req.body);
+    
+   
    
     axios.delete(`${process.env.ORCHESTRATOR}/admin/order-products/${order}/${product}`)
     .then(response=> {
         console.log(response.data);
-        res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de Inventario', path: '/admin/products', successMessage:'adas'})
+        res.redirect('back')
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -30,7 +63,7 @@ exports.deleteOrderProduct = (req, res, next) => {
                 break;
         }
 
-        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products', errorMessage: errorMessage, successMessage:null });
+        res.redirect('/admin/order-products-test');
         return;
     })
 }
@@ -84,8 +117,16 @@ exports.getOrderProductsView = (req, res, next) => {
             res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:response.data.OrderProducts, inventoryOrder});
         })
         .catch(err => {
-            sendErrors(err.response, res);
-            return; 
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
+            } else {
+                res.render('warehouse/order-products', { pageTitle: 'Nueva Reserva', path: '', orderProducts: null,inventoryOrder, errorMessage:null  }) // si es 404 se pasa nulo como info de reserva
+                return;
+            }
+            
 
         })
 }
@@ -159,7 +200,7 @@ exports.postInventoryOrder = (req, res, next) => {
         description: description        
     }).then(response=> {
         console.log(response.data);
-        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products',errorMessage: errorMessage, successMessage: null})
+        res.redirect('/admin/inventory-orders', { pageTitle: 'Products', path: '/admin/products',errorMessage: errorMessage, successMessage: null})
     })
     .catch(err => {
         //res.redirect('/reservations/new');
@@ -179,7 +220,7 @@ exports.postInventoryOrder = (req, res, next) => {
                 break;
         }
 
-        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products', errorMessage: errorMessage, successMessage:`Se ha creaedo la orden de inventario exitosamente.` });
+        res.redirect('/admin/inventory-orders');
         return;
     })
 }
