@@ -351,7 +351,7 @@ input[type="number"]{
 
 
 #main-footer {
-    
+    width: 100%;
     padding: 1%;
     background-color: rgb(247, 247, 247);
     border-top: 1px solid rgb(211, 211, 211);

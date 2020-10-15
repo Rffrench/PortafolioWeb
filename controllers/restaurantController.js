@@ -1,5 +1,8 @@
 // Controlador restaurante
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+const AdmZip = require('adm-zip');
 const sendErrors = require('../util/errorFunctions'); // Funcion para info de errores comunes al acceder a pags sin estar autorizado
 const Reservation = require('../models/reservationsModel');
 const helperFunctions = require('../util/helperFunctions');
@@ -82,11 +85,15 @@ exports.getCancelReservation = (req, res, next) => {
             const formatter = new Intl.DateTimeFormat('es-cl', options)
             const date = formatter.format(reservationDateJS);
             console.log(date);
+            console.log(response.data);
+
 
             //console.log(reservationDate.replace(/-/g, '/'));
             res.render('restaurant/cancel-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/cancel', reservationData: response.data.reservations[0] }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
         })
         .catch(err => {
+            console.log(err);
+
             const errorResponse = err.response;
             const errorStatus = errorResponse ? errorResponse.status : 500;
             if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
@@ -156,6 +163,12 @@ exports.deleteReservation = (req, res, next) => {
 
 
 
+
+
+
+
+
+
 // Orders
 
 exports.getOrdersMenu = (req, res, next) => {
@@ -183,7 +196,36 @@ exports.getNewOrder = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
         })
         .then(response => {
-            res.render('restaurant/new-order', { pageTitle: 'Órdenes', path: '/orders/new' })
+            console.log(response.data);
+
+            // Both requests are registered and sent at the same time in an async way. JSON data will be obtained first usually and then the images, this is faster
+            return Promise.all([
+                axios.get(`${process.env.ORCHESTRATOR}/menu`),
+                axios.get(`${process.env.ORCHESTRATOR}/menu/images`, { responseType: 'arraybuffer' }) // stream works with commented code
+            ])
+
+        })
+        .then(menu => { // 0 items and 1 are images
+
+            /* NOT NECESSARY TO STORE ZIP CUZ admzip CAN RECEIVE AN ARRAYBUFFER, 'stream' responseType must be set otherwise  */
+            //const stream = fs.createWriteStream('menuItemsImages.zip', { flags: 'w' });
+            //menu[1].data.pipe(stream);
+
+
+            // TODO: Remove previous files
+            const zip = new AdmZip(menu[1].data); // getting response arraybuffer zip
+            zip.extractAllTo(path.join(__dirname, '../public/media/menuItemsImages'), true); // extracting images
+
+
+            const zipEntries = zip.getEntries(); // array of images entries
+            let menuItemsImages = []; // will store the image names
+
+            zipEntries.forEach(image => { // we loop through the zip to store the image names in an array and use them later
+                menuItemsImages.push(image.entryName);
+
+            })
+
+            res.render('restaurant/new-order', { pageTitle: 'Órdenes', path: '/orders/new', menuItems: menu[0].data.menu, menuItemsImages: menuItemsImages })
         })
         .catch(err => {
             sendErrors(err.response, res);

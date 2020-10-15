@@ -1,37 +1,198 @@
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/customers/stylesnew-order.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesnew-order.css">
 </head>
 
 <body>
 
+
     <%- include('../includes/navigation.ejs') %>
-    <main>
 
-        <h1>Ingresar Nueva Orden</h1>
+    <div id="menu-container">
 
-        <form action="/solicitarinsp" id="inspeccion-form" method="POST">
-            <input type="text" name="inspeccion-direccion" id="inspeccion-direccion" class="fill-input"
-                placeholder="Buscar" autofocus="true" maxlength="25" required>
+        <div id="sidebar">
+            <nav id="sidebar-menu">
+                <a href="#main-courses-category">Platos de fondo</a>
+                <a href="#sides-category">Acompañamientos</a>
+                <a href="#salads-category">Ensaladas</a>
+                <a href="#desserts-category">Postres</a>
+                <a href="#beverages-category">Bebestibles</a>
+            </nav>
+        </div>
 
+        <div id="sidebar-mobile">
+            <nav id="sidebar-menu-mobile">
+                <a href="#main-courses-category">Platos de fondo</a>
+                <a href="#sides-category">Acompañamientos</a>
+                <a href="#salads-category">Ensaladas</a>
+                <a href="#desserts-category">Postres</a>
+                <a href="#beverages-category">Bebestibles</a>
+            </nav>
+        </div>
 
-            <div id="servicios-group">
-                <input type="checkbox" name="servicio1" id="servicio1">
-                <label for="servicio1" id="servicio1-label"></label>
-                <input type="checkbox" name="servicio2" id="servicio2">
-                <label for="servicio2" id="servicio2-label"></label>
-                <input type="checkbox" name="servicio3" id="servicio3">
-                <label for="servicio3" id="servicio3-label"></label>
-                <input type="checkbox" name="servicio4" id="servicio4">
-                <label for="servicio4" id="servicio4-label"></label>
+        <main>
+
+            <h1>Nueva Orden</h1>
+            <div class="order-details-group">
+                <h3 class="order-detail">Total: <i>$0</i></h3>
+                <form action="/orders" id="add-order-form" method="POST">
+                    <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
+                    <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+                    <button type="submit">Ingresar Orden</button>
+                </form>
             </div>
 
-            <h3 class="inspeccion-info">Descuento: </h3>
-            <h3 class="inspeccion-info">Total: </h3>
+            <!-- If there are menu items in the db-->
+            <% if(menuItems) { %>
 
-            <button type="submit">Ingresar Orden</button>
-        </form>
 
-    </main>
+            <!--EJS sucks so it wont compile a proper for with if statements and html between them correctly. THis is why the solution for this repeats a for loop and an if statement in every category. Use handlebars pls-->
+
+            <div class="menu-category" id="main-courses-category">
+                <h2>Platos de Fondo</h2>
+                <div class="menu-category-items">
+                    <!--Item se agrega -->
+                    <% for(const item of menuItems) {%>
+                    <% if(item.categoryId===1) { %>
+
+                    <div class="menu-item">
+                        <!--From menuItemsImages array which contains the names of the imamges we find one that starts with the id of the item. If it finds it then the name of the image will be obtained and the image will be retrieved -->
+                        <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
+                            alt="item">
+                        <div class="menu-item-info">
+                            <h3><%= item.name %></h3>
+                            <p class="menu-item-description"><%= item.description %></p>
+                            <p class="menu-item-price">$<%= item.price %></p>
+                            <div class="menu-item-quantity-group">
+                                <label for="menu-item-quantity">Cantidad: </label>
+                                <input type="number" name="menu-item-quantity" id="menu-item-quantity"
+                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                            </div>
+                        </div>
+                        <input type="hidden" name="steak" id="steak" value="">
+                        <button type="button" class="main-button">Actualizar Orden</button>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="menu-category" id="sides-category">
+                <h2>Acompañamientos</h2>
+                <div class="menu-category-items">
+                    <!--Item se agrega -->
+                    <% for(const item of menuItems) {%>
+                    <% if(item.categoryId===2) { %>
+
+                    <div class="menu-item">
+                        <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
+                            alt="item">
+                        <div class="menu-item-info">
+                            <h3><%= item.name %></h3>
+                            <p class="menu-item-description"><%= item.description %></p>
+                            <p class="menu-item-price">$<%= item.price %></p>
+                            <div class="menu-item-quantity-group">
+                                <label for="menu-item-quantity">Cantidad: </label>
+                                <input type="number" name="menu-item-quantity" id="menu-item-quantity"
+                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                            </div>
+                        </div>
+                        <button type="button" class="main-button">Actualizar Orden</button>
+                    </div>
+
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="menu-category" id="salads-category">
+                <h2>Ensaladas</h2>
+                <div class="menu-category-items">
+                    <!--Item se agrega -->
+                    <% for(const item of menuItems) {%>
+                    <% if(item.categoryId===3) { %>
+
+                    <div class="menu-item">
+                        <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
+                            alt="item">
+                        <div class="menu-item-info">
+                            <h3><%= item.name %></h3>
+                            <p class="menu-item-description"><%= item.description %></p>
+                            <p class="menu-item-price">$<%= item.price %></p>
+                            <div class="menu-item-quantity-group">
+                                <label for="menu-item-quantity">Cantidad: </label>
+                                <input type="number" name="menu-item-quantity" id="menu-item-quantity"
+                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                            </div>
+                        </div>
+                        <button type="button" class="main-button">Actualizar Orden</button>
+                    </div>
+
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="menu-category" id="desserts-category">
+                <h2>Postres</h2>
+                <div class="menu-category-items">
+                    <!--Item se agrega -->
+                    <% for(const item of menuItems) {%>
+                    <% if(item.categoryId===4) { %>
+
+                    <div class="menu-item">
+                        <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
+                            alt="item">
+                        <div class="menu-item-info">
+                            <h3><%= item.name %></h3>
+                            <p class="menu-item-description"><%= item.description %></p>
+                            <p class="menu-item-price">$<%= item.price %></p>
+                            <div class="menu-item-quantity-group">
+                                <label for="menu-item-quantity">Cantidad: </label>
+                                <input type="number" name="menu-item-quantity" id="menu-item-quantity"
+                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                            </div>
+                        </div>
+                        <button type="button" class="main-button">Actualizar Orden</button>
+                    </div>
+
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="menu-category" id="beverages-category">
+                <h2>Bebestibles</h2>
+                <div class="menu-category-items">
+                    <!--Item se agrega -->
+                    <% for(const item of menuItems) {%>
+                    <% if(item.categoryId===5) { %>
+
+                    <div class="menu-item">
+                        <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
+                            alt="item">
+                        <div class="menu-item-info">
+                            <h3><%= item.name %></h3>
+                            <p class="menu-item-description"><%= item.description %></p>
+                            <p class="menu-item-price">$<%= item.price %></p>
+                            <div class="menu-item-quantity-group">
+                                <label for="menu-item-quantity">Cantidad: </label>
+                                <input type="number" name="menu-item-quantity" id="menu-item-quantity"
+                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                            </div>
+                        </div>
+                        <button type="button" class="main-button">Actualizar Orden</button>
+                    </div>
+
+                    <% } %>
+                    <% } %>
+                </div>
+            </div>
+
+            <% } %>
+
+        </main>
+    </div>
 
     <%- include('../includes/footer.ejs') %>
     <%- include('../includes/end.ejs') %>
