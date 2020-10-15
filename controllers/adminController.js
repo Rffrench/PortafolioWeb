@@ -4,6 +4,98 @@ const sendErrors = require('../util/errorFunctions'); // Funcion para info de er
 const helperFunctions = require('../util/helperFunctions');
 const Product = require('../models/productModel');
 
+
+// Order Products
+exports.deleteOrderProduct = (req, res, next) => {
+    const order = req.body.order;
+    const product =req.body.product;
+   
+    axios.delete(`${process.env.ORCHESTRATOR}/admin/order-products/${order}/${product}`)
+    .then(response=> {
+        console.log(response.data);
+        res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de Inventario', path: '/admin/products', successMessage:'adas'})
+    })
+    .catch(err => {  
+        const errorResponse = err.response;
+        const errorStatus = errorResponse ? errorResponse.status : 500;
+        let errorMessage;
+
+        switch (errorStatus) {
+            case 409:
+                errorMessage = '';
+                break;
+
+            default:
+                errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                break;
+        }
+
+        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products', errorMessage: errorMessage, successMessage:null });
+        return;
+    })
+}
+
+exports.putOrderStatus = (req, res, next) => {
+    const order = req.body.order;
+   
+    axios.put(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`)
+    .then(response=> {
+        console.log(response.data);
+        res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de Inventario', path: '/admin/products', successMessage:'adas'})
+    })
+    .catch(err => {  
+        const errorResponse = err.response;
+        const errorStatus = errorResponse ? errorResponse.status : 500;
+        let errorMessage;
+
+        switch (errorStatus) {
+            case 409:
+                errorMessage = '';
+                break;
+
+            default:
+                errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                break;
+        }
+
+        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products', errorMessage: errorMessage, successMessage:null });
+        return;
+    })
+}
+
+
+
+
+exports.getOrderProductsView = (req, res, next) => {   
+    const token = localStorage.getItem('token') || null;
+    const order = req.body.order;
+    const inventoryOrder = {
+        orderId : req.body.order,
+        description : req.body.description,
+        statusId : req.body.statusId,
+        status : req.body.status
+    }
+    axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token } 
+        })
+        .then(response => {
+            console.log(response.data);
+            res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:response.data.OrderProducts, inventoryOrder});
+        })
+        .catch(err => {
+            sendErrors(err.response, res);
+            return; 
+
+        })
+}
+
+
+
+
+
+
+
 exports.getTablesView = (req, res, next) => {
     const token = localStorage.getItem('token') || null;
 

@@ -1,0 +1,64 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Orden de Inventario</h1>
+        <h2><%= inventoryOrder.orderId %> - <%= inventoryOrder.description %> - <%= inventoryOrder.statusId %> - <%= inventoryOrder.status %></h2>
+        <% if (errorMessage) { %>
+          <p class="error-message">ERROR: <%= errorMessage %></p>
+          <% } %>
+
+        
+            <table class="table col-8">
+                <thead>
+                  <tr>
+                    <th scope="col-2">ID PRODUCTO</th>
+                    <th scope="col-2">PRODUCTO</th>
+                    <th scope="col-2">CANTIDAD REQUERIDA</th>
+                    <th scope="col-2">CATEGORIA</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for (var product of orderProducts) { %>
+                  <tr>
+                    <form action="/admin/order-products/delete" class="common-form" method="POST">
+                    <th scope="row"><%= product.productId %></th>
+
+                    <td><%= product.product %></td>
+                    <td><%= product.quantity %></td>                    
+                    <td><%= product.category %></td>
+
+                    <input type="hidden" id="order" name="order" value="<%= inventoryOrder.orderId %>">
+                    <input type="hidden" id="product" name="product" value="<%= product.productId %>">
+                    
+                    <td><button class="main-button" type="submit">Eliminar</button> </td>
+                    <td><button class="main-button" type="submit">Modificar</button> </td>
+                  </form>
+                  </tr>
+                  
+                
+        
+                  <% } %>
+                  
+                </tbody>
+              </table>
+              <form action="/admin/order-products/status" class="" method="POST">
+              <input type="hidden" id="order" name="order" value="<%= inventoryOrder.orderId %>">
+              <button class="main-button" type="submit">Enviar Orden a Admin</button>
+            </form>
+      
+
+        
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+

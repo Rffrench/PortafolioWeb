@@ -28,16 +28,18 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/admin/product/update" class="common-form" method="POST">
-                    <th scope="row"><%= order.id %></th>
-                    <input type="hidden" id="productId" name="productId" value="" >
+                    <form action="/admin/order-products" class="common-form" method="POST">
+                    <th scope="row"><%= order.id %></th>                    
+                    <input type="hidden" id="order" name="order" value="<%= order.id %>">
 
                     <td><%= order.orderDescription %></td>
-                    <input type="hidden" id="name" name="name" value="">
+                    <input type="hidden" id="description" name="description" value="<%= order.orderDescription %>">
 
                     <td><%= order.statusId %> </td>
-                    <input type="hidden" id="quantity" name="quantity" value="">
+                    <input type="hidden" id="statusId" name="statusId" value="<%= order.statusId %>">
+
                     <td><%= order.statusDescription %> </td>
+                    <input type="hidden" id="status" name="status" value="<%= order.statusDescription %>">
                     
                     <td><button class="main-button" type="submit">Ver</button> </td>
                   </form>
