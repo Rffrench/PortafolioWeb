@@ -15,6 +15,7 @@
           <% } %>
 
           <% if (!orderProducts) { %>
+           <h3>No hay productos asociados</h3>
            <div class="panel">
               
             <div class="table">
@@ -63,7 +64,11 @@
           <label for="name">*<span class="reservation-field-label">Producto: </span>
           </label>
           <select name="product" id="product">
-           
+            <% if (!products) { %>
+            <% for (var product of products) { %>
+           <option value="<%= product.id %>"><%= product.name %></option>
+           <% } %>
+           <% } %>
         </select>
       </div>
       
