@@ -7,33 +7,92 @@ const Product = require('../models/productModel');
 
 // Order Products
 
-exports.getOrderProductsTestView = (req, res, next) => {   
-    const token = localStorage.getItem('token') || null;
+exports.postOrderProduct = (req, res, next) => {
+    const order = req.body.order;
+    const product =req.body.product;
+    const quantity = req.body.quantity;
+    console.dir(req.body);
     
-    const order = req.query.order;
-    console.log(order);
-  
-    axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
+   
+   
+    axios.post(`${process.env.ORCHESTRATOR}/admin/order-products/new`,
+    {
+        order:order,
+        product:product,
+        quantity:quantity
+    })
+    .then(response=> {
+        console.log(response.data);
+        res.redirect('back');
+    })
+    .catch(err => {  
+        const errorResponse = err.response;
+        const errorStatus = errorResponse ? errorResponse.status : 500;
+        let errorMessage;
+
+        switch (errorStatus) {
+            case 409:
+                errorMessage = '';
+                break;
+
+            default:
+                errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                break;
+        }
+
+        res.redirect('back');
+        return;
+    })
+}
+
+
+exports.getAddOrderProductView = (req, res, next) => {   
+    const token = localStorage.getItem('token') || null;
+    const order= req.body.order;
+    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
         .then(response => {
             console.log(response.data);
-            res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:response.data.OrderProducts, order});
+            res.render('warehouse/add-product-order', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null,order, products: response.data.products,errorMessage: null});
         })
         .catch(err => {
-            const errorResponse = err.response;
-            const errorStatus = errorResponse ? errorResponse.status : 500;
-            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
-                sendErrors(err.response, res);
-                return;
-            } else {
-                res.render('warehouse/order-products-test', { pageTitle: 'Nueva Reserva', path: '', orderProducts: null, errorMessage:null, order }) // si es 404 se pasa nulo como info de reserva
-                return;
-            }
-            
+            sendErrors(err.response, res);
+            return; 
 
         })
+}
+
+
+exports.getOrderProductsTestView = (req, res, next) => {   
+    const token = localStorage.getItem('token') || null;
+    const inventoryOrder = {
+        order : req.query.order,
+        description : req.query.description,
+        statusId: req.query.statusId,
+        status:req.query.status
+    }
+    const order = req.query.order;
+    console.log(order);
+    axios.all([
+        axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token }  
+        }),
+        axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token }  
+        })
+    ])
+    .then(axios.spread((orderProducts, products) => {
+        res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products, order});
+
+    }))
+    .catch((errors) => { 
+        console.log(errors);
+        res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
+    }); 
 }
 exports.deleteOrderProduct = (req, res, next) => {
     const order = req.body.order;
@@ -46,7 +105,9 @@ exports.deleteOrderProduct = (req, res, next) => {
     axios.delete(`${process.env.ORCHESTRATOR}/admin/order-products/${order}/${product}`)
     .then(response=> {
         console.log(response.data);
+       
         res.redirect('back')
+       
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -74,7 +135,7 @@ exports.putOrderStatus = (req, res, next) => {
     axios.put(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`)
     .then(response=> {
         console.log(response.data);
-        res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de Inventario', path: '/admin/products', successMessage:'adas'})
+        res.redirect('back');
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -91,7 +152,7 @@ exports.putOrderStatus = (req, res, next) => {
                 break;
         }
 
-        res.render('warehouse/product-info', { pageTitle: 'Products', path: '/admin/products', errorMessage: errorMessage, successMessage:null });
+        res.redirect('back');
         return;
     })
 }
@@ -114,7 +175,7 @@ exports.getOrderProductsView = (req, res, next) => {
         })
         .then(response => {
             console.log(response.data);
-            res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:response.data.OrderProducts, inventoryOrder});
+            res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null,inventoryOrder, orderProducts:response.data.OrderProducts, inventoryOrder});
         })
         .catch(err => {
             const errorResponse = err.response;
@@ -164,7 +225,7 @@ exports.getProductsMenu = (req, res, next) => {
         })
         .then(response => {
             console.log(response.data);
-            res.render('warehouse/product-info', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, errorMessage: null, products:response.data.products });
+            res.render('warehouse/product-info', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, errorMessage: null});
         })
         .catch(err => {
             sendErrors(err.response, res);
