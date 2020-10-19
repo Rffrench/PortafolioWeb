@@ -6,6 +6,62 @@ const Product = require('../models/productModel');
 
 
 // Order Products
+exports.putOrderProduct = (req, res, next) => {
+    const token = localStorage.getItem('token') || null;
+    const order = req.body.order;
+    const product =req.body.product;
+    const quantity = req.body.quantity;    
+    axios.put(`${process.env.ORCHESTRATOR}/admin/order-products/update`,
+    {
+        order:order,
+        product:product,
+        quantity:quantity
+    })
+    .then(response=> {
+        axios.all([
+          
+            axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+            {
+                headers: { 'Authorization': 'Bearer ' + token }  
+            }),
+            axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
+                {
+                    headers: { 'Authorization': 'Bearer ' + token }  
+                }),
+            ])
+            .then(axios.spread((products, orderProducts) => {
+                res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products, order});
+        
+            }))
+            .catch((errors) => { 
+                console.log(errors);
+                res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
+            }); 
+        
+        
+    })
+    .catch(err => {  
+        const errorResponse = err.response;
+        const errorStatus = errorResponse ? errorResponse.status : 500;
+        let errorMessage;
+
+        switch (errorStatus) {
+            case 409:
+                errorMessage = '';
+                break;
+
+            default:
+                errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                break;
+        }
+
+        res.redirect('back');
+        return;
+    })
+    
+    
+}
+
 
 exports.postOrderProduct = (req, res, next) => {
     const order = req.body.order;
@@ -48,14 +104,16 @@ exports.postOrderProduct = (req, res, next) => {
 
 exports.getAddOrderProductView = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
-    const order= req.body.order;
+    const [order, productId, product] = [req.body.order, req.body.productId, req.body.product];
+   
+    
     axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
         .then(response => {
             console.log(response.data);
-            res.render('warehouse/add-product-order', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null,order, products: response.data.products,errorMessage: null});
+            res.render('warehouse/add-product-order', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, order, product, productId, errorMessage: null});
         })
         .catch(err => {
             sendErrors(err.response, res);
@@ -74,7 +132,7 @@ exports.getOrderProductsTestView = (req, res, next) => {
         status:req.query.status
     }
     const order = req.query.order;
-    console.log(order);
+    const orderObj = req.query.orderObj;
     axios.all([
         axios.get(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`,
         {

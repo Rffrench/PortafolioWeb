@@ -8,8 +8,10 @@
 
     <%- include('../includes/navigation.ejs') %>
     <main>
-
-        <h1>Panel de Orden</h1>
+        <div class="order">
+          <h1>Solicitud de Inventario</h1>
+        </div>
+        
        <% if (errorMessage) { %>
           <p class="error-message">ERROR: <%= errorMessage %></p>
           <% } %>
@@ -27,6 +29,7 @@
                 <th scope="col-2">Producto</th>
                 <th scope="col-2">Cantidad</th>
                 <th scope="col-2">Categoria</th>
+               
               </tr>
             </thead>
             <tbody>
@@ -111,7 +114,7 @@
                   <% for (var product of orderProducts) { %>
                 <tr>
                   
-                  <th scope="row"><%= product.productId %></th>
+                  <td scope="row"><%= product.productId %></td>
 
                   <td><%= product.product %></td>
                   <td><%= product.quantity %></td>                    
@@ -119,11 +122,13 @@
                   <form action="/admin/order-products/delete" class="common-form" method="POST">
                   <input type="hidden" id="product" name="product" value="<%= product.productId %>">
                   <input type="hidden" id="order" name="order" value="<%= order %>">
-                  <td><button class="btn2" type="submit">Eliminar</button> </td>
+                  <td><input type="image" src="/media/eliminar.png" alt="Submit" width="30px"> </td>
                 </form>
                 <form action="/admin/order-products/update" class="common-form" method="POST">
-                  <input type="hidden" id="order" name="order" value="<%= order %>">
-                  <td><button class="btn2" type="submit">Modificar</button> </td>
+                  <input type="hidden" id="order" name="order" value="<%= order %>">                  
+                  <input type="hidden" id="productId" name="productId" value="<%= product.productId %>"> 
+                  <input type="hidden" id="product" name="product" value="<%= product.product %>">        
+                  <td><input type="image" src="/media/actualizar.png" alt="Submit" width="30px"> </td>
                 </form>
                 </tr>
                 

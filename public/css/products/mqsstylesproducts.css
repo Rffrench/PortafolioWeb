@@ -27,14 +27,14 @@
 }
 
 .btn2 {
-    background-color:#f0f0f0;
+    background-color:black;
 
 padding-top:1em;
 padding-bottom:1em;
 padding-left:2em;
 padding-right:2em;
 border-style:none;
-color:black;
+color:white;
 }
 
 .btn2:hover{
@@ -45,14 +45,13 @@ color:black;
 
 .btn3 {
 
-background-color:red ;
+background-color:#4D53EA;
 padding-top:1em;
 padding-bottom:1em;
 padding-left:2em;
 padding-right:2em;
 border-style:none;
 color:white;
-font-weight:bold;
 }
 .table table {
     
@@ -93,8 +92,19 @@ select {
     border: 2px solid lightblue;
     border-radius: 4px;
     margin-top:1em;
+    -moz-appearance: textfield;
     
   }
+
+table td input[type=number]{
+    border: 2px solid lightblue;
+    border-radius: 4px;
+    -moz-appearance: textfield;
+   
+}
+table td img {
+    width:30px;
+}
 .product h4{
     font-weight:normal;
 }
@@ -102,4 +112,20 @@ select {
 .float-right{
     margin-top:3em;
     float:right;
+}
+
+button {
+    font-family: 'Poppins', sans-serif;
+}
+
+.order {
+    width:100%;
+    padding-left:4em;
+    padding-right:4em; 
+    padding-top:2em;
+    margin-bottom:2em;
+}
+
+.order h1{
+    text-align:center;
 }
