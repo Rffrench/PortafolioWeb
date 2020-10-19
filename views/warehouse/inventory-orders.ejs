@@ -28,7 +28,7 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/admin/order-products-test" class="common-form" method="GET">
+                    <form action="/admin/order-products/<%= order.id %>" class="common-form" method="POST">
                     <th scope="row"><%= order.id %></th>                    
                     <input type="hidden" id="order" name="order" value="<%= order.id %>">
 

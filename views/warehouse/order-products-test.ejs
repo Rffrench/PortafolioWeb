@@ -119,7 +119,7 @@
                   <td><%= product.product %></td>
                   <td><%= product.quantity %></td>                    
                   <td><%= product.category %></td>
-                  <form action="/admin/order-products/delete" class="common-form" method="POST">
+                  <form action="/admin/order-products" class="common-form" method="POST">
                   <input type="hidden" id="product" name="product" value="<%= product.productId %>">
                   <input type="hidden" id="order" name="order" value="<%= order %>">
                   <td><input type="image" src="/media/eliminar.png" alt="Submit" width="30px"> </td>
@@ -142,15 +142,14 @@
         </div> 
         <div class="product">
         <h2>Agregar Producto</h2>
-        <form action="/admin/order-products/add" method="POST">
+        <form action="/admin/order-products/new" method="POST">
           <div class="form-field-group">
-            <label for="name">*<span class="reservation-field-label">Orden</span>
-            </label>
+            <label for="name">Orden</label>
             <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15"
             step="1" required>
         </div>
           <div class="form-field-group">
-            <label for="name">*<span class="reservation-field-label">Producto: </span>
+            <label for="name">Producto 
             </label>
             <select name="product" id="product">
               <% for (var product of products) { %>
@@ -160,7 +159,7 @@
         </div>
         
         <div class="form-field-group">
-          <label for="name">*<span class="reservation-field-label">Cantidad </span>
+          <label for="name">Cantidad 
           </label>
           <input type="number" name="quantity" id="quantity" class="fill-input" min="1" value="15"
           step="1" required>

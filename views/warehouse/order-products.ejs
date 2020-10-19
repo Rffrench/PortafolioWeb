@@ -31,7 +31,7 @@
               <tbody>
                   <% for (var product of orderProducts) { %>
                 <tr>
-                  <form action="/admin/order-products/delete" class="common-form" method="POST">
+                  <form action="/admin/order-products" class="common-form" method="POST">
                   <th scope="row"><%= product.productId %></th>
 
                   <td><%= product.product %></td>
