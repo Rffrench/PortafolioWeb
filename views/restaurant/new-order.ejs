@@ -21,20 +21,32 @@
         </div>
 
         <div id="sidebar-mobile">
-            <nav id="sidebar-menu-mobile">
-                <a href="#main-courses-category">Platos de fondo</a>
-                <a href="#sides-category">Acompañamientos</a>
-                <a href="#salads-category">Ensaladas</a>
-                <a href="#desserts-category">Postres</a>
-                <a href="#beverages-category">Bebestibles</a>
-            </nav>
+            <div id="sidebar-mobile-wrapper">
+                <nav id="sidebar-menu-mobile">
+                    <ul>
+                        <li><a href="#main-courses-category"><img src="/media/main-courses-icon.svg" alt="category"></a>
+                        </li>
+                        <li><a href="#sides-category"><img src="/media/sides-icon.svg" alt="category"></a></li>
+                        <li><a href="#salads-category"><img src="/media/salads-icon.svg" alt="category"></a></li>
+                        <li><a href="#desserts-category"><img src="/media/desserts-icon.svg" alt="category"></a></li>
+                        <li><a href="#beverages-category"><img src="/media/beverages-icon.svg" alt="category"></a></li>
+                    </ul>
+                </nav>
+
+                <form action="/orders" id="add-order-form-sidebar" method="POST">
+                    <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
+                    <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+                    <button type="submit">Ingresar Orden<p class="order-detail-sidebar">$<span
+                                class="order-detail-price">0</span></p></button>
+                </form>
+            </div>
         </div>
 
         <main>
 
             <h1>Nueva Orden</h1>
             <div class="order-details-group">
-                <h3 class="order-detail">Total: <i>$0</i></h3>
+                <h3 class="order-detail">Total: <i>$<span class="order-detail-price">0</span></i></h3>
                 <form action="/orders" id="add-order-form" method="POST">
                     <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
                     <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
@@ -53,7 +65,7 @@
                 <div class="menu-category-items">
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId===1) { %>
+                    <% if(item.categoryId === 1) { %>
 
                     <div class="menu-item">
                         <!--From menuItemsImages array which contains the names of the imamges we find one that starts with the id of the item. If it finds it then the name of the image will be obtained and the image will be retrieved -->
@@ -62,15 +74,15 @@
                         <div class="menu-item-info">
                             <h3><%= item.name %></h3>
                             <p class="menu-item-description"><%= item.description %></p>
-                            <p class="menu-item-price">$<%= item.price %></p>
+                            <p class="menu-item-price">$<span><%= item.price %></span></p>
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
                             </div>
                         </div>
-                        <input type="hidden" name="steak" id="steak" value="">
-                        <button type="button" class="main-button">Actualizar Orden</button>
+                        <input type="hidden" name="itemId" value=<%= item.id %>>
+                        <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
                     <% } %>
                     <% } %>
@@ -82,7 +94,7 @@
                 <div class="menu-category-items">
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId===2) { %>
+                    <% if(item.categoryId === 2) { %>
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -90,14 +102,15 @@
                         <div class="menu-item-info">
                             <h3><%= item.name %></h3>
                             <p class="menu-item-description"><%= item.description %></p>
-                            <p class="menu-item-price">$<%= item.price %></p>
+                            <p class="menu-item-price">$<span><%= item.price %></span></p>
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
                             </div>
                         </div>
-                        <button type="button" class="main-button">Actualizar Orden</button>
+                        <input type="hidden" name="itemId" value=<%= item.id %>>
+                        <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
                     <% } %>
@@ -110,7 +123,7 @@
                 <div class="menu-category-items">
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId===3) { %>
+                    <% if(item.categoryId === 3) { %>
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -118,14 +131,15 @@
                         <div class="menu-item-info">
                             <h3><%= item.name %></h3>
                             <p class="menu-item-description"><%= item.description %></p>
-                            <p class="menu-item-price">$<%= item.price %></p>
+                            <p class="menu-item-price">$<span><%= item.price %></span></p>
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
                             </div>
                         </div>
-                        <button type="button" class="main-button">Actualizar Orden</button>
+                        <input type="hidden" name="itemId" value=<%= item.id %>>
+                        <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
                     <% } %>
@@ -138,7 +152,7 @@
                 <div class="menu-category-items">
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId===4) { %>
+                    <% if(item.categoryId === 4) { %>
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -146,14 +160,15 @@
                         <div class="menu-item-info">
                             <h3><%= item.name %></h3>
                             <p class="menu-item-description"><%= item.description %></p>
-                            <p class="menu-item-price">$<%= item.price %></p>
+                            <p class="menu-item-price">$<span><%= item.price %></span></p>
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
                             </div>
                         </div>
-                        <button type="button" class="main-button">Actualizar Orden</button>
+                        <input type="hidden" name="itemId" value=<%= item.id %>>
+                        <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
                     <% } %>
@@ -166,7 +181,7 @@
                 <div class="menu-category-items">
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId===5) { %>
+                    <% if(item.categoryId === 5) { %>
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -174,14 +189,15 @@
                         <div class="menu-item-info">
                             <h3><%= item.name %></h3>
                             <p class="menu-item-description"><%= item.description %></p>
-                            <p class="menu-item-price">$<%= item.price %></p>
+                            <p class="menu-item-price">$<span><%= item.price %></span></p>
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
                             </div>
                         </div>
-                        <button type="button" class="main-button">Actualizar Orden</button>
+                        <input type="hidden" name="itemId" value=<%= item.id %>>
+                        <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
                     <% } %>
@@ -195,4 +211,7 @@
     </div>
 
     <%- include('../includes/footer.ejs') %>
+
+    <script src="/js/new-order.js"></script>
+
     <%- include('../includes/end.ejs') %>

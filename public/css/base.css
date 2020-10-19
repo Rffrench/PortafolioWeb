@@ -141,7 +141,7 @@ input[type="number"]{
     
 }
 
-.main-button:hover{
+.main-button:hover, .main-button:focus{
     cursor: pointer;
     background-color: rgb(4, 1, 197);
     transition: ease 0.2s;

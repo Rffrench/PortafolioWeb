@@ -4,14 +4,24 @@
         width: 100%;
         margin: 90px 0 200px;
     }
+
+    main h1{
+        margin-right: 0;
+    }
+
     #sidebar{
         display: none;
     }
 
     #sidebar-mobile{
-        display: flex;
+        display: block;
     }
 
+    .order-details-group{
+        display: none;
+    }
+
+/*
     .order-details-group{
         width: 90%;
     }
@@ -19,10 +29,11 @@
     #add-order-form{
         width: 50%;
     }
-
+*/
     .menu-item{
         width: 40%;
     }
+
 }
 
 @media only screen and (max-width:650px){
@@ -31,9 +42,15 @@
         text-align: center;
         margin-right: 0;
     }
-    
+    /*
     #add-order-form{
         width: 70%;
+    }
+    */
+
+    #sidebar-menu-mobile ul li img{
+        width: 100%;
+        height: 80%;
     }
 
     .menu-category{
@@ -41,7 +58,7 @@
     }
 
     .menu-item{
-        width: 90%;
+        width: 80%;
         height: 500px;
     }
 
@@ -49,6 +66,12 @@
         height: 30vh;
     }
 
-    
+    .menu-item-description{
+        height: auto;
+    }
+
+    #main-footer{
+        padding-bottom: 100px;
+    }
 }
 

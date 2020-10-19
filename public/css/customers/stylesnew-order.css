@@ -43,11 +43,97 @@ main h1{
 }
 
 #sidebar-mobile{
-    display: none;
-    background-color: red;
     width: 100%;
+    display: none;
+    background-color: white;
+    box-shadow: #999 1px 1px 5px;
     position: fixed;
     bottom: 0;
+}
+
+#sidebar-mobile-wrapper{
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+#sidebar-menu-mobile{
+    width: 75%;
+}
+
+#sidebar-menu-mobile ul{
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+#sidebar-menu-mobile ul li{
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    align-self: stretch;
+    text-align: center;
+    vertical-align: center;
+    list-style: none;
+}
+
+#sidebar-menu-mobile ul li a{
+    font-size: 10px;
+    padding: 10px 10px 0px;
+}
+
+#sidebar-menu-mobile ul li img{
+    width: 60%;
+    height: 80%;
+}
+
+/* Mobile add order button */
+#add-order-form-sidebar{
+    width: 25%;
+}
+
+#add-order-form-sidebar button{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(1, 1, 97);
+    box-shadow: rgb(0, 0, 0) 1px 1px 1px;
+    border: 0;
+    color: white;
+    align-self: center;
+}
+
+#add-order-form-sidebar button:active {
+    cursor: pointer;
+    background-color: rgb(4, 1, 197);
+    transition: ease 0.2s;
+
+}
+
+#add-order-form{
+    width: 40%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0 50px;
+}
+
+#add-order-form button{
+    width: 100%;
+    height: 40px;
+    background-color: rgb(1, 1, 97);
+    box-shadow: rgb(0, 0, 0) 1px 1px 1px;
+    border: 0;
+    border-radius: 30px;
+    color: white;
+    align-self: center;
+}
+
+#add-order-form button:hover, #sidebar-menu a:hover{
+    cursor: pointer;
+    background-color: rgb(4, 1, 197);
+    transition: ease 0.2s;
+
 }
 
 .order-details-group{
@@ -62,38 +148,13 @@ main h1{
     width: 25%;
     margin: 10px 10px;
 }
-
-#add-order-form{
-    width: 40%;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 0 50px;
+.order-detail-price{
+    padding-left: 1px;
+    font-style: italic;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-#order-direccion.fill-input{
-    width: 30%;
-    margin: 5px 0 15px;
-}
 
-#add-order-form button{
-    width: 100%;
-    height: 40px;
-    background-color: rgb(1, 1, 97);
-    box-shadow: rgb(0, 0, 0) 1px 1px 1px;
-    border: 0;
-    border-radius: 30px;
-    color: white;
-    align-self: center;
-}
-
-#add-order-form button:hover, #sidebar-menu a:hover {
-    cursor: pointer;
-    background-color: rgb(4, 1, 197);
-    transition: ease 0.2s;
-
-}
 
 .menu-category{
     width: 100%;
