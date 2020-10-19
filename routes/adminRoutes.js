@@ -8,7 +8,7 @@ const adminController = require('../controllers/adminController');
 router.get('/tables', adminController.getTablesView);
 //router.put('/tables/:tableId', adminController.putTables); // PUT funciona gracias a method-override
 
-router.post('/order-products/update-quantity',adminController.putOrderProduct);
+router.get('/order-products/update-quantity',adminController.putOrderProduct);
 router.post('/order-products/update',adminController.getAddOrderProductView);
 router.post('/order-products/add',adminController.postOrderProduct);
 router.get('/order-products-test',adminController.getOrderProductsTestView);

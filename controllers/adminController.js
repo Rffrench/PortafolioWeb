@@ -7,10 +7,11 @@ const Product = require('../models/productModel');
 
 // Order Products
 exports.putOrderProduct = (req, res, next) => {
+    
     const token = localStorage.getItem('token') || null;
-    const order = req.body.order;
-    const product =req.body.product;
-    const quantity = req.body.quantity;    
+    const order = req.query.order;
+    const product =req.query.product;
+    const quantity = req.query.quantity;    
     axios.put(`${process.env.ORCHESTRATOR}/admin/order-products/update`,
     {
         order:order,
@@ -30,6 +31,7 @@ exports.putOrderProduct = (req, res, next) => {
                 }),
             ])
             .then(axios.spread((products, orderProducts) => {
+                res.header('Cache-Control', 'no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0');
                 res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products, order});
         
             }))
