@@ -295,13 +295,10 @@ exports.postInventoryOrder = (req, res, next) => {
         warehouseId: warehouseId,
         description: description        
     }).then(response=> {
-        console.log(response.data);
-        res.redirect('/admin/inventory-orders', { pageTitle: 'Products', path: '/admin/products',errorMessage: errorMessage, successMessage: null})
+        const order = response.data.result[0]['last_insert_id()'];
+       res.redirect(`/admin/order-products/${order}`);
     })
-    .catch(err => {
-        //res.redirect('/reservations/new');
-
-  
+    .catch(err => {  
         const errorResponse = err.response;
         const errorStatus = errorResponse ? errorResponse.status : 500;
         let errorMessage;
@@ -330,7 +327,6 @@ exports.getInventoryOrders = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
         .then(response => {
-            console.log(response.data);
             res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:response.data.inventoryOrders});
         })
         .catch(err => {
