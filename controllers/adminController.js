@@ -16,15 +16,19 @@ exports.getOrderProductsView = (req, res, next) => {
         axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
         {
             headers: { 'Authorization': 'Bearer ' + token }  
+        }),
+        axios.get(`${process.env.ORCHESTRATOR}/admin/inventoryOrder/${order}`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token }  
         })
     ])
-    .then(axios.spread((orderProducts, products) => {
-        res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products, order});
+    .then(axios.spread((orderProducts, products, inventoryOrder) => {    
+        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order});
 
     }))
     .catch((errors) => { 
         console.log(errors);
-        res.render('warehouse/order-products-test', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
+        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
     }); 
 }
 
@@ -202,7 +206,7 @@ exports.putOrderStatus = (req, res, next) => {
     axios.put(`${process.env.ORCHESTRATOR}/admin/order-products/${order}`)
     .then(response=> {
         console.log(response.data);
-        res.redirect('back');
+        res.redirect(`/admin/order-products/${order}`);
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -219,7 +223,7 @@ exports.putOrderStatus = (req, res, next) => {
                 break;
         }
 
-        res.redirect('back');
+        res.redirect(`/admin/order-products/${order}`);
         return;
     })
 }

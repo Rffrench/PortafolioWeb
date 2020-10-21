@@ -13,7 +13,7 @@ router.post('/order-products/update',adminController.getupdateQuantityView);
 router.post('/order-products/new',adminController.postOrderProduct);
 router.get('/order-products/:order',adminController.getOrderProductsView);
 router.post('/order-products/:order',adminController.getOrderProductsView);
-router.post('/order-products/status',adminController.putOrderStatus);
+router.post('/update-status',adminController.putOrderStatus);
 router.post('/order-products',adminController.deleteOrderProduct);
 
 router.get('/inventoryOrder/form', adminController.getInventoryOrderForm);

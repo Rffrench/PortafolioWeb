@@ -56,9 +56,12 @@ color:white;
 .table table {
     
     width:100%;
+    font-size:12px;
 }
 table th {
-    color:#5a8aff;
+
+    color:#4D53EA;
+    font-weight:normal;
 }
 table td button {
     margin-left:2px;
@@ -105,8 +108,8 @@ table td input[type=number]{
 table td img {
     width:30px;
 }
-.product h4{
-    font-weight:normal;
+.product {
+    font-size:14px;
 }
 
 .float-right{
@@ -121,11 +124,24 @@ button {
 .order {
     width:100%;
     padding-left:4em;
-    padding-right:4em; 
+    padding-right:10em; 
     padding-top:2em;
     margin-bottom:2em;
+    
+}
+.order .info {
+    display:flex;
+    justify-content:space-between;
+    font-weight:normal;
+    align-items: center;
+}
+.order .info h5{
+    font-weight:normal;
+    font-size:14px;
 }
 
 .order h1{
     text-align:center;
+    font-size:36px;
+    font-weight:normal;
 }
