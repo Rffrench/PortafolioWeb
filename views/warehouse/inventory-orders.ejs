@@ -23,13 +23,14 @@
                     <th scope="col-2">Motivo</th>
                     <th scope="col-2">Id Estado</th>
                     <th scope="col-2">Estado de Orden</th>
+                    <th scope="col-2">Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
                     <form action="/admin/order-products/<%= order.id %>" class="common-form" method="POST">
-                    <th scope="row"><%= order.id %></th>                    
+                    <td scope="row"><%= order.id %></td>                    
                     <input type="hidden" id="order" name="order" value="<%= order.id %>">
 
                     <td><%= order.orderDescription %></td>
@@ -41,7 +42,7 @@
                     <td><%= order.statusDescription %> </td>
                     <input type="hidden" id="status" name="status" value="<%= order.statusDescription %>">
                     <input type="hidden" id="orderObj" name="orderObj" value="<%= order %>">
-                    <td><button class="main-button" type="submit">Ver</button> </td>
+                    <td><button class="main-button" type="submit">Administrar</button> </td>
                   </form>
                   </tr>
                   

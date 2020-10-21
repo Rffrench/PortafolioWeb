@@ -29,7 +29,7 @@
                     <% for (var product of products) { %>
                   <tr>
                     <form action="/admin/product/update" class="common-form" method="POST">
-                    <th scope="row"><%= product.id %></th>
+                    <td scope="row"><%= product.id %></td>
                     <input type="hidden" id="productId" name="productId" value="<%= product.id %>" >
 
                     <td><%= product.name %></td>
@@ -37,7 +37,7 @@
 
                     <td><%= product.quantity %> </td>
                     <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">
-                    <td><button class="main-button" type="submit">Actualizar</button> </td>
+                    <td><input type="image" src="/media/actualizar.png" alt="Submit" width="20px"> </td>
                   </form>
                   </tr>
                   
