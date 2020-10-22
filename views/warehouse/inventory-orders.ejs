@@ -29,20 +29,20 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/admin/order-products/<%= order.id %>" class="common-form" method="POST">
-                    <td scope="row"><%= order.id %></td>                    
+                    <form action="/warehouse/order-products/<%= order.id %>" class="common-form" method="POST">
+                    <td data-label="Id"><%= order.id %></td>                    
                     <input type="hidden" id="order" name="order" value="<%= order.id %>">
 
-                    <td><%= order.orderDescription %></td>
+                    <td data-label="Motivo"><%= order.orderDescription %></td>
                     <input type="hidden" id="description" name="description" value="<%= order.orderDescription %>">
 
-                    <td><%= order.statusId %> </td>
+                    <td data-label="Id Estado"> <%= order.statusId %> </td>
                     <input type="hidden" id="statusId" name="statusId" value="<%= order.statusId %>">
 
-                    <td><%= order.statusDescription %> </td>
+                    <td data-label="Estado"><%= order.statusDescription %> </td>
                     <input type="hidden" id="status" name="status" value="<%= order.statusDescription %>">
                     <input type="hidden" id="orderObj" name="orderObj" value="<%= order %>">
-                    <td><button class="main-button" type="submit">Administrar</button> </td>
+                    <td data-label="Opciones"><button class="main-button" type="submit">Administrar</button> </td>
                   </form>
                   </tr>
                   

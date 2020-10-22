@@ -20,7 +20,7 @@
                 <thead>
                   <tr>
                     <th >#</th>
-                    <th >Nombre</th>
+                    <th >Producto</th>
                     <th >Stock</th>
                     <th >Opciones</th>
                   </tr>
@@ -28,16 +28,16 @@
                 <tbody>
                     <% for (var product of products) { %>
                   <tr>
-                    <form action="/admin/product/update" class="common-form" method="POST">
-                    <td scope="row"><%= product.id %></td>
+                    <form action="/warehouse/product/update" class="common-form" method="POST">
+                    <td data-label="Id"><%= product.id %></td>
                     <input type="hidden" id="productId" name="productId" value="<%= product.id %>" >
 
-                    <td><%= product.name %></td>
+                    <td data-label="Producto"><%= product.name %></td>
                     <input type="hidden" id="name" name="name" value="<%= product.name %>">
 
-                    <td><%= product.quantity %> </td>
+                    <td data-label="Cantidad"><%= product.quantity %> </td>
                     <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">
-                    <td><input type="image" src="/media/actualizar.png" alt="Submit" width="20px"> </td>
+                    <td data-label="Opciones"><input type="image" src="/media/actualizar.png" alt="Submit" width="20px"> </td>
                   </form>
                   </tr>
                   
