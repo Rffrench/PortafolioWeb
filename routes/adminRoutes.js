@@ -17,7 +17,7 @@ router.post('/update-status',adminController.putOrderStatus);
 router.post('/order-products',adminController.deleteOrderProduct);
 
 router.get('/inventoryOrder/form', adminController.getInventoryOrderForm);
-router.get('/inventory-orders', adminController.getInventoryOrders);
+router.get('/inventory-orders/:user', adminController.getInventoryOrders);
 router.post('/inventory-order',adminController.postInventoryOrder);
 
 

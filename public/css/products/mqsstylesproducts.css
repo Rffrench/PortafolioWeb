@@ -78,8 +78,8 @@ padding-left:2em;
 padding-right:2em;
 padding-top:1em;
 padding-bottom:1em;
-width:30%;
-    width:40%;
+    width:50%;
+    margin-left:5em;
 }
 .crud-order .add-product .btn2 {
     margin-top:20px;
@@ -91,7 +91,7 @@ width:30%;
 }
 
 .crud-order .table {
-    width:50%;
+    width:100%;
     border-collapse:collapse;
     order:1;
     
@@ -160,6 +160,7 @@ margin-bottom:1em;}
         order:1;
         width:100%;
         margin-bottom:2em;
+        margin-left:0;
     }
 
 

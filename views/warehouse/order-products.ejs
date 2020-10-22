@@ -16,11 +16,15 @@
           <h5>Estado: <%= inventoryOrder[0].statusDescription %></h5>
           <h5>Fecha de Creación: <%= inventoryOrder[0].createdAt %></h5>
           <h5>Ultima Modificación: <%= inventoryOrder[0].updatedAt %></h5>
+          <% if (inventoryOrder[0].statusId==1) { %>
           <form action="/admin/update-status" class="" method="POST">    
             <input type="hidden" id="order" name="order" value="<%= order %>">     
           <button class="btn3" type="submit">Finalizar Orden</button>
+          
           </form>
+          <% } %>
         </div> <!--ORDER INFO-->
+       
           
        
         
@@ -66,6 +70,7 @@
                     <td data-label="Categoría"><%= product.category %></td>
                    
                     <td data-label="Opciones">
+                      <% if (inventoryOrder[0].statusId==1) { %>
                       <div class="opc">
                     <form action="/admin/order-products" class="common-form" method="POST">
                       <input type="hidden" id="product" name="product" value="<%= product.productId %>">
@@ -75,22 +80,24 @@
                     <input type="hidden" id="order" name="order" value="<%= order %>">                  
                     <input type="hidden" id="productId" name="productId" value="<%= product.productId %>"> 
                     <input type="hidden" id="product" name="product" value="<%= product.product %>">        
-                    <input type="image" src="/media/actualizar.png" alt="Submit" width="20px"></div> </td>
-                  </form>
-                                   
+                    <input type="image" src="/media/actualizar.png" alt="Submit" width="20px"></form></div>
+                    <% } else { %>
+                     ----  </td>                  
+                    <% } %>     
                   </tr>      
                   <% } %>     
                   
                 </tbody>
               </table>
+              <% if (inventoryOrder[0].statusId==1) { %>
               <div class="add-product">
                 <h2>Agregar Producto</h2>
                 
                   <form action="/admin/order-products/new" method="POST">
                   <div class="form-field-group">
                   <label for="name">Orden</label>
-                  <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15"
-                  step="1" required>
+                  <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" disabled>
+                  <input type="hidden" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" >
                   </div>
                   <div class="form-field-group">
                   <label for="name">Producto 
@@ -116,6 +123,7 @@
 
                   </form>
               </div>
+              <% } %> 
             </section>
             <% }  %>   
         

@@ -23,6 +23,7 @@ exports.getOrderProductsView = (req, res, next) => {
         })
     ])
     .then(axios.spread((orderProducts, products, inventoryOrder) => {    
+        console.log(inventoryOrder.data);
         res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order});
 
     }))
@@ -325,8 +326,9 @@ exports.postInventoryOrder = (req, res, next) => {
 
 exports.getInventoryOrders = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
+    const user = req.params.user;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/inventoryOrders`,
+    axios.get(`${process.env.ORCHESTRATOR}/admin/inventoryOrders/${user}`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -334,9 +336,8 @@ exports.getInventoryOrders = (req, res, next) => {
             res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:response.data.inventoryOrders});
         })
         .catch(err => {
-            sendErrors(err.response, res);
-            return; 
-
+            res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:null});
+            return;
         })
 }
 
