@@ -14,6 +14,7 @@
 
 .order .info h5{
     font-weight:normal;
+    font-size:1vw;
 }
 
 /* BTN */
@@ -166,6 +167,8 @@ margin-bottom:1em;}
     .table thead{
         display:none;
     }
+
+    /*
     .crud-order .table, .table tbody, .table tr, .table td{
         display:block;
         width:100%;
@@ -192,7 +195,42 @@ margin-bottom:1em;}
     .crud-order .add-product .btn2 {
         
         float:center;
-    }
+    }*/
+    .table thead{
+		display: none;
+	}
+
+	.table tr {
+		display:flex;
+		flex-direction:column;
+	
+		margin-bottom:1em;
+	}
+	
+	.table td[data-label]{
+		display:flex; 
+		justify-content:space-between;
+		
+	}
+	.table td[data-label]::before{
+		content:attr(data-label);
+		font-weight:bold;
+		
+	}
 
 }
 
+@media(max-width:1200px)
+
+{
+    .order {
+        width:100%;
+    }
+    .order .info {
+        padding-left:2em;
+        padding-right:2em;
+        width:100%;
+    }
+
+   
+}
