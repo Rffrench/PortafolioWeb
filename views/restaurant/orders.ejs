@@ -8,6 +8,12 @@
     <main>
 
         <h1>Órdenes</h1>
+        <% if (successMessage) { %>
+        <p class="success-message"><%= successMessage %></p>
+        <% } %>
+        <% if (errorMessage) { %>
+        <p class="menu-error-message"><%= errorMessage %></p>
+        <% } %>
 
         <div class="selection-section">
             <a class="main-button selection-button" href="/orders/new">Ingresar Orden</a>

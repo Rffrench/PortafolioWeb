@@ -13,7 +13,7 @@
         <div id="sidebar">
             <nav id="sidebar-menu">
                 <a href="#main-courses-category">Platos de fondo</a>
-                <a href="#sides-category">Acompañamientos</a>
+                <a href="#sides-category-hidden">Acompañamientos</a>
                 <a href="#salads-category">Ensaladas</a>
                 <a href="#desserts-category">Postres</a>
                 <a href="#beverages-category">Bebestibles</a>
@@ -33,7 +33,8 @@
                     </ul>
                 </nav>
 
-                <form action="/orders" id="add-order-form-sidebar" method="POST">
+                <form action="/orders" name="add-order-form" id="add-order-form-sidebar" method="POST"
+                    onsubmit="appendOrder()">
                     <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
                     <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
                     <button type="submit">Ingresar Orden<p class="order-detail-sidebar">$<span
@@ -47,7 +48,7 @@
             <h1>Nueva Orden</h1>
             <div class="order-details-group">
                 <h3 class="order-detail">Total: <i>$<span class="order-detail-price">0</span></i></h3>
-                <form action="/orders" id="add-order-form" method="POST">
+                <form action="/orders" name="add-order-form" id="add-order-form" method="POST" onsubmit="appendOrder()">
                     <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
                     <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
                     <button type="submit">Ingresar Orden</button>

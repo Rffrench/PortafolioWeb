@@ -116,6 +116,19 @@ input[type="number"]{
     padding: 10px;
 }
 
+.menu-error-message{
+    color: white;
+    background-color: red;
+    border-radius: 20px;
+    box-shadow: red 1px 1px 2px ;
+    font-family: 'Abel', sans-serif;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 10px;
+    margin: 10px 5%;
+    
+}
+
 .success-message{
     color: white;
     background-color: rgb(6, 173, 6);

@@ -154,7 +154,9 @@ main h1{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-
+.hidden-category{
+    display: hidden;
+}
 
 .menu-category{
     width: 100%;

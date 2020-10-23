@@ -180,7 +180,7 @@ exports.getOrdersMenu = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
         })
         .then(response => {
-            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders' })
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: null, errorMessage: null })
         })
         .catch(err => {
             sendErrors(err.response, res);
@@ -225,9 +225,48 @@ exports.getNewOrder = (req, res, next) => {
 
             })
 
-            res.render('restaurant/new-order', { pageTitle: 'Órdenes', path: '/orders/new', menuItems: menu[0].data.menu, menuItemsImages: menuItemsImages })
+            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', menuItems: menu[0].data.menu, menuItemsImages: menuItemsImages })
         })
         .catch(err => {
             sendErrors(err.response, res);
         })
+}
+
+
+exports.postOrder = (req, res, next) => {
+    const order = JSON.parse(req.body.order); // We parse the string Map
+    const userId = req.body.userId;
+
+
+    axios.post(`${process.env.ORCHESTRATOR}/orders`,
+        {
+            userId: userId,
+            order: order
+        })
+        .then(response => {
+            console.log(response.data);
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Orden Creada', errorMessage: null })
+        })
+        .catch(err => {
+            //res.redirect('/reservations/new');
+
+            // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro error
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            let errorMessage;
+
+            switch (errorStatus) {
+                case 409:
+                    errorMessage = 'Oops! Lo sentimos, ya hay una orden en proceso!';
+                    break;
+
+                default:
+                    errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                    break;
+            }
+
+            res.render('restaurant/orders', { pageTitle: 'Nueva Orden', path: '/orders/new', successMessage: null, errorMessage: errorMessage })
+            return;
+        })
+
 }
