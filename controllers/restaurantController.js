@@ -205,7 +205,7 @@ exports.getNewOrder = (req, res, next) => {
             ])
 
         })
-        .then(menu => { // 0 items and 1 are images
+        .then(([items, images]) => { // 0 items and 1 are images
 
             /* NOT NECESSARY TO STORE ZIP CUZ admzip CAN RECEIVE AN ARRAYBUFFER, 'stream' responseType must be set otherwise  */
             //const stream = fs.createWriteStream('menuItemsImages.zip', { flags: 'w' });
@@ -213,7 +213,7 @@ exports.getNewOrder = (req, res, next) => {
 
 
             // TODO: Remove previous files
-            const zip = new AdmZip(menu[1].data); // getting response arraybuffer zip
+            const zip = new AdmZip(images.data); // getting response arraybuffer zip
             zip.extractAllTo(path.join(__dirname, '../public/media/menuItemsImages'), true); // extracting images
 
 
@@ -225,7 +225,7 @@ exports.getNewOrder = (req, res, next) => {
 
             })
 
-            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', menuItems: menu[0].data.menu, menuItemsImages: menuItemsImages })
+            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', menuItems: items.data.menu, menuItemsImages: menuItemsImages })
         })
         .catch(err => {
             sendErrors(err.response, res);
