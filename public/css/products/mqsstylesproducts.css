@@ -41,7 +41,9 @@ color:white;
     color:white;
     }
 
-
+input[type=number] {
+    -moz-appearance: textfield;
+}
 
 
 
@@ -226,7 +228,8 @@ margin-bottom:1em;}
 		content:attr(data-label);
 		font-weight:bold;
 		
-	}
+    }
+
 
 }
 

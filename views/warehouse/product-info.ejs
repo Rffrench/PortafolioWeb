@@ -7,13 +7,13 @@
     <%- include('../includes/navigation.ejs') %>
     <main>
 
-        <h1>Productos</h1>
+        <h1>Insumos</h1>
         <% if (successMessage) { %>
         <p class="success-message"><%= successMessage %></p>
         <% } %>
         <div class="selection-section">
-            <a class="main-button selection-button" href="/warehouse/product/list">Reponer Productos</a> 
-            <a class="main-button selection-button" href="/warehouse/inventoryOrder/form">Crear Solicitud de Productos</a>        
+            <a class="main-button selection-button" href="/warehouse/product/list">Reponer Insumos</a> 
+            <a class="main-button selection-button" href="/warehouse/inventoryOrder/form">Crear Solicitud de Insumos</a>        
             <a class="main-button selection-button" href="/warehouse/inventory-orders/<%= localStorage.getItem('userId'); %>">Ver Solicitudes</a>        
            
         </div>
