@@ -114,6 +114,7 @@ input[type="number"]{
     font-weight: normal;
     font-size: 1em;
     padding: 10px;
+    text-align: center;
 }
 
 .menu-error-message{
@@ -124,6 +125,7 @@ input[type="number"]{
     font-family: 'Abel', sans-serif;
     font-weight: bold;
     font-size: 1em;
+    text-align: center;
     padding: 10px;
     margin: 10px 5%;
     

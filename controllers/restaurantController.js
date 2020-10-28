@@ -234,8 +234,15 @@ exports.getNewOrder = (req, res, next) => {
 
 
 exports.postOrder = (req, res, next) => {
-    const order = JSON.parse(req.body.order); // We parse the string Map
+    let order;
     const userId = req.body.userId;
+
+    // checking if order is empty or tampered
+    try {
+        order = JSON.parse(req.body.order); // We parse the string Map
+    } catch (error) {
+        order = null;
+    }
 
 
     axios.post(`${process.env.ORCHESTRATOR}/orders`,
@@ -250,16 +257,19 @@ exports.postOrder = (req, res, next) => {
         .catch(err => {
             //res.redirect('/reservations/new');
 
-            // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro error
+            // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro la orden va vacía
             const errorResponse = err.response;
             const errorStatus = errorResponse ? errorResponse.status : 500;
             let errorMessage;
+
 
             switch (errorStatus) {
                 case 409:
                     errorMessage = 'Oops! Lo sentimos, ya hay una orden en proceso!';
                     break;
-
+                case 422:  // 422 Unprocessable Entity
+                    errorMessage = 'La orden ingresada no contiene ningún item. Intenta nuevamente añadiendo los items del menu que deseas y apretando el botón de actualizar orden.';
+                    break;
                 default:
                     errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
                     break;
