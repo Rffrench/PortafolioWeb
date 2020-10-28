@@ -150,6 +150,7 @@ exports.postReservation = (req, res, next) => {
 
 exports.deleteReservation = (req, res, next) => {
     const userId = req.body.userId;
+  
 
     axios.delete(`${process.env.ORCHESTRATOR}/reservations/${userId}`)
         .then(response => {

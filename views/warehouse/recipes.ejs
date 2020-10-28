@@ -1,0 +1,22 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesselection-menus.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Recetas</h1>
+        <% if (successMessage) { %>
+        <p class="success-message"><%= successMessage %></p>
+        <% } %>
+        <div class="selection-section">
+            <a class="main-button selection-button" href="/warehouse/recipes/new">Crear Receta</a>           
+        </div>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+    

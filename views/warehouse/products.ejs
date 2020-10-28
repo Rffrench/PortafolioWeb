@@ -1,0 +1,59 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Reponer insumos</h1>
+      
+        <% if (errorMessage) { %>
+          <p class="error-message">ERROR: <%= errorMessage %></p>
+          <% } %>
+
+        <div class="inventory-orders">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th >#</th>
+                    <th >Producto</th>
+                    <th >Stock</th>
+                    <th >Opciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <% for (var product of products) { %>
+                  <tr>
+                    <form action="/warehouse/product/update" class="common-form" method="POST">
+                    <td data-label="Id"><%= product.id %></td>
+                    <input type="hidden" id="productId" name="productId" value="<%= product.id %>" >
+
+                    <td data-label="Producto"><%= product.name %></td>
+                    <input type="hidden" id="name" name="name" value="<%= product.name %>">
+
+                    <td data-label="Cantidad"><%= product.quantity %> </td>
+                    <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">
+                    <td data-label="Opciones"><input type="image" src="/media/actualizar.png" alt="Submit" width="20px"> </td>
+                  </form>
+                  </tr>
+                  
+                
+        
+                  <% } %>
+                  
+                </tbody>
+              </table>
+          
+            </div>
+
+        
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+

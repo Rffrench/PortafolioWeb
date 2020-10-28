@@ -1,0 +1,65 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Ordenes de Inventario</h1>
+      
+        <% if (errorMessage) { %>
+          <p class="error-message">ERROR: <%= errorMessage %></p>
+          <% } %>
+          <% if (!orders) { %>
+            <h2> No hay ordenes registradas.</h2>
+            <%  }else{ %>
+        <div class="inventory-orders">
+            <table class="table">
+                <thead>                 
+                    <th >#</th>
+                    <th >Motivo</th>
+                    <th >Id Estado</th>
+                    <th >Estado de Orden</th>
+                    <th >Opciones</th>                  
+                </thead>
+                <tbody>
+                    <% for (var order of orders) { %>
+                  <tr>
+                    <form action="/warehouse/order-products/<%= order.id %>" class="common-form" method="POST">
+                    <td data-label="Id"><%= order.id %></td>                    
+                    <input type="hidden" id="order" name="order" value="<%= order.id %>">
+
+                    <td data-label="Motivo"><%= order.orderDescription %></td>
+                    <input type="hidden" id="description" name="description" value="<%= order.orderDescription %>">
+
+                    <td data-label="Id Estado"> <%= order.statusId %> </td>
+                    <input type="hidden" id="statusId" name="statusId" value="<%= order.statusId %>">
+
+                    <td data-label="Estado"><%= order.statusDescription %> </td>
+                    <input type="hidden" id="status" name="status" value="<%= order.statusDescription %>">
+                    <input type="hidden" id="orderObj" name="orderObj" value="<%= order %>">
+                    <td data-label="Opciones"> <input type="image" src="/media/configuraciones.png" alt="Submit" width="20px"> </td>
+                  </form>
+                  </tr>
+                  
+                
+        
+                  <% } %>
+                  
+                </tbody>
+              </table>
+              <%  } %>
+            </div>
+      
+
+        
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+

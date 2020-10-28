@@ -1,0 +1,60 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Modificar Cantidad</h1>
+       
+
+        <form action="/warehouse/order-products/update-quantity" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
+
+
+            <div class="form-field-group">
+                <label for="order">*<span class="reservation-field-label">Numero de Orden:  </span>
+                </label>
+                <input type="text" name="order" id="order" class="" value="<%= order %>" disabled>
+                <input type="hidden" name="order" id="order" class="" value="<%= order %>" >
+            </div>
+            <div class="form-field-group">
+                <label for="product">*<span class="reservation-field-label">Id Producto : </span>
+                </label>            
+                <input type="text" name="product" id="product" class="" value="<%= productId %>" disabled>
+                <input type="hidden" name="product" id="product" class="" value="<%= productId %>" >
+                   
+               
+            </div>
+            <div class="form-field-group">
+                <label for="product">*<span class="reservation-field-label">Producto: </span>
+                </label>            
+                <input type="text" " class="" value="<%= product %>" disabled>
+                <input type="hidden" " class="" value="<%= product %>" required>
+               
+            </div>
+
+            <div class="form-field-group">
+                <label for="quantity">*<span class="reservation-field-label">Cantidad </span>
+                </label>
+                <input type="number" name="quantity" id="quantity" class="fill-input" min="1" value="15"
+                     step="1" required>
+            </div>
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+        
+
+            <button class="main-button" type="submit">Actualizar Cantidad</button>
+        </form>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>

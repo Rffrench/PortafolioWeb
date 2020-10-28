@@ -1,0 +1,135 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+      <div class="order">
+        <h1>Solicitud de Inventario</h1>
+        <div class="info">
+          <span><h5>Id: <%= inventoryOrder[0].id %></h5></span>
+          <h5>Descripción: <%= inventoryOrder[0].orderDescription %></h5>
+          <h5>Estado: <%= inventoryOrder[0].statusDescription %></h5>
+          <h5>Fecha de Creación: <%= inventoryOrder[0].createdAt %></h5>
+          <h5>Ultima Modificación: <%= inventoryOrder[0].updatedAt %></h5>
+          <% if (inventoryOrder[0].statusId==1) { %>
+          <form action="/warehouse/update-status" class="" method="POST">    
+            <input type="hidden" id="order" name="order" value="<%= order %>">     
+          <button class="btn3" type="submit">Finalizar Orden</button>
+          
+          </form>
+          <% } %>
+        </div> <!--ORDER INFO-->
+       
+          
+       
+        
+      </div> <!--ORDER-->
+
+      <% if (!orderProducts) { %>
+        <section class="crud-order">
+          <table class="table">
+            <thead>
+              <th>Id</th>
+              <th>Producto</th>
+              <th>Cantidad</th>
+              <th>Categoria</th>
+              <th>Opciones</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>-</td>
+                <td>-</td>                    
+                <td>-</td>              
+                <td>-</td>
+                <td>-</td>             
+              </tr>
+            </tbody>
+          </table>
+        </section>
+          <% } else { %>            
+            <section class="crud-order">
+              <table class="table">
+                <thead>
+                  <th>Id</th>
+                  <th>Producto</th>
+                  <th>Cantidad</th>
+                  <th>Categoria</th>
+                  <th>Opciones</th>
+                </thead>
+                <tbody>
+                  <% for (var product of orderProducts) { %>                
+                  <tr>                  
+                    <td data-label="Id"><%= product.productId %></td>   
+                    <td data-label="Producto"><%= product.product %></td>
+                    <td data-label="Cantidad"><%= product.quantity %></td>                    
+                    <td data-label="Categoría"><%= product.category %></td>
+                   
+                    <td data-label="Opciones">
+                      <% if (inventoryOrder[0].statusId==1) { %>
+                      <div class="opc">
+                    <form action="/warehouse/order-products" class="common-form" method="POST">
+                      <input type="hidden" id="product" name="product" value="<%= product.productId %>">
+                      <input type="hidden" id="order" name="order" value="<%= order %>"><input type="image" src="/media/eliminar.png" alt="Submit" width="20px">  
+                  </form>
+                  <form action="/warehouse/order-products/update" class="common-form" method="POST">
+                    <input type="hidden" id="order" name="order" value="<%= order %>">                  
+                    <input type="hidden" id="productId" name="productId" value="<%= product.productId %>"> 
+                    <input type="hidden" id="product" name="product" value="<%= product.product %>">        
+                    <input type="image" src="/media/actualizar.png" alt="Submit" width="20px"></form></div>
+                    <% } else { %>
+                     ----  </td>                  
+                    <% } %>     
+                  </tr>      
+                  <% } %>     
+                  
+                </tbody>
+              </table>
+              <% if (inventoryOrder[0].statusId==1) { %>
+              <div class="add-product">
+                <h2>Agregar Producto</h2>
+                
+                  <form action="/warehouse/order-products/new" method="POST">
+                  <div class="form-field-group">
+                  <label for="name">Orden</label>
+                  <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" disabled>
+                  <input type="hidden" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" >
+                  </div>
+                  <div class="form-field-group">
+                  <label for="name">Producto 
+                  </label>
+                  <select name="product" id="product">
+                  <% for (var product of products) { %>
+                  <option value="<%= product.id %>"><%= product.name %></option>
+                  <% } %>
+                  </select>
+                  </div>
+
+                  <div class="form-field-group">
+                  <label for="name">Cantidad 
+                  </label>
+                  <input type="number" name="quantity" id="quantity" class="fill-input" min="1" value="15"
+                  step="1" required>
+                  </div>
+                  <button class="btn2 float-right" type="submit">Agregar</button>
+
+
+
+
+
+                  </form>
+              </div>
+              <% } %> 
+            </section>
+            <% }  %>   
+        
+           
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
+

@@ -1,0 +1,53 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylesreservations.css">
+<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+
+    <main>
+
+        <h1>Reponer Insumo</h1>       
+
+        <form action="/warehouse/products" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
+            <div class="form-field-group">
+                <label for="productId"><span class="">Id Producto: </span>
+                </label>
+                <input type="text" name="productId" id="productId" class=""  value="<%= product.productId %>" disabled>
+                <input type="hidden" name="productId" id="productId" class=""  value="<%= product.productId %>" >
+            </div>
+
+            <div class="form-field-group">
+                <label for="name"><span class="">Insumo: </span>
+                </label>
+                <input type="text" name="name" id="name" class="" value="<%= product.name %>" disabled >
+                <input type="hidden" name="name" id="name" class="" value="<%= product.name %>"  >
+            </div>
+            <div class="form-field-group">
+                <label for="quantity">*<span class="">Stock: </span>
+                </label>
+                <input type="text" name="quantity" id="quantity" class="" value="<%= product.quantity %>"  required>
+                
+            </div>
+                        
+
+           
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+
+            <button class="main-button" type="submit">Actualizar Stock</button>
+        </form>
+
+    </main>
+
+  
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
