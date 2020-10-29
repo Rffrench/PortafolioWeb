@@ -118,6 +118,7 @@ input[type="number"]{
 }
 
 .menu-error-message{
+    max-width: 30%;
     color: white;
     background-color: red;
     border-radius: 20px;
@@ -132,6 +133,7 @@ input[type="number"]{
 }
 
 .success-message{
+    max-width: 30%;
     color: white;
     background-color: rgb(6, 173, 6);
     border-radius: 20px;

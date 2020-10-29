@@ -72,9 +72,9 @@
         align-self: center;
     }
 
-    .success-message{
-        width: 80%;
-    }
+    .menu-error-message, .success-message{
+        max-width: 100%;
+    }    
 
     #topmenu{
         padding: 0 0px;
