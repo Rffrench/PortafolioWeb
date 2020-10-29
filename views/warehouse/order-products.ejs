@@ -38,8 +38,9 @@
           <h5>Fecha de Creación: <%= inventoryOrder[0].createdAt %></h5>
           <h5>Ultima Modificación: <%= inventoryOrder[0].updatedAt %></h5>
           <% if (inventoryOrder[0].statusId==1) { %>
-          <form action="/warehouse/update-status" class="" method="POST">    
-            <input type="hidden" id="order" name="order" value="<%= order %>">     
+          <form action="/warehouse/inventory-orders" class="" method="POST">    
+            <input type="hidden" name="_method" value="PUT">
+            <input type="hidden" id="orderId" name="orderId" value="<%= order %>">     
           <button class="btn3" type="submit">Finalizar Orden</button>
           
           </form>
@@ -93,11 +94,12 @@
                     <td data-label="Opciones">
                       <% if (inventoryOrder[0].statusId==1) { %>
                       <div class="opc">
-                    <form action="/warehouse/order-products" class="common-form" method="POST">
+                    <form action="/warehouse/inventory-orders/products" class="common-form" method="POST">
                       <input type="hidden" id="product" name="product" value="<%= product.productId %>">
+                      <input type="hidden" name="_method" value="DELETE">
                       <input type="hidden" id="order" name="order" value="<%= order %>"><input type="image" src="/media/eliminar.png" alt="Submit" width="20px">  
                   </form>
-                  <form action="/warehouse/order-products/update" class="common-form" method="POST">
+                  <form action="/warehouse/inventory-orders/products/update" class="common-form" method="POST">
                     <input type="hidden" id="order" name="order" value="<%= order %>">                  
                     <input type="hidden" id="productId" name="productId" value="<%= product.productId %>"> 
                     <input type="hidden" id="product" name="product" value="<%= product.product %>">        
@@ -114,7 +116,7 @@
               <div class="add-product">
                 <h2>Agregar Producto</h2>
                 
-                  <form action="/warehouse/order-products/new" method="POST">
+                  <form action="/warehouse/inventory-orders/products" method="POST">
                   <div class="form-field-group">
                   <label for="name">Orden</label>
                   <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" disabled>

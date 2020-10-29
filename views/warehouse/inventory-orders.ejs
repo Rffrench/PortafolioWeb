@@ -29,7 +29,7 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/warehouse/order-products/<%= order.id %>" class="common-form" method="POST">
+                    <form action="/warehouse/inventory-orders/products/<%= order.id %>" class="common-form" method="POST">
                     <td data-label="Id"><%= order.id %></td>                    
                     <input type="hidden" id="order" name="order" value="<%= order.id %>">
 
