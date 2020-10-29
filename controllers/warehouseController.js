@@ -7,9 +7,9 @@ const Product = require('../models/productModel');
 //probando
 exports.getOrderProductsView = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;    
-    const order = req.params.order;
+    const orderId = req.params.orderId;
     axios.all([
-        axios.get(`${process.env.ORCHESTRATOR}/warehouse/order-products/${order}`,
+        axios.get(`${process.env.ORCHESTRATOR}/warehouse/order-products/${orderId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         }),
@@ -17,20 +17,22 @@ exports.getOrderProductsView = (req, res, next) => {
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         }),
-        axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrder/${order}`,
+        axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrder/${orderId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         })
     ])
     .then(axios.spread((orderProducts, products, inventoryOrder) => {    
         console.log(inventoryOrder.data);
-        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order});
+        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order:orderId});
 
     }))
-    .catch((errors) => { 
-        console.log(errors);
-        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
-    }); 
+    .catch((err) => { 
+        
+        sendErrors(err.response, res);
+        
+            return; 
+          }); 
 }
 
 
@@ -242,7 +244,7 @@ exports.putOrderStatus = (req, res, next) => {
 exports.getProductsMenu = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/products/menu`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -260,7 +262,7 @@ exports.getProductsMenu = (req, res, next) => {
 exports.getInventoryOrderForm = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrders/new`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -309,9 +311,9 @@ exports.postInventoryOrder = (req, res, next) => {
 
 exports.getInventoryOrders = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
-    const user = req.params.user;
+    const userId = req.params.userId;
 
-    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrders/${user}`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrders/${userId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -319,8 +321,8 @@ exports.getInventoryOrders = (req, res, next) => {
             res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:response.data.inventoryOrders});
         })
         .catch(err => {
-            res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:null});
-            return;
+            sendErrors(err.response, res);
+            return; 
         })
 }
 
@@ -329,7 +331,7 @@ exports.getInventoryOrders = (req, res, next) => {
 exports.getProductList = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/products`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
