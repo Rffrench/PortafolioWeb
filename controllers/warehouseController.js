@@ -7,9 +7,9 @@ const Product = require('../models/productModel');
 //probando
 exports.getOrderProductsView = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;    
-    const order = req.params.order;
+    const orderId = req.params.orderId;
     axios.all([
-        axios.get(`${process.env.ORCHESTRATOR}/warehouse/order-products/${order}`,
+        axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/products/${orderId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         }),
@@ -17,20 +17,22 @@ exports.getOrderProductsView = (req, res, next) => {
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         }),
-        axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrder/${order}`,
+        axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventory-order/${orderId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token }  
         })
     ])
     .then(axios.spread((orderProducts, products, inventoryOrder) => {    
         console.log(inventoryOrder.data);
-        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order});
+        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:orderProducts.data.OrderProducts, products:products.data.products,inventoryOrder:inventoryOrder.data.inventoryOrder, order:orderId});
 
     }))
-    .catch((errors) => { 
-        console.log(errors);
-        res.render('warehouse/order-products', { pageTitle: 'Productos de orden', path: '/admin/products', successMessage: null, errorMessage: null, orderProducts:null, order});
-    }); 
+    .catch((err) => { 
+        
+        sendErrors(err.response, res);
+        
+            return; 
+          }); 
 }
 
 
@@ -43,14 +45,14 @@ exports.putOrderProduct = (req, res, next) => {
     const order = req.body.order;
     const product = req.body.product;
     const quantity = req.body.quantity;    
-    axios.put(`${process.env.ORCHESTRATOR}/warehouse/order-products/update`,
+    axios.put(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/products`,
     {
         order:order,
         product:product,        
         quantity:quantity
     })
     .then(response=> {        
-                res.redirect(`/warehouse/order-products/${order}`);
+                res.redirect(`/warehouse/inventory-orders/products/${order}`);
             })
     .catch(err => {  
         const errorResponse = err.response;
@@ -83,7 +85,7 @@ exports.postOrderProduct = (req, res, next) => {
     
    
    
-    axios.post(`${process.env.ORCHESTRATOR}/warehouse/order-products/new`,
+    axios.post(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/products`,
     {
         order:order,
         product:product,
@@ -174,11 +176,11 @@ exports.deleteOrderProduct = (req, res, next) => {
     
    
    
-    axios.delete(`${process.env.ORCHESTRATOR}/warehouse/order-products/${order}/${product}`)
+    axios.delete(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/products/${order}/${product}`)
     .then(response=> {
         console.log(response.data);
        
-        res.redirect(`/warehouse/order-products/${order}`)
+        res.redirect(`/warehouse/inventory-orders/products/${order}`)
        
     })
     .catch(err => {  
@@ -196,18 +198,23 @@ exports.deleteOrderProduct = (req, res, next) => {
                 break;
         }
 
-        res.redirect('/warehouse/order-products-test');
+        res.redirect(`/warehouse/inventory-orders/products/${order}`)
         return;
     })
 }
 
 exports.putOrderStatus = (req, res, next) => {
-    const order = req.body.order;
+    const orderId = req.body.orderId;
    
-    axios.put(`${process.env.ORCHESTRATOR}/warehouse/order-products/${order}`)
+    axios.put(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders`,
+    {
+        orderId:orderId     
+    }
+
+    )
     .then(response=> {
         console.log(response.data);
-        res.redirect(`/warehouse/order-products/${order}`);
+        res.redirect(`/warehouse/inventory-orders/products/${orderId}`);
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -224,7 +231,7 @@ exports.putOrderStatus = (req, res, next) => {
                 break;
         }
 
-        res.redirect(`/warehouse/order-products/${order}`);
+        res.redirect(`/warehouse/order-products/${orderId}`);
         return;
     })
 }
@@ -242,7 +249,7 @@ exports.putOrderStatus = (req, res, next) => {
 exports.getProductsMenu = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/products/menu`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -260,7 +267,7 @@ exports.getProductsMenu = (req, res, next) => {
 exports.getInventoryOrderForm = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/new`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -278,13 +285,13 @@ exports.getInventoryOrderForm = (req, res, next) => {
 exports.postInventoryOrder = (req, res, next) => {
     const [warehouseId, description] = [req.body.userId, req.body.description];
    
-    axios.post(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrders`,
+    axios.post(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders`,
     {
         warehouseId: warehouseId,
         description: description        
     }).then(response=> {
         const order = response.data.result[0]['last_insert_id()'];
-       res.redirect(`/warehouse/order-products/${order}`);
+       res.redirect(`/warehouse/inventory-orders/products/${order}`);
     })
     .catch(err => {  
         const errorResponse = err.response;
@@ -309,9 +316,9 @@ exports.postInventoryOrder = (req, res, next) => {
 
 exports.getInventoryOrders = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
-    const user = req.params.user;
+    const userId = req.params.userId;
 
-    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventoryOrders/${user}`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/inventory-orders/${userId}`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -319,8 +326,8 @@ exports.getInventoryOrders = (req, res, next) => {
             res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:response.data.inventoryOrders});
         })
         .catch(err => {
-            res.render('warehouse/inventory-orders', { pageTitle: 'Ordenes de inventario', path: '/admin/products', successMessage: null, errorMessage: null, orders:null});
-            return;
+            sendErrors(err.response, res);
+            return; 
         })
 }
 
@@ -329,7 +336,7 @@ exports.getInventoryOrders = (req, res, next) => {
 exports.getProductList = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
-    axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
+    axios.get(`${process.env.ORCHESTRATOR}/warehouse/products`,
         {
             headers: { 'Authorization': 'Bearer ' + token } 
         })
@@ -344,7 +351,7 @@ exports.getProductList = (req, res, next) => {
         })
 }
 
-exports.putProductView = (req, res, next) => {   
+exports.getProductUpdateView = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
 
     const product = new Product(req.body.productId, req.body.name, req.body.quantity);

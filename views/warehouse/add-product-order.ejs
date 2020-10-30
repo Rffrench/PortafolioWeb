@@ -11,7 +11,7 @@
         <h1>Modificar Cantidad</h1>
        
 
-        <form action="/warehouse/order-products/update-quantity" class="common-form" method="POST">
+        <form action="/warehouse/inventory-orders/products" class="common-form" method="POST">
 
             <!--Si hay ERRORES se muestra esto-->
             <% if (errorMessage) { %>
@@ -50,7 +50,7 @@
 
             <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
         
-
+            <input type="hidden" name="_method" value="PUT">
             <button class="main-button" type="submit">Actualizar Cantidad</button>
         </form>
 

@@ -7,7 +7,7 @@ const warehouseController = require('../controllers/warehouseController');
 
 // Todos estos deberian ser /inventory-orders/products en vez de q se llamen solo order-products
 router.post('/order-products/update-quantity', warehouseController.putOrderProduct); // sacar el update-quantity y que sea solo el PUT a la ruta
-router.post('/order-products/update', warehouseController.getupdateQuantityView); // ojala como GET y pasarle los params en la URL
+router.get('/order-products/update', warehouseController.getupdateQuantityView); // ojala como GET y pasarle los params en la URL
 router.post('/order-products/new', warehouseController.postOrderProduct); // sacarle el new, /inventory-orders/products nomas
 router.get('/order-products/:order', warehouseController.getOrderProductsView);
 router.post('/order-products/:order', warehouseController.getOrderProductsView); // hay 2 pa lo mismo??
