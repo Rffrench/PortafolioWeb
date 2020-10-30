@@ -5,6 +5,8 @@ DROP procedure IF EXISTS `getCustomer`;
 DROP procedure IF EXISTS `updateCustomer`;
 DROP procedure IF EXISTS `deleteCustomer`;
 
+DROP procedure IF EXISTS `getWaiters`;
+
 DROP procedure IF EXISTS `getProducts`;
 DROP procedure IF EXISTS `getProduct`;
 DROP procedure IF EXISTS `addProduct`;
@@ -74,6 +76,16 @@ BEGIN
 END $$
 DELIMITER ;
 
+
+
+
+-- WAITERS
+DELIMITER $$
+CREATE PROCEDURE `getWaiters` ()
+BEGIN
+	SELECT id,email,username,name,lastName,roleId FROM portafoliodb.Users WHERE roleId = 6;
+END $$
+DELIMITER ;
 
 
 

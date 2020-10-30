@@ -22,7 +22,7 @@ exports.getReservationsMenu = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
         })
         .then(response => {
-            res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: null })
+            res.render('restaurant/reservations', { pageTitle: 'Reservas', path: '/reservations', successMessage: null })
         })
         .catch(err => {
             // if there is a response we know the error. if there is no response the orchestrator is probably down
@@ -89,7 +89,7 @@ exports.getCancelReservation = (req, res, next) => {
 
 
             //console.log(reservationDate.replace(/-/g, '/'));
-            res.render('restaurant/cancel-reservation', { pageTitle: 'Nueva Reserva', path: '/reservations/cancel', reservationData: response.data.reservations[0] }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
+            res.render('restaurant/cancel-reservation', { pageTitle: 'Cancelar Reserva', path: '/reservations/cancel', reservationData: response.data.reservations[0] }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
         })
         .catch(err => {
             console.log(err);
@@ -150,7 +150,7 @@ exports.postReservation = (req, res, next) => {
 
 exports.deleteReservation = (req, res, next) => {
     const userId = req.body.userId;
-  
+
 
     axios.delete(`${process.env.ORCHESTRATOR}/reservations/${userId}`)
         .then(response => {
@@ -188,9 +188,12 @@ exports.getOrdersMenu = (req, res, next) => {
         })
 }
 
+// TODOOOOO: CACHAR Q WEA SI METO PARAMETRO DE ?extra y uso la misma ruta
 exports.getNewOrder = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
+    const isExtra = req.query.extra ? true : false; // getting URL parameter
     const token = localStorage.getItem('token') || null;
+
 
     axios.get(`${process.env.ORCHESTRATOR}/orders/new`,
         {
@@ -226,7 +229,7 @@ exports.getNewOrder = (req, res, next) => {
 
             })
 
-            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', menuItems: items.data.menu, menuItemsImages: menuItemsImages })
+            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', isExtra: isExtra, menuItems: items.data.menu, menuItemsImages: menuItemsImages })
         })
         .catch(err => {
             sendErrors(err.response, res);
