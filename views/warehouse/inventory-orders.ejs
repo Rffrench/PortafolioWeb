@@ -29,19 +29,17 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/warehouse/inventory-orders/products/<%= order.id %>" class="common-form" method="POST">
+                    <form action="/warehouse/inventory-orders/products/<%= order.id %>" class="common-form" method="GET">
                     <td data-label="Id"><%= order.id %></td>                    
-                    <input type="hidden" id="order" name="order" value="<%= order.id %>">
+                    
 
                     <td data-label="Motivo"><%= order.orderDescription %></td>
-                    <input type="hidden" id="description" name="description" value="<%= order.orderDescription %>">
+                  
 
                     <td data-label="Id Estado"> <%= order.statusId %> </td>
-                    <input type="hidden" id="statusId" name="statusId" value="<%= order.statusId %>">
 
                     <td data-label="Estado"><%= order.statusDescription %> </td>
-                    <input type="hidden" id="status" name="status" value="<%= order.statusDescription %>">
-                    <input type="hidden" id="orderObj" name="orderObj" value="<%= order %>">
+                   
                     <td data-label="Opciones"> <input type="image" src="/media/configuraciones.png" alt="Submit" width="20px"> </td>
                   </form>
                   </tr>

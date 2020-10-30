@@ -10,7 +10,6 @@ router.put('/inventory-orders/products',warehouseController.putOrderProduct);
 router.post('/inventory-orders/products/update',warehouseController.getupdateQuantityView);
 router.post('/inventory-orders/products',warehouseController.postOrderProduct);
 router.get('/inventory-orders/products/:orderId',warehouseController.getOrderProductsView);
-router.post('/inventory-orders/products/:orderId',warehouseController.getOrderProductsView);
 router.put('/inventory-orders',warehouseController.putOrderStatus);
 router.delete('/inventory-orders/products',warehouseController.deleteOrderProduct);
 router.get('/inventory-orders/new', warehouseController.getInventoryOrderForm);
