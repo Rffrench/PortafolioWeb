@@ -1,6 +1,5 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/customers/stylesreservations.css">
-<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+
 <link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
@@ -31,6 +30,7 @@
     <main>
       <div class="order">
         <h1>Solicitud de Inventario</h1>
+        <div class="container">
         <div class="info">
           <span><h5>Id: <%= inventoryOrder[0].id %></h5></span>
           <h5>Descripción: <%= inventoryOrder[0].orderDescription %></h5>
@@ -51,7 +51,7 @@
        
         
       </div> <!--ORDER-->
-
+    </div>
       <% if (!orderProducts) { %>
         <section class="crud-order">
           <table class="table">
@@ -73,7 +73,8 @@
             </tbody>
           </table>
         </section>
-          <% } else { %>            
+          <% } else { %>       
+            <div class="container">  
             <section class="crud-order">
               <table class="table">
                 <thead>
@@ -102,7 +103,8 @@
                   <form action="/warehouse/inventory-orders/products/update" class="common-form" method="POST">
                     <input type="hidden" id="order" name="order" value="<%= order %>">                  
                     <input type="hidden" id="productId" name="productId" value="<%= product.productId %>"> 
-                    <input type="hidden" id="product" name="product" value="<%= product.product %>">        
+                    <input type="hidden" id="product" name="product" value="<%= product.product %>">      
+                    <input type="hidden" id="quantity" name="quantity" value="<%= product.quantity %>">      
                     <input type="image" src="/media/actualizar.png" alt="Submit" width="20px"></form></div>
                     <% } else { %>
                      ----  </td>                  
@@ -144,6 +146,7 @@
 
                   </form>
               </div>
+            </div>   
               <% } %> 
             </section>
             <% }  %>   

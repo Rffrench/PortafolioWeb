@@ -118,7 +118,7 @@ exports.postOrderProduct = (req, res, next) => {
 
 exports.getupdateQuantityView = (req, res, next) => {   
     const token = localStorage.getItem('token') || null;
-    const [order, productId, product] = [req.body.order, req.body.productId, req.body.product];
+    const [order, productId, product, quantity] = [req.body.order, req.body.productId, req.body.product, req.body.quantity];
    
     
     axios.get(`${process.env.ORCHESTRATOR}/admin/products`,
@@ -127,7 +127,7 @@ exports.getupdateQuantityView = (req, res, next) => {
         })
         .then(response => {
             console.log(response.data);
-            res.render('warehouse/add-product-order', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, order, product, productId, errorMessage: null});
+            res.render('warehouse/add-product-order', { pageTitle: 'Insumos', path: '/admin/products', successMessage: null, order, product, productId,quantity, errorMessage: null});
         })
         .catch(err => {
             sendErrors(err.response, res);

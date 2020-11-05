@@ -1,6 +1,5 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/customers/stylesreservations.css">
-<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+
 <link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
 </head>
 
@@ -11,21 +10,20 @@
 
         <h1>Reponer insumos</h1>
       
-        <% if (errorMessage) { %>
-          <p class="error-message">ERROR: <%= errorMessage %></p>
-          <% } %>
 
-        <div class="inventory-orders">
-            <table class="table">
+     
+<div class="products">
+            <table class="table" >
                 <thead>
                   <tr>
-                    <th >#</th>
+                    <th >Id</th>
                     <th >Producto</th>
                     <th >Stock</th>
                     <th >Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
+                
                     <% for (var product of products) { %>
                   <tr>
                     <form action="/warehouse/products/update" class="common-form" method="POST">
@@ -44,13 +42,11 @@
                 
         
                   <% } %>
-                  
+                 
                 </tbody>
               </table>
-          
             </div>
-
-        
+      
 
     </main>
 
