@@ -4,7 +4,7 @@
 
 
         <!--Se obtiene el rol para determinar el menú que se le muestra-->
-        <% let roleId = localStorage.getItem('roleId');%>
+        
 
 
         <div class="mobile-menu">
@@ -144,9 +144,8 @@
 
 
 
-
         <!--Se comprueba existencia de Token para ver si el boton es de Login o Logout-->
-        <% if (localStorage.getItem('token')) { %>
+        <% if (userId) { %>
         <div id="mobile-logout-icon">
             <form action="/auth/logout" method="POST" id="form-logout">
                 <button type="submit"><i class="fas fa-user"></i></a>
@@ -162,7 +161,7 @@
         <nav id="menu-main-pages">
 
             <!--Se comprueba existencia de Token para ver si el boton dice Login o Logout-->
-            <% if (localStorage.getItem('token')) { %>
+            <% if (userId) { %>
             <form action="/auth/logout" method="POST" id="form-logout">
                 <button id="btn-logout" type="submit"><i class="fas fa-user"></i>Cerrar Sesión</a>
             </form>

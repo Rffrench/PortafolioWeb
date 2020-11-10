@@ -15,7 +15,11 @@ exports.getIndex = (req, res, next) => {
 // VISTAS RESERVAS
 exports.getReservationsMenu = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
-    const token = localStorage.getItem('token') || null;
+
+
+    //const token = localStorage.getItem('token') || null;
+
+    const token = req.cookies.jwt || null;
 
     axios.get(`${process.env.ORCHESTRATOR}/reservations/menu`,
         {
@@ -35,7 +39,8 @@ exports.getReservationsMenu = (req, res, next) => {
 
 exports.getNewReservation = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
-    const token = localStorage.getItem('token') || null;
+
+    const token = req.cookies.jwt || null;
 
 
     axios.get(`${process.env.ORCHESTRATOR}/reservations/new`,
@@ -58,7 +63,8 @@ exports.getNewReservation = (req, res, next) => {
 
 exports.getCancelReservation = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
-    const token = localStorage.getItem('token') || null;
+
+    const token = req.cookies.jwt || null;
 
 
     axios.get(`${process.env.ORCHESTRATOR}/reservations/cancel`,
@@ -174,7 +180,10 @@ exports.deleteReservation = (req, res, next) => {
 
 exports.getOrdersMenu = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
-    const token = localStorage.getItem('token') || null;
+
+    //const token = localStorage.getItem('token') || null;
+
+    const token = req.cookies.jwt || null; // se cambio por cookie+jwt
 
     axios.get(`${process.env.ORCHESTRATOR}/orders/menu`,
         {
@@ -190,8 +199,11 @@ exports.getOrdersMenu = (req, res, next) => {
 
 exports.getNewOrder = (req, res, next) => {
     const isExtra = req.query.extra ? true : false; // getting URL parameter
-    const token = localStorage.getItem('token') || null;
-    const userId = localStorage.getItem('userId') || null;
+    const token = req.cookies.jwt || null;
+    const userId = res.locals.userId || null;
+    //const token = localStorage.getItem('token') || null;
+    //const userId = localStorage.getItem('userId') || null;
+
 
     let pageTitle = 'Nueva Orden';
     let axiosReqs = [

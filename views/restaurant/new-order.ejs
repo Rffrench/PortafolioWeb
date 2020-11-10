@@ -36,7 +36,7 @@
                 <form action="/orders" name="add-order-form" id="add-order-form-sidebar" method="POST"
                     onsubmit="appendOrder()">
                     <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
-                    <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+                    <input type="hidden" name="userId" id="userId" value="<%= userId %>">
                     <button type="submit">
                         <% if (!isExtra) { %>
                         Ingresar Orden
@@ -55,7 +55,7 @@
                 <h3 class="order-detail">Total: <i>$<span class="order-detail-price">0</span></i></h3>
                 <form action="/orders" name="add-order-form" id="add-order-form" method="POST" onsubmit="appendOrder()">
                     <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
-                    <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+                    <input type="hidden" name="userId" id="userId" value="<%= userId %>">
 
 
                     <button type="submit">

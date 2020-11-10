@@ -34,7 +34,7 @@ exports.postSignup = (req, res, next) => {
 
 exports.getLogin = (req, res, next) => {
     // Chequeando si el usuario ya inició sesión en base a la existencia de Token.
-    if (localStorage.getItem('token')) {
+    if (req.cookies.jwt) {
         let errorCode = 409;
         let errorMessage = 'Ya inició sesión en el sistema';
         res.render('error', { pageTitle: 'Error', path: '', errorCode: errorCode, errorMessage: errorMessage });
@@ -58,11 +58,13 @@ exports.postLogin = (req, res, next) => {
             decodedToken = checkToken(token, res); // checking token to store info in res.locals
             maxAge = (decodedToken.exp - decodedToken.iat) * 1000 // * 1000 cuz its ms
 
+
             // Storing JWT in Cookie, anti XSS but still vuln to CSRF unless we use the CSRF token
             res.cookie('jwt', token, {
                 httpOnly: true,
                 maxAge: maxAge,
                 sameSite: 'Strict'
+                // secure: true
             });
 
             res.redirect('/');
@@ -98,8 +100,9 @@ exports.postLogout = (req, res, next) => {
     // Se remueve el Token del sistema
 
     try {
-        res.cookie('jwt', '', { maxAge: 1 });
-
+        res.cookie('jwt', '', { maxAge: 1 }); // cookies cant be deleted so we set maxage to 1 ms
+        res.locals.userId = null
+        res.locals.roleId = null;
         /*
         localStorage.removeItem('token');
         localStorage.removeItem('userId');

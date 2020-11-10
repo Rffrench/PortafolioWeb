@@ -13,9 +13,35 @@ exports.checkToken = (token, res) => {
 
     res.locals.userId = decodedToken.userId;
     res.locals.roleId = decodedToken.roleId;
-    res.locals.iat = decodedToken.iat;
-    res.locals.exp = decodedToken.exp;
     // agregar role ID
 
     return decodedToken;
 };
+
+// For every request I verify the token again and if its still valid, if there is an error or smth it wont store the info
+exports.checkUser = (req, res, next) => {
+    try {
+        const token = req.cookies.jwt;
+        if (token) {
+            jwt.verify(token, 'llavetoken', async (err, decodedToken) => {
+                if (err) {
+                    res.locals.userId = null;
+                    res.locals.roleId = null;
+                    next();
+                } else {
+                    res.locals.userId = decodedToken.userId;
+                    res.locals.roleId = decodedToken.roleId;
+                    next();
+                }
+            })
+        } else {
+            res.locals.userId = null;
+            res.locals.roleId = null;
+            next();
+        }
+    } catch (error) {
+        res.locals.userId = null;
+        res.locals.roleId = null;
+        next();
+    }
+}

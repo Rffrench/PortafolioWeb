@@ -10,8 +10,12 @@ if (typeof localStorage === "undefined" || localStorage === null) {
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const methodOverride = require('method-override'); // para que los forms funcionen con PUT y DELETE
 const app = express();
+
+
+
 
 
 // Motor de plantillas EJS
@@ -20,6 +24,7 @@ app.set('views', 'views');
 
 //app.use(bodyParser.json()); // Acá no necesito que sea JSON la data pq los formularios la mandan como urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride(function (req, res) { // PUT & DELETE en los forms
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -34,6 +39,10 @@ app.use(methodOverride(function (req, res) { // PUT & DELETE en los forms
 // Controlador de Error (para que el middleware sea agregado a cada request en caso de un 404)
 const errorController = require('./controllers/errorController');
 
+// AuthMiddleware (holds a function for checking the user and storing the token data in res.locals) (MUST BE AT THE TOP)
+const authMiddleware = require('./middleware/authMiddleware');
+app.all('*', authMiddleware.checkUser);
+
 // Rutas
 const authRoutes = require('./routes/authRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
@@ -41,6 +50,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
 
 // Registrando rutas
+
 app.use('/auth', authRoutes); // Primer arg es un path que va previo a cualquier ruta registrada en authRoutes
 app.use(restaurantRoutes);
 app.use('/admin', adminRoutes); // Rutas de administración. Distinto a la app del administrador pero ambas cosas se conectan al servicio de administración
