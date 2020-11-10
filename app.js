@@ -41,7 +41,7 @@ const errorController = require('./controllers/errorController');
 
 // AuthMiddleware (holds a function for checking the user and storing the token data in res.locals) (MUST BE AT THE TOP)
 const authMiddleware = require('./middleware/authMiddleware');
-app.all('*', authMiddleware.checkUser);
+app.all('*', authMiddleware.checkUser); // for every request this gets executed
 
 // Rutas
 const authRoutes = require('./routes/authRoutes');

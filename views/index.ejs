@@ -9,9 +9,15 @@
 
     <section id="main-cover">
         <div id="main-cover-content">
+            <% if (!userId) {%> 
             <h1>Restaurante Siglo XXI</h1>
             <p>Experiencia gastronómica como nunca</p>
-            <a href="/auth/login">Ingresar</a>
+            <a href="/auth/login">Iniciar Sesión</a>
+            <% } else { %>
+                <h1>Restaurante Siglo XXI</h1>
+            <p>¡Bienvenido de nuevo!</p>
+            <a href="/orders/new">Ingresar Orden</a>
+            <% } %>  
         </div>
     </section>
 

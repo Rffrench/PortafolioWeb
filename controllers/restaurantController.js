@@ -233,7 +233,13 @@ exports.getNewOrder = (req, res, next) => {
             //const stream = fs.createWriteStream('menuItemsImages.zip', { flags: 'w' });
             //menu[1].data.pipe(stream);
 
+
             //console.log(activeOrder.data.MenuItems);
+
+            if (activeOrder) {
+                console.log('orden');
+            } else {
+            }
 
             // TODO: Remove previous files
             const zip = new AdmZip(images.data); // getting response arraybuffer zip
@@ -256,7 +262,7 @@ exports.getNewOrder = (req, res, next) => {
                 sendErrors(err.response, res);
                 return;
             } else {
-                res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No puede pedir extra porque no tienes órdenes activas en este momento!' })
+                res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No puedes pedir extra porque no tienes órdenes activas en este momento!' })
                 return; // si es 404 no puede pedir extra porq no hay ordenes activas
             }
         })
@@ -282,7 +288,9 @@ exports.postOrder = (req, res, next) => {
         })
         .then(response => {
             console.log(response.data);
-            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Orden Creada', errorMessage: null })
+            //res.redirect(303, '/orders');
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Su orden ha sido ingresada a nuestro sistema', errorMessage: null })
+
         })
         .catch(err => {
             //res.redirect('/reservations/new');
