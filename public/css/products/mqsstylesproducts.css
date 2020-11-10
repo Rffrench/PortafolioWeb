@@ -1,4 +1,20 @@
 
+main{
+ text-align:center;
+    
+    margin: 120px 0 100px;
+}
+
+main h1{
+    font-size: 3em;
+    margin: 20px 0px;
+}
+
+main h3{
+    padding: 0 5%;
+}
+
+
  .order {
     width:90%;
     margin-bottom:2em;
@@ -45,7 +61,14 @@ input[type=number] {
     -moz-appearance: textfield;
 }
 
-
+.textinput {
+    float: left;
+    width: 100%;
+    min-height: 75px;
+    outline: none;
+    resize: none;
+    border: 1px solid grey;
+}
 
 .table td .opc{
     display:flex;       
@@ -55,7 +78,10 @@ input[type=number] {
     border:none;
 
 }
-
+.container{
+    display:flex;
+    justify-content:center;
+}
 }
 .order {
     width:90%;
@@ -92,10 +118,16 @@ padding-bottom:1em;
     margin-top:0px;
 }
 .inventory-orders{
-    width:50%;
-}
-.inventory-orders .table{
     width:100%;
+    background-color:lightskyblue;
+}
+.products{
+    width:100%;
+    display:flex;
+    justify-content: center;
+}
+ .table{
+    width:50%;
     border-collapse:collapse;
 }
 .crud-order .table {

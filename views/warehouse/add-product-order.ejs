@@ -1,6 +1,6 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/customers/stylesreservations.css">
-<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+
 </head>
 
 <body>
@@ -10,7 +10,7 @@
 
         <h1>Modificar Cantidad</h1>
        
-
+        <div class="container">
         <form action="/warehouse/inventory-orders/products" class="common-form" method="POST">
 
             <!--Si hay ERRORES se muestra esto-->
@@ -20,7 +20,7 @@
 
 
             <div class="form-field-group">
-                <label for="order">*<span class="reservation-field-label">Numero de Orden:  </span>
+                <label for="order">*<span class="reservation-field-label">Orden:  </span>
                 </label>
                 <input type="text" name="order" id="order" class="" value="<%= order %>" disabled>
                 <input type="hidden" name="order" id="order" class="" value="<%= order %>" >
@@ -42,9 +42,9 @@
             </div>
 
             <div class="form-field-group">
-                <label for="quantity">*<span class="reservation-field-label">Cantidad </span>
+                <label for="quantity">*<span class="reservation-field-label">Cantidad: </span>
                 </label>
-                <input type="number" name="quantity" id="quantity" class="fill-input" min="1" value="15"
+                <input type="number" name="quantity" id="quantity" class="fill-input" min="1" value="<%= quantity %>"
                      step="1" required>
             </div>
 
@@ -53,7 +53,7 @@
             <input type="hidden" name="_method" value="PUT">
             <button class="main-button" type="submit">Actualizar Cantidad</button>
         </form>
-
+    </div>
     </main>
 
     <%- include('../includes/footer.ejs') %>
