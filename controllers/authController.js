@@ -1,6 +1,7 @@
 // Controlador para Autenticación
 
 const User = require('../models/userModel');
+const { checkToken } = require('../middleware/authMiddleware');
 const axios = require('axios');
 const qs = require('qs');
 
@@ -51,13 +52,32 @@ exports.postLogin = (req, res, next) => {
         .then(response => {
             console.log(response.data);
 
-            // Se guarda info del Token
-            localStorage.setItem('token', response.data.token);
+            let token = response.data.token;
+            let maxAge; // maxage will be calculated with the epochs of the jwt
+
+            decodedToken = checkToken(token, res); // checking token to store info in res.locals
+            maxAge = (decodedToken.exp - decodedToken.iat) * 1000 // * 1000 cuz its ms
+
+            // Storing JWT in Cookie, anti XSS but still vuln to CSRF unless we use the CSRF token
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: maxAge,
+                sameSite: 'Strict'
+            });
+
+            res.redirect('/');
+
+
+            /* SE CAMBIO PQ SE GUARDABA UN SOLO JWT Y NO SE PODIAN LOGUEAR MAS USUARIOS, AHORA SE USA JWT EN COOKIE
+            localStorage.setItem('token', token);
             localStorage.setItem('userId', response.data.userId);
             localStorage.setItem('roleId', response.data.roleId);
-            res.redirect('/');
+            */
+
+
         })
         .catch(err => { // TODO: Handle error codes if server is down
+            console.log(err);
             const errorResponse = err.response;
             const errorStatus = errorResponse ? errorResponse.status : 500;
 
@@ -76,11 +96,15 @@ exports.postLogin = (req, res, next) => {
 
 exports.postLogout = (req, res, next) => {
     // Se remueve el Token del sistema
+
     try {
+        res.cookie('jwt', '', { maxAge: 1 });
+
+        /*
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
         localStorage.removeItem('roleId');
-
+        */
     } catch (error) {
         console.log(error);
 

@@ -4,7 +4,6 @@
 </head>
 
 <body>
-
     <%- include('../includes/navigation.ejs') %>
     <main>
 
@@ -17,8 +16,10 @@
             <p>Tiene una reserva para el día <strong><%= reservationData.reservationDate %></strong> a las
                 <strong><%= reservationData.reservationTime %></strong> para
                 <strong><%= reservationData.party %></strong> personas. ¿Está seguro que desea cancelarla?</p>
+
             <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
-            <input type="hidden" name="userId" id="userId" value="<%= localStorage.getItem('userId'); %>">
+            <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+            
             <!--El parametro _method lleva el valor del metodo HTTP correcto. El paquete method-override lo maneja luego-->
             <input type="hidden" name="_method" id="_method" value="delete">
 

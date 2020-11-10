@@ -188,11 +188,23 @@ exports.getOrdersMenu = (req, res, next) => {
         })
 }
 
-// TODOOOOO: CACHAR Q WEA SI METO PARAMETRO DE ?extra y uso la misma ruta
 exports.getNewOrder = (req, res, next) => {
-    // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
     const isExtra = req.query.extra ? true : false; // getting URL parameter
     const token = localStorage.getItem('token') || null;
+    const userId = localStorage.getItem('userId') || null;
+
+    let pageTitle = 'Nueva Orden';
+    let axiosReqs = [
+        axios.get(`${process.env.ORCHESTRATOR}/menu`),
+        axios.get(`${process.env.ORCHESTRATOR}/menu/images`, { responseType: 'arraybuffer' }) // stream works with commented code
+    ]
+
+
+    // if the extra query param is true then we also add another request to get the active order and the details. If there are no active orders the API will throw a 404 that will get caught in the catch() as it is an unresolved promise
+    if (isExtra) {
+        axiosReqs.push(axios.get(`${process.env.ORCHESTRATOR}/orders/${userId}`))
+        pageTitle = 'Agregar Extras'
+    }
 
 
     axios.get(`${process.env.ORCHESTRATOR}/orders/new`,
@@ -200,21 +212,16 @@ exports.getNewOrder = (req, res, next) => {
             headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
         })
         .then(response => {
-            console.log(response.data);
-
-            // Both requests are registered and sent at the same time in an async way. JSON data will be obtained first usually and then the images, this is faster
-            return Promise.all([
-                axios.get(`${process.env.ORCHESTRATOR}/menu`),
-                axios.get(`${process.env.ORCHESTRATOR}/menu/images`, { responseType: 'arraybuffer' }) // stream works with commented code
-            ])
-
+            // All requests are registered and sent at the same time in an async way. JSON data will be obtained first usually and then the images, this is faster
+            return Promise.all(axiosReqs)
         })
-        .then(([items, images]) => { // 0 items and 1 are images
+        .then(([items, images, activeOrder]) => { // 0 items and 1 are images
 
             /* NOT NECESSARY TO STORE ZIP CUZ admzip CAN RECEIVE AN ARRAYBUFFER, 'stream' responseType must be set otherwise  */
             //const stream = fs.createWriteStream('menuItemsImages.zip', { flags: 'w' });
             //menu[1].data.pipe(stream);
 
+            //console.log(activeOrder.data.MenuItems);
 
             // TODO: Remove previous files
             const zip = new AdmZip(images.data); // getting response arraybuffer zip
@@ -226,13 +233,20 @@ exports.getNewOrder = (req, res, next) => {
 
             zipEntries.forEach(image => { // we loop through the zip to store the image names in an array and use them later
                 menuItemsImages.push(image.entryName);
-
             })
 
-            res.render('restaurant/new-order', { pageTitle: 'Nueva Orden', path: '/orders/new', isExtra: isExtra, menuItems: items.data.menu, menuItemsImages: menuItemsImages })
+            res.render('restaurant/new-order', { pageTitle: pageTitle, path: '/orders/new', isExtra: isExtra, menuItems: items.data.menu, menuItemsImages: menuItemsImages })
         })
         .catch(err => {
-            sendErrors(err.response, res);
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
+            } else {
+                res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No puede pedir extra porque no tienes órdenes activas en este momento!' })
+                return; // si es 404 no puede pedir extra porq no hay ordenes activas
+            }
         })
 }
 

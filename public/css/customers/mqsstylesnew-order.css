@@ -63,11 +63,14 @@
     }
 
     .menu-item img{
-        height: 30vh;
+        height: 25vh;
     }
 
     .menu-item-description{
         height: auto;
+    }
+
+    .menu-item-info h3{
     }
 
     #main-footer{
