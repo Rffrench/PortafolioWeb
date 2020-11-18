@@ -48,6 +48,7 @@ const authRoutes = require('./routes/authRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const warehouseRoutes = require('./routes/warehouseRoutes');
+const financeRoutes = require('./routes/financeRoutes');
 
 // Registrando rutas
 
@@ -55,6 +56,7 @@ app.use('/auth', authRoutes); // Primer arg es un path que va previo a cualquier
 app.use(restaurantRoutes);
 app.use('/admin', adminRoutes); // Rutas de administración. Distinto a la app del administrador pero ambas cosas se conectan al servicio de administración
 app.use('/warehouse', warehouseRoutes);
+app.use('/finance', financeRoutes);
 
 
 // Se registra controlador para errores 404
