@@ -6,7 +6,7 @@ const financeController = require('../controllers/financeController');
 
 
 
-router.get('/incomes', financeController.getIncomesView);
-router.get('/incomes/report', financeController.getIncomeReport);
+router.get('/income', financeController.getIncomesView);
+router.get('/income/report', financeController.getIncomeReport);
 
 module.exports = router;

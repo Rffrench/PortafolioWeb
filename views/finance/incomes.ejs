@@ -1,5 +1,5 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/products/mqsstylesproducts.css">
+<link rel="stylesheet" href="/css/finance/stylesincomes.css">
 </head>
 
 <body>
@@ -7,16 +7,18 @@
     <%- include('../includes/navigation.ejs') %>
     <main>
 
-        <h1>Ganancias</h1>
+        <h1>Reporte de Ganancias</h1>
        
         <h3 class="reservation-info">Selecciona un mes para obtener la ganancia mensual y diaria </h3>
-
-        <form action="/finance/incomes/report" method="GET">
+        
+        <form action="/finance/income/report" method="GET">
             <label for="date">Fecha</label>
             <select name="date" id="date">
-                <option value="value1">17/11/2020</option> 
+                <% for (var date of incomeDates) { %>
+                <option value="<%= date.incomeDate %>"><%= date.incomeDate %></option> 
+                <% } %>
             </select>
-            <button class="btn2" type="submit">Agregar</button>
+            <button class="btn2" type="submit">Descargar Reporte</button>
         </form>
 
     </main>

@@ -25,10 +25,13 @@ exports.generateHeader = (doc) => {
       .text("Restaurant Siglo XXI", 200, 50, { align: "right" })
       .text("452 Holzapfel", 200, 65, { align: "right" })
       .text("Pucón, Chile, 10025", 200, 80, { align: "right" })
+      .text(formatDate(new Date()), 200, 95, { align: "right" })
+      
       .moveDown();
   }
 
  exports.generateCustomerInformation = (doc, invoice) => {
+   
     doc
       .fillColor("#444444")
       .fontSize(20)
@@ -45,7 +48,7 @@ exports.generateHeader = (doc) => {
       .text(invoice.quantity, 150, customerInformationTop)
       .font("Helvetica")
       .text("Fecha de reporte:", 50, customerInformationTop + 15)
-      .text(formatDate(new Date()), 150, customerInformationTop + 15)
+      .text(invoice.date, 150, customerInformationTop + 15)
       .text("Total de ganancias:", 50, customerInformationTop + 30)
       .text(invoice.subtotal,
         150,
@@ -76,7 +79,7 @@ exports.generateHeader = (doc) => {
         doc,
         position,
         item.date,
-        item.quantityOrders,
+        item.orders,
         item.amount
       );
   

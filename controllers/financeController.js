@@ -5,55 +5,73 @@ const helperFunctions = require('../util/helperFunctions');
 
 
   exports.getIncomeReport = async function(req, res, next) {
+    const date = req.query.date;
+   
+    month = date.substring(0,2);
+    year = date.substring(3,7);
+
+    let totalOrders=0;
     const Income = {
-        date: '11/2020',
-        quantity:91,
-        items: [
-          {
-            date: "01/11/2020",
-            quantityOrders: 90,
-            amount: 607000
-          },
-          {
-            date: "01/11/2020",
-            quantityOrders: 1,
-            amount: 1
-          }
-        ],
-        subtotal: 607001        
+        date: date,
+        quantity:0,
+        items: [],
+        subtotal: 0     
       };
 
-    var myDoc = new PDFDocument({bufferPages: true});
+
+      axios.get(`${process.env.ORCHESTRATOR}/finance/income/${month}/${year}`)
+      .then(response => {
+        Income.items=response.data.dailyIncome;
+        let sum = 0;
+        for (i = 0; i < Income.items.length; i++) {
+          sum=sum+Income.items[i].amount;      
+          totalOrders=totalOrders+Income.items[i].orders;   
+      }
+      Income.subtotal=sum;
+      Income.quantity=totalOrders;
+
+        var myDoc = new PDFDocument({bufferPages: true});
     
-    let buffers = [];
-    myDoc.on('data', buffers.push.bind(buffers));
-    myDoc.on('end', () => {
+        let buffers = [];
+        myDoc.on('data', buffers.push.bind(buffers));
+        myDoc.on('end', () => {
+        
+            let pdfData = Buffer.concat(buffers);
+            res.writeHead(200, {
+            'Content-Length': Buffer.byteLength(pdfData),
+            'Content-Type': 'application/pdf',
+            'Content-disposition': 'attachment;filename=test.pdf',})
+            .end(pdfData);
+        
+        });
+        helperFunctions.generateHeader(myDoc);
+        helperFunctions.generateCustomerInformation(myDoc, Income);
+        helperFunctions.generateInvoiceTable(myDoc,Income);
     
-        let pdfData = Buffer.concat(buffers);
-        res.writeHead(200, {
-        'Content-Length': Buffer.byteLength(pdfData),
-        'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=test.pdf',})
-        .end(pdfData);
+      myDoc.end();          
+      })
+      .catch(err => {
+          sendErrors(err.response, res);
+          return;
+
+      })
+
+
     
-    });
-    helperFunctions.generateHeader(myDoc);
-    helperFunctions.generateCustomerInformation(myDoc, Income);
-    helperFunctions.generateInvoiceTable(myDoc,Income);
-    
-    myDoc.end();
     };
+
+
 
 exports.getIncomesView = (req, res, next) => {
     const token = req.cookies.jwt;
 
-    axios.get(`${process.env.ORCHESTRATOR}/finance/incomes`,
+    axios.get(`${process.env.ORCHESTRATOR}/finance/income`,
         {
             headers: { 'Authorization': 'Bearer ' + token }
         })
         .then(response => {
             console.log(response.data);
-            res.render('finance/incomes', { pageTitle: 'Reportes de Ingresos'});
+            res.render('finance/incomes', { pageTitle: 'Reportes de Ingresos', incomeDates: response.data.incomeDates});
         })
         .catch(err => {
             sendErrors(err.response, res);
@@ -61,3 +79,4 @@ exports.getIncomesView = (req, res, next) => {
 
         })
 }
+
