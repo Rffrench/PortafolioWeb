@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Rffrench/PortafolioWeb#readme",
   "dependencies": {
     "adm-zip": "^0.4.16",
+    "amqplib": "^0.6.0",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
