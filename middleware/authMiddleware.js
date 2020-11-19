@@ -13,6 +13,7 @@ exports.checkToken = (token, res) => {
 
     res.locals.userId = decodedToken.userId;
     res.locals.roleId = decodedToken.roleId;
+    res.locals.email = decodedToken.email;
     // agregar role ID
 
     return decodedToken;
@@ -27,21 +28,25 @@ exports.checkUser = (req, res, next) => {
                 if (err) {
                     res.locals.userId = null;
                     res.locals.roleId = null;
+                    res.locals.email = null;
                     next();
                 } else {
                     res.locals.userId = decodedToken.userId;
                     res.locals.roleId = decodedToken.roleId;
+                    res.locals.email = decodedToken.email;
                     next();
                 }
             })
         } else {
             res.locals.userId = null;
             res.locals.roleId = null;
+            res.locals.email = null;
             next();
         }
     } catch (error) {
         res.locals.userId = null;
         res.locals.roleId = null;
+        res.locals.email = null;
         next();
     }
 }

@@ -103,6 +103,7 @@ exports.postLogout = (req, res, next) => {
         res.cookie('jwt', '', { maxAge: 1 }); // cookies cant be deleted so we set maxage to 1 ms
         res.locals.userId = null
         res.locals.roleId = null;
+        res.locals.email = null;
         /*
         localStorage.removeItem('token');
         localStorage.removeItem('userId');

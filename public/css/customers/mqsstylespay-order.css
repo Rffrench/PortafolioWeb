@@ -1,0 +1,11 @@
+@media only screen and (max-width:800px){
+    main h1{
+    font-size: 2.5em;
+    margin: 20px 15px;
+}
+
+.payment-type label{
+    font-size: 14px;
+}
+}
+

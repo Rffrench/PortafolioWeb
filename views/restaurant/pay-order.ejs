@@ -1,0 +1,78 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/customers/stylespay-order.css">
+<link rel="stylesheet" href="/css/customers/mqsstylespay-order.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+    <main>
+
+        <h1>Pagar Orden</h1>
+        <h3 class="instrucctions-info">Seleccione el método de pago luego de ver el detalle de su orden para solicitar autorización a caja: </h3>
+
+        <form action="/orders/<%= userId %>/payments" class="common-form" method="POST">
+
+            <!--Si hay ERRORES se muestra esto-->
+            <% if (errorMessage) { %>
+            <p class="error-message">ERROR: <%= errorMessage %></p>
+            <% } %>
+
+
+            <table class="order-details-table">
+                <tr>
+                    <th>Cantidad</th>
+                    <th>Nombre Item</th>
+                    <th>Valor</th>
+                </tr>
+                
+                <% orderData.MenuItems.forEach(item => { %>
+                    <tr class="item-detail-row">
+                        <td class="item-quantity"><%= item.OrderDetails.quantity %> </td>
+                        <td class="item-name"><%= menu.find(menuItem => menuItem.id === item.id).name %> </td>
+                        <td class="item-price">$<span><%= item.price %></span></td>
+                    </tr>
+                <% }); %> 
+                
+            </table>
+
+
+            <div class="form-field-group">
+                <label for="tip">*<span class="payment-field-label">Propina (10% sugerido): </span>
+                </label>
+                <input type="number" name="tip" id="tip" class="fill-input" min="0" value="0"
+                    placeholder="Propina" step="1" required>
+            </div>
+
+            <div id="payment-type-group">
+                <label for="payment-type-group">*<span class="payment-field-label">Método de pago:</span>
+                </label>
+                <div class="payment-type">
+                    <input type="radio" name="payment-type" id="payment-type-cash" value="Cash">
+                    <label for="payment-type-cash">Efectivo</label>
+                </div>
+                <div class="payment-type">
+                    <input type="radio" name="payment-type" id="payment-type-webpay" value="Webpay"
+                        checked>
+                    <label for="payment-type-webpay">Webpay</label>
+                </div>
+                
+            </div>
+
+
+            <h4 class="order-total-no-tip">Total sin propina: <i>$<span class="order-total-price-no-tip">0</span></i></h4>
+            <h3 class="order-total">Total: <i>$<span class="order-total-price">0</span></i></h3>
+
+            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
+            <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+
+            <button class="main-button" type="submit">Pagar Orden</button>
+        </form>
+
+    </main>
+
+    <%- include('../includes/footer.ejs') %>
+
+    <script src="/js/pay-order.js"></script>
+
+    <%- include('../includes/end.ejs') %>

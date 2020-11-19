@@ -33,10 +33,22 @@
                     </ul>
                 </nav>
 
-                <form action="/orders" name="add-order-form" id="add-order-form-sidebar" method="POST"
+                    
+                    <!--If isExtra is true then we append the userId to the form action and the PUT hidden input-->
+                    <% if(!isExtra){ %>
+                        <form action="/orders" name="add-order-form" id="add-order-form-sidebar" method="POST"
+                            onsubmit="appendOrder()">
+                            <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+                    <% } else { %>
+                        
+                            <form action="/orders/<%= userId %>" name="add-order-form" id="add-order-form-sidebar" method="POST"
                     onsubmit="appendOrder()">
-                    <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
-                    <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+                        <input type="hidden" name="_method" id="_method" value="put">
+                    <% } %>  
+                    
+                    <!--Se envia el ID de usuario como campo invisible para identificar la orden YA NO, VA EN EL FORM AHORA-->
+                    <!--<input type="hidden" name="userId" id="userId" value="<%# userId %>">-->
+
                     <button type="submit">
                         <% if (!isExtra) { %>
                         Ingresar Orden
@@ -53,9 +65,20 @@
             <h1><%= pageTitle %></h1>
             <div class="order-details-group">
                 <h3 class="order-detail">Total: <i>$<span class="order-detail-price">0</span></i></h3>
-                <form action="/orders" name="add-order-form" id="add-order-form" method="POST" onsubmit="appendOrder()">
-                    <!--Se envia el ID de usuario como campo invisible para identificar la orden-->
-                    <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+                
+                <!--If isExtra is true then we append the userId to the form action and the PUT hidden input-->
+                    <% if(!isExtra){ %>
+                        <form action="/orders" name="add-order-form" id="add-order-form" method="POST"
+                            onsubmit="appendOrder()">
+                            <input type="hidden" name="userId" id="userId" value="<%= userId %>">
+                    <% } else { %>
+                            <form action="/orders/<%= userId %> " name="add-order-form" id="add-order-form" method="POST"
+                    onsubmit="appendOrder()">
+                        <input type="hidden" name="_method" id="_method" value="put">
+                    <% } %>   
+
+                    <!--Se envia el ID de usuario como campo invisible para identificar la orden YA NO, VA EN EL FORM AHORA-->
+                    <!--<input type="hidden" name="userId" id="userId" value="<%# userId %>">-->
 
 
                     <button type="submit">
@@ -72,16 +95,21 @@
             <!-- If there are menu items in the db-->
             <% if(menuItems) { %>
 
+                <!--This will hold the value of the quantity-->
+                <% let itemQty = 0; %> 
 
-            <!--EJS sucks so it wont compile a proper for with if statements and html between them correctly. THis is why the solution for this repeats a for loop and an if statement in every category. Use handlebars pls-->
+            <!--EJS sucks so it wont compile a proper for with if statements and html between them correctly. THis is why the solution for this repeats a for loop and an if statement in every category. -->
 
             <div class="menu-category" id="main-courses-category">
                 <h2>Platos de Fondo</h2>
                 <div class="menu-category-items">
                     <!--Item se agrega -->
+                    <!-- Ademas se verifica si es q se esta pidiendo extra, si es asi se usa el some() para verificar q exista un objeto de un array de objs con un id igual al q se esta loopeando, si se encuentra entonces para obtener ese objeto se usa find() con el mismo callback-->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId === 1) { %>
-
+                        <% if(item.categoryId === 1) { %>
+                            <% if (isExtra && currentOrder.some(orderItem => orderItem.id === item.id) ) {%> 
+                                <% itemQty = currentOrder.find(orderItem => orderItem.id === item.id).OrderDetails.quantity %>
+                            <% } %> 
                     <div class="menu-item">
                         <!--From menuItemsImages array which contains the names of the imamges we find one that starts with the id of the item. If it finds it then the name of the image will be obtained and the image will be retrieved -->
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -94,12 +122,16 @@
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
                                     class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                                    <!--We created a hidden input to store the current oprder quantity of an item if extra=true-->
+                                    <input type="hidden" name="currentItemQty" value=<%= itemQty%>>
                             </div>
                         </div>
                         <input type="hidden" name="itemId" value=<%= item.id %>>
                         <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
-                    <% } %>
+                    <!--Item qty is set to 0 again-->
+                            <% itemQty = 0; %> 
+                        <% } %>
                     <% } %>
                 </div>
             </div>
@@ -108,8 +140,12 @@
                 <h2>Acompañamientos</h2>
                 <div class="menu-category-items">
                     <!--Item se agrega -->
+                    <!-- Ademas se verifica si es q se esta pidiendo extra, si es asi se usa el some() para verificar q exista un objeto de un array de objs con un id igual al q se esta loopeando, si se encuentra entonces para obtener ese objeto se usa find() con el mismo callback-->
                     <% for(const item of menuItems) {%>
-                    <% if(item.categoryId === 2) { %>
+                    <% if(item.categoryId == 2) { %>
+                        <% if (isExtra && currentOrder.some(orderItem => orderItem.id === item.id) ) {%> 
+                                <% itemQty = currentOrder.find(orderItem => orderItem.id === item.id).OrderDetails.quantity %>
+                            <% } %> 
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -121,15 +157,19 @@
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
-                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                                    class="fill-input" min="0" value="0"  placeholder="Cantidad" step="1">
+                                    <!--We created a hidden input to store the current oprder quantity of an item if extra=true-->
+                                    <input type="hidden" name="currentItemQty" value=<%= itemQty%>>
                             </div>
                         </div>
                         <input type="hidden" name="itemId" value=<%= item.id %>>
                         <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
+                    <!--Item qty is set to 0 again-->
+                        <% itemQty = 0; %> 
                     <% } %>
-                    <% } %>
+                <% } %>
                 </div>
             </div>
 
@@ -139,6 +179,9 @@
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
                     <% if(item.categoryId === 3) { %>
+                        <% if (isExtra && currentOrder.some(orderItem => orderItem.id === item.id) ) {%> 
+                                <% itemQty = currentOrder.find(orderItem => orderItem.id === item.id).OrderDetails.quantity %>
+                            <% } %> 
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -150,15 +193,18 @@
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
-                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                                    class="fill-input" min="0" value="0"  placeholder="Cantidad" step="1">
+                                    <input type="hidden" name="currentItemQty" value=<%= itemQty%>>
                             </div>
                         </div>
                         <input type="hidden" name="itemId" value=<%= item.id %>>
                         <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
+                    <!--Item qty is set to 0 again-->
+                        <% itemQty = 0; %> 
                     <% } %>
-                    <% } %>
+                <% } %>
                 </div>
             </div>
 
@@ -168,6 +214,9 @@
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
                     <% if(item.categoryId === 4) { %>
+                        <% if (isExtra && currentOrder.some(orderItem => orderItem.id === item.id) ) {%> 
+                                <% itemQty = currentOrder.find(orderItem => orderItem.id === item.id).OrderDetails.quantity %>
+                            <% } %> 
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -179,15 +228,18 @@
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
-                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                                    class="fill-input" min="0" value="0"  placeholder="Cantidad" step="1">
+                                    <input type="hidden" name="currentItemQty" value=<%= itemQty%>>
                             </div>
                         </div>
                         <input type="hidden" name="itemId" value=<%= item.id %>>
                         <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
+                    <!--Item qty is set to 0 again-->
+                        <% itemQty = 0; %> 
                     <% } %>
-                    <% } %>
+                <% } %>
                 </div>
             </div>
 
@@ -197,6 +249,9 @@
                     <!--Item se agrega -->
                     <% for(const item of menuItems) {%>
                     <% if(item.categoryId === 5) { %>
+                        <% if (isExtra && currentOrder.some(orderItem => orderItem.id === item.id) ) {%> 
+                                <% itemQty = currentOrder.find(orderItem => orderItem.id === item.id).OrderDetails.quantity %>
+                            <% } %> 
 
                     <div class="menu-item">
                         <img src="/media/menuItemsImages/<%= menuItemsImages.find(imgName => imgName.startsWith(item.menuImageId)) %>"
@@ -208,15 +263,18 @@
                             <div class="menu-item-quantity-group">
                                 <label for="menu-item-quantity">Cantidad: </label>
                                 <input type="number" name="menu-item-quantity" id="menu-item-quantity"
-                                    class="fill-input" min="0" value="0" placeholder="Cantidad" step="1">
+                                    class="fill-input" min="0" value="0"  placeholder="Cantidad" step="1">
+                                    <input type="hidden" name="currentItemQty" value=<%= itemQty%>>
                             </div>
                         </div>
                         <input type="hidden" name="itemId" value=<%= item.id %>>
                         <button type="button" class="main-button update-order-btn">Actualizar Orden</button>
                     </div>
 
+                    <!--Item qty is set to 0 again-->
+                        <% itemQty = 0; %> 
                     <% } %>
-                    <% } %>
+                <% } %>
                 </div>
             </div>
 

@@ -19,7 +19,12 @@ router.delete('/reservations/cancel', restaurantController.deleteReservation); /
 // ENDPOINTS ORDERS
 router.get('/orders', restaurantController.getOrdersMenu);
 router.get('/orders/new', restaurantController.getNewOrder);
+router.get('/orders/:userId/payments', restaurantController.getPayOrder);
+router.put('/orders/:userId', restaurantController.putOrderExtra);
+router.post('/orders/:userId/payments', restaurantController.postPayOrder);
 router.post('/orders', restaurantController.postOrder);
+
+
 
 
 module.exports = router;

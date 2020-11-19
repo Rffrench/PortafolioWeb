@@ -234,17 +234,17 @@ exports.getNewOrder = (req, res, next) => {
             //menu[1].data.pipe(stream);
 
 
-            //console.log(activeOrder.data.MenuItems);
 
+            let currentOrder = null; // storing active order items and qty
             if (activeOrder) {
-                console.log('orden');
-            } else {
+                currentOrder = activeOrder.data.MenuItems;
+                console.log(currentOrder);
             }
+
 
             // TODO: Remove previous files
             const zip = new AdmZip(images.data); // getting response arraybuffer zip
             zip.extractAllTo(path.join(__dirname, '../public/media/menuItemsImages'), true); // extracting images
-
 
             const zipEntries = zip.getEntries(); // array of images entries
             let menuItemsImages = []; // will store the image names
@@ -253,7 +253,8 @@ exports.getNewOrder = (req, res, next) => {
                 menuItemsImages.push(image.entryName);
             })
 
-            res.render('restaurant/new-order', { pageTitle: pageTitle, path: '/orders/new', isExtra: isExtra, menuItems: items.data.menu, menuItemsImages: menuItemsImages })
+
+            res.render('restaurant/new-order', { pageTitle: pageTitle, path: '/orders/new', isExtra: isExtra, menuItems: items.data.menu, menuItemsImages: menuItemsImages, currentOrder: currentOrder })
         })
         .catch(err => {
             const errorResponse = err.response;
@@ -285,6 +286,140 @@ exports.postOrder = (req, res, next) => {
         {
             userId: userId,
             order: order
+        })
+        .then(response => {
+            console.log(response.data);
+            //res.redirect(303, '/orders');
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Su orden ha sido ingresada a nuestro sistema', errorMessage: null })
+
+        })
+        .catch(err => {
+            //res.redirect('/reservations/new');
+
+            // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro la orden va vacía
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            let errorMessage;
+
+
+            switch (errorStatus) {
+                case 409:
+                    errorMessage = 'Oops! Lo sentimos, ya hay una orden en proceso!';
+                    break;
+                case 422:  // 422 Unprocessable Entity
+                    errorMessage = 'La orden ingresada no contiene ningún item. Intenta nuevamente añadiendo los items del menu que deseas y apretando el botón de actualizar orden.';
+                    break;
+                default:
+                    errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                    break;
+            }
+
+            res.render('restaurant/orders', { pageTitle: 'Nueva Orden', path: '/orders/new', successMessage: null, errorMessage: errorMessage })
+            return;
+        })
+
+}
+
+
+exports.putOrderExtra = (req, res, next) => {
+    // TODO: Add JWT to verify that the user can make a PUT here
+    let order;
+    const userId = req.params.userId;
+
+    // checking if order is empty or tampered
+    try {
+        order = JSON.parse(req.body.order); // We parse the string Map
+    } catch (error) {
+        order = null;
+    }
+
+    axios.put(`${process.env.ORCHESTRATOR}/orders/${userId}`,
+        {
+            order: order
+        })
+        .then(response => {
+            console.log(response.data);
+            //res.redirect(303, '/orders');
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Orden Actualizada con los Extras!', errorMessage: null })
+
+        })
+        .catch(err => {
+            //res.redirect('/reservations/new');
+
+            // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro la orden va vacía
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            let errorMessage;
+
+
+            switch (errorStatus) {
+                case 404: // TODO: Sacar???
+                    errorMessage = 'Oops! NO agregaste ningun item extra al parecer. Intenta nuevamente!';
+                    break;
+                case 422:  // 422 Unprocessable Entity
+                    errorMessage = 'La orden ingresada no contiene ningún item. Intenta nuevamente añadiendo los items del menu que deseas y apretando el botón de actualizar orden.';
+                    break;
+                default:
+                    errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
+                    break;
+            }
+
+            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders/new', successMessage: null, errorMessage: errorMessage })
+            return;
+        })
+
+}
+
+exports.getPayOrder = (req, res, next) => {
+    const token = req.cookies.jwt || null;
+    const userId = req.params.userId;
+
+    axios.get(`${process.env.ORCHESTRATOR}/orders/${userId}/payments`,
+        {
+            headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
+        })
+        .then(response => {
+            // after getting permission to access this view we get the order and the menu items info to bind the data
+
+            return Promise.all([
+                axios.get(`${process.env.ORCHESTRATOR}/orders/${userId}`),
+                axios.get(`${process.env.ORCHESTRATOR}/menu`)
+            ]);
+        })
+        .then(([activeOrder, menu]) => {
+
+            res.render('restaurant/pay-order', { pageTitle: 'Pagar Orden', path: '/orders/payments', orderData: activeOrder.data, menu: menu.data.menu, errorMessage: null }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
+        })
+        .catch(err => {
+            console.log(err);
+
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
+            } else {
+                res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: null, errorMessage: 'No hay órdenes activas' })
+                return;
+            }
+
+
+        })
+}
+
+
+exports.postPayOrder = (req, res, next) => {
+    const userId = req.body.userId;
+    const paymentType = req.body.paymentType;
+    const tip = req.body.tip;
+
+    // CAMBIAR ESTO POR EL AJAX DE PERMISO DE PAGO ANTES DE HACER EL POST
+
+    axios.post(`${process.env.ORCHESTRATOR}/orders/${userId}/payments`,
+        {
+            userId: userId,
+            paymentType: paymentType,
+            tip: tip
         })
         .then(response => {
             console.log(response.data);

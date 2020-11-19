@@ -1,0 +1,68 @@
+main{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 120px 0 100px;
+}
+
+main h1{
+    font-size: 3em;
+    margin: 20px 0px;
+}
+
+main h3{
+    padding: 0 5%;
+}
+
+th{
+    border: 1px solid black;
+    background-color:rgb(1, 1, 97);
+    color: white;
+}
+
+td{
+    text-align: center;
+    border: 1px solid black;
+}
+
+.order-details-table{
+    width: 100%;
+    margin: 5px 0 15px;
+    border: 2px solid black;
+    border-collapse: collapse;
+}
+
+.item-detail-row:nth-child(odd){
+    background-color: rgb(236, 236, 236);
+}
+
+.item-info span{
+    padding: 0 5px;
+}
+
+#payment-type-group{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.order-total-no-tip{
+    font-weight: normal;
+    padding: 30px 0 0px;
+}
+
+.order-total{
+    font-weight: bold;
+    padding: 5px 0 10px;
+}
+
+.order-total span, .order-total-no-tip span{
+    padding-left: 5px;
+    font-style: normal;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+
+
