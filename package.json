@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Rffrench/PortafolioWeb#readme",
   "dependencies": {
     "adm-zip": "^0.4.16",
+    "amqplib": "^0.6.0",
     "axios": "^0.20.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -29,7 +30,9 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "node-localstorage": "^2.1.6",
-    "pdfkit": "^0.11.0"
+    "pdfkit": "^0.11.0",
+    "socket.io": "^3.0.3",
+    "util": "^0.12.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"

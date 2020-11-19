@@ -2,7 +2,7 @@ const axios = require('axios');
 const sendErrors = require('../util/errorFunctions');
 const PDFDocument =  require('pdfkit');
 const helperFunctions = require('../util/helperFunctions');
-
+const mensajero = require('../controllers/receivePayment')
 
   exports.getIncomeReport = async function(req, res, next) {
 
@@ -63,7 +63,9 @@ const helperFunctions = require('../util/helperFunctions');
     
     };
 
-
+    function recibir(req){
+      mensajero.receivePayment(req)
+    }
 
 exports.getIncomesView = (req, res, next) => {
     const token = req.cookies.jwt;
@@ -81,5 +83,29 @@ exports.getIncomesView = (req, res, next) => {
             return;
 
         })
+}
+
+exports.getCheckoutView = (req, res, next) => {
+  const token = req.cookies.jwt;
+  
+  axios.get(`${process.env.ORCHESTRATOR}/finance/income`,
+      {
+          headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(response => {
+          console.log(response.data);
+          recibir(req);
+          res.render('finance/checkout', { pageTitle: 'Caja'});
+      })
+      .catch(err => {
+          sendErrors(err.response, res);
+          return;
+
+      })
+}
+
+exports.getCheckouts = (req, res, next) =>{
+  var cliente = req.body.cliente
+  console.log(cliente)
 }
 
