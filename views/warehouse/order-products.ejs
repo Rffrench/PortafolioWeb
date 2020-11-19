@@ -4,24 +4,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-   $.ajax({
-        type: "GET",
-        url: 'http://localhost:3001/api/v1/admin/products',
-        data: "check",
-        success: function(data){
-        let products = (data.products);
-        $("#products").select2();
-        products.forEach(product => {
-            var newOption = new Option(product.name,product.id,false,false);
-            $('#products').append(newOption).trigger('change');
-        });
-        
-   
-    
-        }
-    });
-</script>
+<script src="/js/select2.js"></script>
+
 </head>
 
 <body>

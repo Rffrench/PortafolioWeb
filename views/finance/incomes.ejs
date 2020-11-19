@@ -5,23 +5,28 @@
 <body>
 
     <%- include('../includes/navigation.ejs') %>
-    <main>
-
-        <h1>Reporte de Ganancias</h1>
-       
-        <h3 class="reservation-info">Selecciona un mes para obtener la ganancia mensual y diaria </h3>
-        
+   <main>
+    <section class="income-form">
+        <div class="income-report">
+        <h2>Calcular Ganancias</h2>
+        <h3>Selecciona un mes para obtener la ganancia diaria y mensual</h3>
         <form action="/finance/income/report" method="GET">
-            <label for="date">Fecha</label>
+            <div class="input-group">
+            <label for="">Fecha</label>
             <select name="date" id="date">
                 <% for (var date of incomeDates) { %>
-                <option value="<%= date.incomeDate %>"><%= date.incomeDate %></option> 
-                <% } %>
+                    <option value="<%= date.incomeDate %>"><%= date.incomeDate %></option> 
+                    <% } %>
             </select>
-            <button class="btn2" type="submit">Descargar Reporte</button>
+         </div>
+             <button class="income-btn">Descargar Reporte</button>
         </form>
+     </div>
+    </section>
+ 
+</main>
 
-    </main>
+  
 
     <%- include('../includes/footer.ejs') %>
     <%- include('../includes/end.ejs') %>

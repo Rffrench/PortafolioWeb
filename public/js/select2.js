@@ -1,4 +1,4 @@
-
+$( document ).ready(function() {
     $.ajax({
         type: "GET",
         url: 'http://localhost:3001/api/v1/admin/products',
@@ -11,7 +11,8 @@
             $('#products').append(newOption).trigger('change');
         });
         
-   
+    
     
         }
     });
+});

@@ -20,6 +20,8 @@ exports.getToday = () => {
 //Genera la cabecera del reporte de ingresos
 exports.generateHeader = (doc) => {
     doc     
+      .fillColor("#444444")
+      .fontSize(20)
       .text("Restaurant Siglo XXI", 110, 57)
       .fontSize(10)
       .text("Restaurant Siglo XXI", 200, 50, { align: "right" })
@@ -50,7 +52,7 @@ exports.generateHeader = (doc) => {
       .text("Fecha de reporte:", 50, customerInformationTop + 15)
       .text(invoice.date, 150, customerInformationTop + 15)
       .text("Total de ganancias:", 50, customerInformationTop + 30)
-      .text(invoice.subtotal,
+      .text(formatCurrency(invoice.subtotal),
         150,
         customerInformationTop + 30
       )
@@ -80,7 +82,7 @@ exports.generateHeader = (doc) => {
         position,
         item.date,
         item.orders,
-        item.amount
+        formatCurrency(item.amount)
       );
   
       generateHr(doc, position + 20);
@@ -126,5 +128,13 @@ exports.generateHeader = (doc) => {
     const month = date.getMonth() + 1;
     const year = date.getFullYear();
   
-    return year + "/" + month + "/" + day;
+    return day + "/" + month + "/" + year;
   }
+
+  function formatCurrency(value) {
+    var clp = '';
+    value = value.toString().split('').reverse().join('');
+    var i = value.length;
+    while(i>0) clp += ((i%3===0&&i!=value.length)?'.':'')+value.substring(i--,i);
+    return '$' + clp;
+}
