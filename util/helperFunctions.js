@@ -57,6 +57,30 @@ exports.generateHeader = (doc) => {
         customerInformationTop + 30
       )
   }
+  exports.generateInvoiceInformation = (doc, invoice) => {
+   
+    doc
+      .fillColor("#444444")
+      .fontSize(20)
+      .text("Detalle de Pedido", 50, 160);
+  
+    generateHr(doc, 185);
+  
+    const customerInformationTop = 200;
+  
+    doc
+      .fontSize(10)      
+      .font("Helvetica")
+      .text("Cliente:", 50, customerInformationTop )      
+      .text(invoice.name, 150, customerInformationTop)
+      .text("Fecha:", 50, customerInformationTop + 15)
+      .text(formatDate(new Date()), 150, customerInformationTop + 15)
+      .text("Total a pagar", 50, customerInformationTop + 30)
+      .text(formatCurrency(invoice.subtotal),
+        150,
+        customerInformationTop + 30
+      )
+  }
 
 
   exports.generateInvoiceTable = (doc, invoice)  => {
@@ -87,9 +111,63 @@ exports.generateHeader = (doc) => {
   
       generateHr(doc, position + 20);
     }
+  }
   
+    exports.generateInvoiceTable2 = (doc, invoice)  => {
+      let i;
+      const invoiceTableTop = 330;
+    
+      doc.font("Helvetica-Bold");
+      generateTableRow2(
+        doc,
+        invoiceTableTop,
+        "Id Producto",
+        "Nombre",
+        "Cantidad",
+        "Precio",
+        "Total"
+      );
+      generateHr(doc, invoiceTableTop + 20);
+      doc.font("Helvetica");
+    
+      for (i = 0; i < invoice.items.length; i++) {
+        const item = invoice.items[i];
+        const position = invoiceTableTop + (i + 1) * 30;
+        generateTableRow2(
+          doc,
+          position,
+          item.itemId,
+          item.name,
+          item.quantity,
+          item.price,
+          item.total
+        );
+    
+        generateHr(doc, position + 20);
+      }
+    
    
   
+    function generateTableRow2(
+      doc,
+      y,
+      id,
+      name,
+      quantity,
+      price,
+      total
+    ) {
+      doc
+        .fontSize(10)
+        .text(id, 50, y)
+      .text(name, 150, y)
+      .text(quantity, 280, y, { width: 90, align: "right" })
+      .text(total, 370, y, { width: 90, align: "right" })
+      .text(price, 0, y, { align: "right" });
+       
+      
+    }
+
   }
   function generateTableRow(
     doc,

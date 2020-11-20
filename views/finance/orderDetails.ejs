@@ -14,11 +14,26 @@
     
        -->
       <div class="customer-orders">
+          <div class="order">
         <h1>Detalle de Orden</h1>
-          
+        <div class="info">
+           <h5>Nro. Orden <%= order[0].id %></h5>
+           <h5>Nombre <%= order[0].name %></h5>
+           <h5>Id Cliente <%= order[0].customerId %></h5>
+           <h5>Estado <%= order[0].description %></h5>
+           <h5>Email <%= order[0].email %></h5>
+           <h5>Total a pagar <%= order[0].monto %></h5>
+           
+            <form action="/finance/customer-orders/details/invoice" class="" method="POST">    
+                <input type="hidden" name="orderId" id="orderId" class="" value="<%= order[0].id %>" >
+            <button class="btn3" type="submit">Enviar Boleta</button>
+            
+            </form>
+        </div>
             <% if (!items) { %>
                 <h2> No hay items en la orden.</h2>
                 <%  }else{ %>
+                    
                 <table class="table">
                     <thead>                 
                         
@@ -55,7 +70,7 @@
                     </tbody>
                   </table>
                   <%  } %>
-       
+          
       
     </div>
 </main>
