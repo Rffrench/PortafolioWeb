@@ -191,12 +191,13 @@ exports.requestPayment = (req, res, next) => {
     axios.get(`${process.env.ORCHESTRATOR}/orders/`+userId)
     .then(response => {
         const orderId = response.data.id
-        console.log(response.data.id)
+        console.log("se intenta pagar la orden" +response.data.id)
         axios.get(`${process.env.ORCHESTRATOR}/orders/pay/`+orderId)
         .then( response => {
-            mensajero.enviar(userID+" desea pagar. ")
+            console.log(userId+" desea pagar. ")
+            mensajero.send(userId+" desea pagar. ")
         })
-        .catch(err => console.log(err))
+        .catch(err =>{throw (err)})
     })
     .catch(err => {
         const errorResponse = err.response;
