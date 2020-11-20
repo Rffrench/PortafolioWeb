@@ -2,7 +2,7 @@ const axios = require('axios');
 const sendErrors = require('../util/errorFunctions');
 const PDFDocument =  require('pdfkit');
 const helperFunctions = require('../util/helperFunctions');
-const mensajero = require('../controllers/receivePayment')
+const mensajero = require('./messenger')
 
 //Cargar vista de ordenes listas para pagar
 exports.getCustomerOrdersView = (req, res, next) => {
@@ -105,7 +105,7 @@ exports.getOrderDetailsView = (req, res, next) => {
     };
 
     function recibir(req){
-      mensajero.receivePayment(req)
+      mensajero.receive(req)
     }
 
 exports.getIncomesView = (req, res, next) => {

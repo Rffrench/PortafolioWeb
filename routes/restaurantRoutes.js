@@ -20,6 +20,6 @@ router.delete('/reservations/cancel', restaurantController.deleteReservation); /
 router.get('/orders', restaurantController.getOrdersMenu);
 router.get('/orders/new', restaurantController.getNewOrder);
 router.post('/orders', restaurantController.postOrder);
-
+router.get('/orders/pay', restaurantController.requestPayment);
 
 module.exports = router;
