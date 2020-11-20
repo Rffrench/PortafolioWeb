@@ -61,7 +61,31 @@
     </div>
 </main>
 
-  
+<script>
+    //agregado para manejar el refresco
+$(function () {
+        console.log("escuchando");
+        var socket = io("http://localhost:3000");
+        socket.connect()
+        console.log(socket);
+        socket.on('sendPayment', function(msg){
+            console.log("recibido mensaje: "+ msg);
+            //esto debiese bastar
+            location.reload();
+            
+            //Por si se quiere hacer un GET
+            /*$.get(
+                "somepage.php",
+                {paramOne : 1, paramX : 'abc'},
+                function(data) {
+                    alert('page content: ' + data);
+                 }
+            ); */
+        });
+      });
+</script>
+
+</script>
 
     <%- include('../includes/footer.ejs') %>
     <%- include('../includes/end.ejs') %>
