@@ -117,6 +117,7 @@ exports.getCancelReservation = (req, res, next) => {
 // RESERVAS
 exports.postReservation = (req, res, next) => {
     const reservation = new Reservation(req.body.reservationDate, req.body.reservationTime, req.body.party, req.body.userId);
+    reservation.email = res.locals.email; // appending the user email too
     const today = helperFunctions.getToday(); // funcion de ayuda importada para obtener el dia de hoy
 
     // Verificar que la fecha introducida no sea anterior a hoy
@@ -156,9 +157,10 @@ exports.postReservation = (req, res, next) => {
 
 exports.deleteReservation = (req, res, next) => {
     const userId = req.body.userId;
+    const email = res.locals.email;
 
-
-    axios.delete(`${process.env.ORCHESTRATOR}/reservations/${userId}`)
+    // sending email in the URL, for this case there arent any problems in terms of security or privacy. DELETE methods do not contain a body
+    axios.delete(`${process.env.ORCHESTRATOR}/reservations/${userId}?email=${email}`)
         .then(response => {
             res.render('restaurant/reservations', { pageTitle: 'Reservations', path: '/reservations', successMessage: 'Su reserva al restaurante ha sido CANCELADA.' })
         })
