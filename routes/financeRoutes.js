@@ -8,6 +8,8 @@ const financeController = require('../controllers/financeController');
 
 router.get('/income', financeController.getIncomesView);
 router.get('/income/report', financeController.getIncomeReport);
+router.get('/customer-orders',financeController.getCustomerOrdersView);
+router.get('/customer-orders/details/:orderId',financeController.getOrderDetailsView);
 router.get('/checkout', financeController.getCheckoutView);
 router.get('/getCheckouts', financeController.getCheckouts);
 

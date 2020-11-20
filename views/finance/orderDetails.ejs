@@ -1,0 +1,66 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/finance/stylesorders.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+   <main>
+       <!--
+       <div class="module">
+           <h3>Finanzas</h3>
+           <h1>Administrar Ordenes</h1>
+       </div>
+    
+       -->
+      <div class="customer-orders">
+        <h1>Detalle de Orden</h1>
+          
+            <% if (!items) { %>
+                <h2> No hay items en la orden.</h2>
+                <%  }else{ %>
+                <table class="table">
+                    <thead>                 
+                        
+                        <th >Id Item</th>
+                       
+                        <th >Item</th>
+                        <th >Cantidad</th>   
+                        <th >Precio</th> 
+                        <th >Total</th>                 
+                    </thead>
+                    <tbody>
+                        <% for (var item of items) { %>
+                      <tr>
+                        <td data-label="Id"><%= item.itemId %></td>                    
+                        
+    
+                      
+    
+                        <td data-label="Id Estado"> <%= item.name %> </td>
+    
+                        <td data-label="Estado"><%= item.quantity %> </td>
+    
+                        <td data-label="Estado"><%= item.price %> </td>
+                       
+                        <td data-label="Opciones"><%= item.total %>                        
+                             </td>
+                     
+                      </tr>
+                      
+                    
+            
+                      <% } %>
+                      
+                    </tbody>
+                  </table>
+                  <%  } %>
+       
+      
+    </div>
+</main>
+
+  
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>

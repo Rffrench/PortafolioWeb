@@ -4,6 +4,47 @@ const PDFDocument =  require('pdfkit');
 const helperFunctions = require('../util/helperFunctions');
 const mensajero = require('../controllers/receivePayment')
 
+//Cargar vista de ordenes listas para pagar
+exports.getCustomerOrdersView = (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  axios.get(`${process.env.ORCHESTRATOR}/finance/customer-orders`,
+      {
+          headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(response => {
+          console.log(response.data);
+          res.render('finance/customer-orders', { pageTitle: 'Reportes de Ingresos', orders: response.data.customerOrders});
+      })
+      .catch(err => {
+          sendErrors(err.response, res);
+          return;
+
+      })
+}
+
+exports.getOrderDetailsView = (req, res, next) => {
+  const token = req.cookies.jwt;
+  const orderId = req.params.orderId;
+
+  axios.all([
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
+    .then(axios.spread((customerOrder, orderItems) => {
+        console.log(customerOrder.data);        
+        console.log(orderItems.data);
+        res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems  });
+
+    }))
+    .catch((err) => {
+
+        sendErrors(err.response, res);
+
+        return;
+    });
+}
+
+
   exports.getIncomeReport = async function(req, res, next) {
 
     const date = req.query.date;

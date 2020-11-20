@@ -1,0 +1,67 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/finance/stylesorders.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+   <main>
+       <!--
+       <div class="module">
+           <h3>Finanzas</h3>
+           <h1>Administrar Ordenes</h1>
+       </div>
+    
+       -->
+      <div class="customer-orders">
+        <h1>Ordenes listas</h1>
+        <% if (!orders) { %>
+            <h2> No hay ordenes registradas.</h2>
+            <%  }else{ %>
+            <table class="table">
+                <thead>                 
+                    
+                    <th >Id Orden</th>
+                    <th >Mesa</th>
+                    <th >Cliente</th>
+                    <th >Email</th>   
+                    <th >Monto</th> 
+                    <th >Opciones</th>                 
+                </thead>
+                <tbody>
+                    <% for (var order of orders) { %>
+                  <tr>
+                    <td data-label="Id"><%= order.orderId %></td>                    
+                    
+
+                    <td data-label="Motivo"><%= order.tableId %></td>
+                  
+
+                    <td data-label="Id Estado"> <%= order.name %> </td>
+
+                    <td data-label="Estado"><%= order.email %> </td>
+
+                    <td data-label="Estado"><%= order.monto %> </td>
+                   
+                    <td data-label="Opciones">
+                        <form action="/finance/customer-orders/details/<%= order.orderId %>" method="GET">
+                         <input type="image" src="/media/configuraciones.png" alt="Submit" width="20px">
+                        </form>
+                         </td>
+                 
+                  </tr>
+                  
+                
+        
+                  <% } %>
+                  
+                </tbody>
+              </table>
+              <%  } %>
+    </div>
+</main>
+
+  
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
