@@ -190,30 +190,30 @@ exports.requestPayment = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
 
     //const token = localStorage.getItem('token') || null;
-    axios.get(`${process.env.ORCHESTRATOR}/orders/`+userId)
-    .then(response => {
-        const orderId = response.data.id
-        console.log("se intenta pagar la orden" +response.data.id)
-        axios.get(`${process.env.ORCHESTRATOR}/orders/pay/`+orderId)
-        .then( response => {
-            console.log(userId+" desea pagar. ")
-            mensajero.send(userId+" desea pagar. ")
+    axios.get(`${process.env.ORCHESTRATOR}/orders/` + userId)
+        .then(response => {
+            const orderId = response.data.id
+            console.log("se intenta pagar la orden" + response.data.id)
+            axios.get(`${process.env.ORCHESTRATOR}/orders/pay/` + orderId)
+                .then(response => {
+                    console.log(userId + " desea pagar. ")
+                    mensajero.send(userId + " desea pagar. ")
+                })
+                .catch(err => { throw (err) })
         })
-        .catch(err =>{throw (err)})
-    })
-    .catch(err => {
-        const errorResponse = err.response;
-        const errorStatus = errorResponse ? errorResponse.status : 500;
-        if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
-            sendErrors(err.response, res);
-            return;
-        } else {
-            console.log("err")
-            res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No hay una órden activa en este momento!' })
-            return; // si es 404 no puede pedir extra porq no hay ordenes activas
-        }
-    })
-    
+        .catch(err => {
+            const errorResponse = err.response;
+            const errorStatus = errorResponse ? errorResponse.status : 500;
+            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
+                sendErrors(err.response, res);
+                return;
+            } else {
+                console.log("err")
+                res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No hay una órden activa en este momento!' })
+                return; // si es 404 no puede pedir extra porq no hay ordenes activas
+            }
+        })
+
     /*const token = req.cookies.jwt || null; // se cambio por cookie+jwt
     const orderId = req.body.orderId
     axios.get(`${process.env.ORCHESTRATOR}/orders/pay/`+,
@@ -390,7 +390,6 @@ exports.putOrderExtra = (req, res, next) => {
             order: order
         })
         .then(response => {
-            console.log(response.data);
             //res.redirect(303, '/orders');
             res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Orden Actualizada con los Extras!', errorMessage: null })
 
@@ -406,7 +405,10 @@ exports.putOrderExtra = (req, res, next) => {
 
             switch (errorStatus) {
                 case 404: // TODO: Sacar???
-                    errorMessage = 'Oops! NO agregaste ningun item extra al parecer. Intenta nuevamente!';
+                    errorMessage = 'No puedes pedir extra porque no tienes órdenes activas en este momento!';
+                    break;
+                case 409: // TODO: Sacar???
+                    errorMessage = 'PAGO SOLICITADO: Has solicitado el pago de tu orden por lo que no puedes pedir extra!';
                     break;
                 case 422:  // 422 Unprocessable Entity
                     errorMessage = 'La orden ingresada no contiene ningún item. Intenta nuevamente añadiendo los items del menu que deseas y apretando el botón de actualizar orden.';
