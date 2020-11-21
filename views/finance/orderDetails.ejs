@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/finance/stylesorders.css">
+</head>
+
+<body>
+
+    <%- include('../includes/navigation.ejs') %>
+   <main>
+       <!--
+       <div class="module">
+           <h3>Finanzas</h3>
+           <h1>Administrar Ordenes</h1>
+       </div>
+    
+       -->
+      <div class="customer-orders">
+          <div class="order">
+        <h1>Detalle de Orden</h1>
+        <div class="info">
+           <h5>Nro. Orden <%= order[0].id %></h5>
+           <h5>Nombre <%= order[0].name %></h5>
+           <h5>Id Cliente <%= order[0].customerId %></h5>
+           <h5>Estado <%= order[0].description %></h5>
+           <h5>Email <%= order[0].email %></h5>
+           <h5>Total a pagar <%= order[0].monto %></h5>
+           
+            <form action="/finance/customer-orders/details/invoice" class="" method="POST">    
+                <input type="hidden" name="orderId" id="orderId" class="" value="<%= order[0].id %>" >
+            <button class="btn3" type="submit">Enviar Boleta</button>
+            
+            </form>
+        </div>
+            <% if (!items) { %>
+                <h2> No hay items en la orden.</h2>
+                <%  }else{ %>
+                    
+                <table class="table">
+                    <thead>                 
+                        
+                        <th >Id Item</th>
+                       
+                        <th >Item</th>
+                        <th >Cantidad</th>   
+                        <th >Precio</th> 
+                        <th >Total</th>                 
+                    </thead>
+                    <tbody>
+                        <% for (var item of items) { %>
+                      <tr>
+                        <td data-label="Id"><%= item.itemId %></td>                    
+                        
+    
+                      
+    
+                        <td data-label="Id Estado"> <%= item.name %> </td>
+    
+                        <td data-label="Estado"><%= item.quantity %> </td>
+    
+                        <td data-label="Estado"><%= item.price %> </td>
+                       
+                        <td data-label="Opciones"><%= item.total %>                        
+                             </td>
+                     
+                      </tr>
+                      
+                    
+            
+                      <% } %>
+                      
+                    </tbody>
+                  </table>
+                  <%  } %>
+          
+      
+    </div>
+</main>
+
+  
+
+    <%- include('../includes/footer.ejs') %>
+    <%- include('../includes/end.ejs') %>
