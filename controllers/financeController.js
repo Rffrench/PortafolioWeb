@@ -3,6 +3,7 @@ const sendErrors = require('../util/errorFunctions');
 const PDFDocument =  require('pdfkit');
 const helperFunctions = require('../util/helperFunctions');
 const mensajero = require('./messenger')
+const fs = require("fs");
 
 
 const sgMail = require('@sendgrid/mail');
@@ -51,57 +52,76 @@ exports.getOrderDetailsView = (req, res, next) => {
 
 exports.sendInvoice = (req, res ,next) => {
   const orderId = req.body.orderId;
+  const email = req.body.email; 
+
   const Invoice = {
     name:'',
     items: [],
     subtotal: 0     
-  };
- 
+  }; 
 
   axios.all([
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
     .then(axios.spread((customerOrder, orderItems) => {
-      //Generar PDF
-    
+     
       Invoice.name = customerOrder.data.customerOrder[0].name + ' ' + customerOrder.data.customerOrder[0].lastName;
       Invoice.subtotal = customerOrder.data.customerOrder[0].monto;
-      Invoice.items = orderItems.data.orderItems;
-
+      Invoice.items = orderItems.data.orderItems;      
       
       var myDoc = new PDFDocument({bufferPages: true});    
       let buffers = [];
       myDoc.on('data', buffers.push.bind(buffers));
       myDoc.on('end', () => {        
-        let pdfData = Buffer.concat(buffers);
-        res.writeHead(200, {
-        'Content-Length': Buffer.byteLength(pdfData),
-        'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=detalle_pedido.pdf',})
-        .end(pdfData);      
-      });
 
-      
+        let pdfData = Buffer.concat(buffers);
+        let attachment = pdfData.toString('base64'); 
+
+        const msg = {
+          to: email,
+          from: 'portafolio_caso3@hotmail.com', 
+          subject: 'Boleta Restaurant Siglo XXI',
+          text: 'Boleta Restaurant',
+          html: `
+          <html>
+              <body style="border: 1px solid black; padding: 10px;">
+                  <h1>Boleta</h1>
+                  <br>
+                  <h3>Se adjunta boleta con el detalle del pedido ¡Te esperamos en caja!</h3>
+                  <br>
+                  <p><i>Restaurante Siglo XXI</i></p>
+              </body>
+          </html>`,
+          attachments: [
+            {
+              content: attachment,
+              filename: "boleta.pdf",
+              type: "application/pdf",
+              disposition: "attachment"
+            }
+          ]};  
+
+        (async () => {
+          try {
+              await sgMail.send(msg);
+          } catch (error) {
+              console.error(error);
+
+              if (error.response) {
+                  console.error(error.response.body)
+              }
+          }
+        })();
+
+        res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });  
+      });    
+
       helperFunctions.generateHeader(myDoc);
       helperFunctions.generateInvoiceInformation(myDoc, Invoice);
       helperFunctions.generateInvoiceTable2(myDoc,Invoice);  
+
       myDoc.end();          
-
-
-
-
-
-      //Enviar correo
-
-   
-
-
-
-
-        
-    //res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });
-
-    }))
+    }))    
     .catch((err) => {
 
         sendErrors(err.response, res);

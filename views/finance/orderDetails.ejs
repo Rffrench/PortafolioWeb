@@ -26,6 +26,7 @@
            
             <form action="/finance/customer-orders/details/invoice" class="" method="POST">    
                 <input type="hidden" name="orderId" id="orderId" class="" value="<%= order[0].id %>" >
+                <input type="hidden" name="email" id="email" value="<%= order[0].email %>">
             <button class="btn3" type="submit">Enviar Boleta</button>
             
             </form>
