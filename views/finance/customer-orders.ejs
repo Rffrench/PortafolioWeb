@@ -13,6 +13,7 @@
      
       <div class="customer-orders">
         <h1>Administrar Ordenes</h1>
+        <p>Finaliza los pedidos de los clientes que estan listos para pagar</p>
         <% if (!orders) { %>
             <h2> No hay ordenes listas para pagar.</h2>
             <%  }else{ %>
@@ -39,7 +40,7 @@
 
                     <td data-label="Estado"><%= order.email %> </td>
 
-                    <td data-label="Estado"><%= order.monto %> </td>
+                    <td data-label="Estado">$<%= order.monto %> </td>
                    
                     <td data-label="Opciones">
                         <form action="/finance/customer-orders/details/<%= order.orderId %>" method="GET">
