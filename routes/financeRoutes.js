@@ -10,8 +10,6 @@ router.get('/income', financeController.getIncomesView);
 router.get('/income/report', financeController.getIncomeReport);
 router.get('/customer-orders',financeController.getCustomerOrdersView);
 router.get('/customer-orders/details/:orderId',financeController.getOrderDetailsView);
-router.post('/customer-orders/details/invoice',financeController.sendInvoice);
-router.post('/customer-orders/close/:orderId',financeController.closeOrder);
 router.get('/checkout', financeController.getCheckoutView);
 router.get('/getCheckouts', financeController.getCheckouts);
 
