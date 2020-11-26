@@ -174,7 +174,7 @@ exports.getOrderDetailsView = (req, res, next) => {
         res.writeHead(200, {
         'Content-Length': Buffer.byteLength(pdfData),
         'Content-Type': 'application/pdf',
-        'Content-disposition': 'attachment;filename=ganancias_restaurant_'+date+'.pdf',})
+        'Content-disposition': 'attachment;filename=ingresos_restaurant_'+date+'.pdf',})
         .end(pdfData);      
       });
 
