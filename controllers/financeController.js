@@ -19,6 +19,7 @@ exports.getCustomerOrdersView = (req, res, next) => {
       })
       .then(response => {
           console.log(response.data);
+          recibir(req);
           res.render('finance/customer-orders', { pageTitle: 'Reportes de Ingresos', orders: response.data.customerOrders});
       })
       .catch(err => {
@@ -28,30 +29,9 @@ exports.getCustomerOrdersView = (req, res, next) => {
       })
 }
 
-exports.getOrderDetailsView = (req, res, next) => {
+exports.closeOrder = (req, res, next) => {
   const token = req.cookies.jwt;
   const orderId = req.params.orderId;
-
-  axios.all([
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
-    .then(axios.spread((customerOrder, orderItems) => {
-        console.log(customerOrder.data);        
-        console.log(orderItems.data);
-        res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });
-
-    }))
-    .catch((err) => {
-
-        sendErrors(err.response, res);
-
-        return;
-    });
-}
-
-
-exports.sendInvoice = (req, res ,next) => {
-  const orderId = req.body.orderId;
   const email = req.body.email; 
 
   const Invoice = {
@@ -61,9 +41,10 @@ exports.sendInvoice = (req, res ,next) => {
   }; 
 
   axios.all([
+    axios.post(`${process.env.ORCHESTRATOR}/finance/customer-orders/payment/cash/${orderId}`),
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
-    .then(axios.spread((customerOrder, orderItems) => {
+    .then(axios.spread((orderPayment,customerOrder, orderItems) => {
      
       Invoice.name = customerOrder.data.customerOrder[0].name + ' ' + customerOrder.data.customerOrder[0].lastName;
       Invoice.subtotal = customerOrder.data.customerOrder[0].monto;
@@ -72,8 +53,7 @@ exports.sendInvoice = (req, res ,next) => {
       var myDoc = new PDFDocument({bufferPages: true});    
       let buffers = [];
       myDoc.on('data', buffers.push.bind(buffers));
-      myDoc.on('end', () => {        
-
+      myDoc.on('end', () => {     
         let pdfData = Buffer.concat(buffers);
         let attachment = pdfData.toString('base64'); 
 
@@ -100,7 +80,7 @@ exports.sendInvoice = (req, res ,next) => {
               disposition: "attachment"
             }
           ]};  
-
+        
         (async () => {
           try {
               await sgMail.send(msg);
@@ -112,8 +92,8 @@ exports.sendInvoice = (req, res ,next) => {
               }
           }
         })();
-
-        res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });  
+        res.redirect(`/finance/customer-orders`);
+       // res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });  
       });    
 
       helperFunctions.generateHeader(myDoc);
@@ -129,8 +109,31 @@ exports.sendInvoice = (req, res ,next) => {
         return;
     });
 
-
 }
+
+
+exports.getOrderDetailsView = (req, res, next) => {
+  const token = req.cookies.jwt;
+  const orderId = req.params.orderId;
+
+  axios.all([
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
+    .then(axios.spread((customerOrder, orderItems) => {
+        console.log(customerOrder.data);        
+        console.log(orderItems.data);
+        res.render('finance/orderDetails', { pageTitle: 'Detalle de Orden', items:orderItems.data.orderItems, order:customerOrder.data.customerOrder  });
+
+    }))
+    .catch((err) => {
+
+        sendErrors(err.response, res);
+
+        return;
+    });
+}
+
+
 
   exports.getIncomeReport = async function(req, res, next) {
 

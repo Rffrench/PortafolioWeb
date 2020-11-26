@@ -37,9 +37,8 @@ margin-bottom:1em;}
   
 }
 .income-report {
-    border:solid 1px #B8ACFF;
+    border:solid 1px black;
     padding-top:4em;
-    border-radius:25px;
     padding-bottom:4em;
     width:700px;
     
@@ -77,15 +76,13 @@ margin-bottom:1em;}
 }
 
 .income-btn{
-    background-color:#007bff;
-    padding-top:16px;
-    padding-bottom:16px;
+    background-color:#010157;
+    padding-top:12px;
+    padding-bottom:12px;
     padding-left:20px;
     padding-right:20px;
-    border-radius:5px;
-    color:#FAFAFA;
-    font-family: 'Montserrat', sans-serif;
-    font-weight:400;
-    font-size:15px;
+    color:white;
+    font-weight:600;
+    font-size:16px;
     border:none;
 }
