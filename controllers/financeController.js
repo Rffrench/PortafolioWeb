@@ -67,7 +67,7 @@ exports.closeOrder = (req, res, next) => {
               <body style="border: 1px solid black; padding: 10px;">
                   <h1>Boleta</h1>
                   <br>
-                  <h3>Se adjunta boleta con el detalle del pedido ¡Te esperamos en caja!</h3>
+                  <h3>Se adjunta boleta con el detalle del pedido ¡Gracias por prefernirnos!</h3>
                   <br>
                   <p><i>Restaurante Siglo XXI</i></p>
               </body>
