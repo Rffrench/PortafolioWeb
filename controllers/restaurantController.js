@@ -463,7 +463,7 @@ exports.getPayOrder = (req, res, next) => {
 
 
 exports.postPayOrder = (req, res, next) => {
-    const userId = req.body.userId;
+    const userId = res.locals.userId;
     const paymentType = req.body.paymentType;
     const tip = req.body.tip;
 
