@@ -9,7 +9,19 @@
     <main>
 
         <h1>Pagar Orden</h1>
-        <h3 class="instrucctions-info">Seleccione el método de pago luego de ver el detalle de su orden para solicitar autorización a caja: </h3>
+        
+
+        <% if(isPaymentRequested) { %>
+            <div class="common-form">
+                <h3 class="form-subtitle">Pago en Efectivo solicitado</h3>
+                <p>Ud. ha solicitado el pago en <strong>Efectivo</strong> a Caja. Por favor, espere que llegue el mesero para concretar el pago y finalizar su orden. <br> <i>¡Gracias por preferirnos!</i></p>
+                <div class="loader"></div>
+                <p class="loader-text">Esperando aprobación...</p>
+            </div>
+        <% } else { %>
+            
+            <h3 class="instrucctions-info">Seleccione el método de pago luego de ver el detalle de su orden para pagar: </h3>
+        
 
         <form action="/orders/<%= userId %>/payments" class="common-form" method="POST">
 
@@ -48,11 +60,11 @@
                 <label for="payment-type-group">*<span class="payment-field-label">Método de pago:</span>
                 </label>
                 <div class="payment-type">
-                    <input type="radio" name="payment-type" id="payment-type-cash" value="Cash">
+                    <input type="radio" name="paymentType" id="payment-type-cash" value="1">
                     <label for="payment-type-cash">Efectivo</label>
                 </div>
                 <div class="payment-type">
-                    <input type="radio" name="payment-type" id="payment-type-webpay" value="Webpay"
+                    <input type="radio" name="paymentType" id="payment-type-webpay" value="2"
                         checked>
                     <label for="payment-type-webpay">Webpay</label>
                 </div>
@@ -63,12 +75,11 @@
             <h4 class="order-total-no-tip">Total sin propina: <i>$<span class="order-total-price-no-tip">0</span></i></h4>
             <h3 class="order-total">Total: <i>$<span class="order-total-price">0</span></i></h3>
 
-            <!--Se envia el ID de usuario como campo invisible para identificar la reserva-->
-            <input type="hidden" name="userId" id="userId" value="<%= userId %>">
-
-            <button class="main-button" type="submit">Pagar Orden</button>
+            
+                <button class="main-button" type="submit">Pagar Orden</button>
+            
         </form>
-
+<% } %>  
     </main>
 
     <%- include('../includes/footer.ejs') %>

@@ -102,6 +102,11 @@ input[type="number"]{
     align-self: right;
 }
 
+.form-subtitle{
+    margin: 5px 0;
+    align-self: center;
+}
+
 .form-field-group{
     display: flex;
     flex-flow: row wrap;
@@ -162,6 +167,17 @@ input[type="number"]{
     cursor: pointer;
     background-color: rgb(4, 1, 197);
     transition: ease 0.2s;
+}
+
+.main-button-disabled{
+    
+    color: white;
+    background-color: rgb(63, 63, 63);
+}
+
+.main-button-disabled:hover, .main-button-disabled:focus{
+    cursor: not-allowed;
+    background-color: rgb(63, 63, 63);
 }
 
 .selection-button{

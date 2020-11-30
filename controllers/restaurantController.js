@@ -441,8 +441,10 @@ exports.getPayOrder = (req, res, next) => {
             ]);
         })
         .then(([activeOrder, menu]) => {
+            // if payment is requested then we display different things
+            const isPaymentRequested = activeOrder.data.statusId === 2 ? true : false;
 
-            res.render('restaurant/pay-order', { pageTitle: 'Pagar Orden', path: '/orders/payments', orderData: activeOrder.data, menu: menu.data.menu, errorMessage: null }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
+            res.render('restaurant/pay-order', { pageTitle: 'Pagar Orden', path: '/orders/payments', orderData: activeOrder.data, menu: menu.data.menu, errorMessage: null, isPaymentRequested: isPaymentRequested }) // si se encuentran reservas se pasa como dato la info. Viene un array dentor del JSON
         })
         .catch(err => {
             console.log(err);
@@ -464,26 +466,52 @@ exports.getPayOrder = (req, res, next) => {
 
 exports.postPayOrder = (req, res, next) => {
     const userId = res.locals.userId;
-    const paymentType = req.body.paymentType;
-    const tip = req.body.tip;
+    const email = res.locals.email;
+    const paymentType = parseInt(req.body.paymentType);
+    const tip = parseInt(req.body.tip);
+    const io = req.app.get('io'); // socket
+    let patchAttributes; // attributes used for PATCH request. In this case we only update the status of the orders
 
-    // CAMBIAR ESTO POR EL AJAX DE PERMISO DE PAGO ANTES DE HACER EL POST
+    if (paymentType === 1) { // if Cash
+        patchAttributes = {
+            statusId: 2
+        };
+    } else { // Webpay
+        patchAttributes = {
+            statusId: 3
+        };
+    }
+
 
     axios.post(`${process.env.ORCHESTRATOR}/orders/${userId}/payments`,
         {
-            userId: userId,
+            email: email,
             paymentType: paymentType,
             tip: tip
         })
+        .then(newPayment => {
+            console.log(newPayment.data);
+
+            return axios.patch(`${process.env.ORCHESTRATOR}/orders/${userId}`, patchAttributes);
+        })
         .then(response => {
             console.log(response.data);
-            //res.redirect(303, '/orders');
-            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: 'Su orden ha sido ingresada a nuestro sistema', errorMessage: null })
 
+
+            if (paymentType === 1) {
+                io.emit('sendPayment', {
+                    paymentType: paymentType,
+                    tip: tip,
+                    email: email
+                });
+                //mensajero.send(userId + " desea pagar. ")
+
+                res.redirect('back');
+            } else {
+                res.redirect('/orders');
+            }
         })
         .catch(err => {
-            //res.redirect('/reservations/new');
-
             // Si se recibe un 409, significa que ya existe la orden, sino se cayo el server o otro la orden va vacía
             const errorResponse = err.response;
             const errorStatus = errorResponse ? errorResponse.status : 500;
@@ -491,11 +519,11 @@ exports.postPayOrder = (req, res, next) => {
 
 
             switch (errorStatus) {
-                case 409:
-                    errorMessage = 'Oops! Lo sentimos, ya hay una orden en proceso!';
+                case 404:
+                    errorMessage = 'No hay órdenes activas';
                     break;
                 case 422:  // 422 Unprocessable Entity
-                    errorMessage = 'La orden ingresada no contiene ningún item. Intenta nuevamente añadiendo los items del menu que deseas y apretando el botón de actualizar orden.';
+                    errorMessage = 'Unprocessable Entity';
                     break;
                 default:
                     errorMessage = 'Lo sentimos, ha ocurrido un problema de servidor. Intente nuevamente más tarde';
