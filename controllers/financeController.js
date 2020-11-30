@@ -41,9 +41,13 @@ exports.closeOrder = (req, res, next) => {
   }; 
 
   axios.all([
-    axios.post(`${process.env.ORCHESTRATOR}/finance/customer-orders/payment/cash/${orderId}`),
+    axios.patch(`${process.env.ORCHESTRATOR}/orders/${orderId}`, 
+      {
+           statusId: 3
+      }),
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)]
+    )        
     .then(axios.spread((orderPayment,customerOrder, orderItems) => {
      
       Invoice.name = customerOrder.data.customerOrder[0].name + ' ' + customerOrder.data.customerOrder[0].lastName;
