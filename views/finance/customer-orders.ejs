@@ -1,5 +1,5 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/finance/stylesorders.css">
+<link rel="stylesheet" href="/css/finance/stylescustomerorders.css">
 <script src="/socket.io/socket.io.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
@@ -7,20 +7,17 @@
 <body>
 
     <%- include('../includes/navigation.ejs') %>
-   <main>
-       <!--
-       <div class="module">
-           <h3>Finanzas</h3>
-           <h1>Administrar Ordenes</h1>
-       </div>
-    
-       -->
+  
+    <main>
+            
+     
       <div class="customer-orders">
-        <h1>Ordenes listas</h1>
+        <h1>Administrar Ordenes</h1>
+        <p>Finaliza los pedidos de los clientes que estan listos para pagar</p>
         <% if (!orders) { %>
-            <h2> No hay ordenes registradas.</h2>
+            <h2> No hay ordenes listas para pagar.</h2>
             <%  }else{ %>
-            <table class="table">
+            <table class="order-details-table">
                 <thead>                 
                     
                     <th >Id Orden</th>
@@ -32,18 +29,18 @@
                 </thead>
                 <tbody>
                     <% for (var order of orders) { %>
-                  <tr>
+                  <tr class="item-detail-row">
                     <td data-label="Id"><%= order.orderId %></td>                    
                     
 
                     <td data-label="Motivo"><%= order.tableId %></td>
                   
 
-                    <td data-label="Id Estado"> <%= order.name %> </td>
+                    <td data-label="Id Estado"> <%= order.name %> <%= order.lastName %>  </td>
 
                     <td data-label="Estado"><%= order.email %> </td>
 
-                    <td data-label="Estado"><%= order.monto %> </td>
+                    <td data-label="Estado">$<%= order.monto %> </td>
                    
                     <td data-label="Opciones">
                         <form action="/finance/customer-orders/details/<%= order.orderId %>" method="GET">
@@ -62,7 +59,7 @@
               </table>
               <%  } %>
     </div>
-</main>
+</main> 
 
 <script>
     //agregado para manejar el refresco

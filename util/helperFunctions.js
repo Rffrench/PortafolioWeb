@@ -37,7 +37,7 @@ exports.generateHeader = (doc) => {
     doc
       .fillColor("#444444")
       .fontSize(20)
-      .text("Ganancia Mensual", 50, 160);
+      .text("Ingresos Mensuales", 50, 160);
   
     generateHr(doc, 185);
   
@@ -76,7 +76,7 @@ exports.generateHeader = (doc) => {
       .text("Fecha:", 50, customerInformationTop + 15)
       .text(formatDate(new Date()), 150, customerInformationTop + 15)
       .text("Total a pagar", 50, customerInformationTop + 30)
-      .text(formatCurrency(invoice.subtotal),
+      .text('$'+invoice.subtotal,
         150,
         customerInformationTop + 30
       )
@@ -139,8 +139,8 @@ exports.generateHeader = (doc) => {
           item.itemId,
           item.name,
           item.quantity,
-          item.price,
-          item.total
+          '$'+item.price,
+          '$'+item.total
         );
     
         generateHr(doc, position + 20);

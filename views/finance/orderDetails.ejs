@@ -5,75 +5,68 @@
 <body>
 
     <%- include('../includes/navigation.ejs') %>
-   <main>
-       <!--
-       <div class="module">
-           <h3>Finanzas</h3>
-           <h1>Administrar Ordenes</h1>
-       </div>
-    
-       -->
-      <div class="customer-orders">
-          <div class="order">
+   <main class="order-details">
         <h1>Detalle de Orden</h1>
-        <div class="info">
-           <h5>Nro. Orden <%= order[0].id %></h5>
-           <h5>Nombre <%= order[0].name %></h5>
-           <h5>Id Cliente <%= order[0].customerId %></h5>
-           <h5>Estado <%= order[0].description %></h5>
-           <h5>Email <%= order[0].email %></h5>
-           <h5>Total a pagar <%= order[0].monto %></h5>
-           
-            <form action="/finance/customer-orders/details/invoice" class="" method="POST">    
-                <input type="hidden" name="orderId" id="orderId" class="" value="<%= order[0].id %>" >
-                <input type="hidden" name="email" id="email" value="<%= order[0].email %>">
-            <button class="btn3" type="submit">Enviar Boleta</button>
-            
-            </form>
-        </div>
-            <% if (!items) { %>
-                <h2> No hay items en la orden.</h2>
-                <%  }else{ %>
-                    
-                <table class="table">
-                    <thead>                 
+        <p>Envia la boleta al cliente para que visualize el detalle  o finaliza su pago</p>
+
+
+        <article class="order">
+            <section class="general-information"><h2>Información General</h2> 
+                <div class="info">
+                   
+                    <h4>Nro. Orden:  <%= order[0].id %></h4>
+                    <h4>Cliente: <%= order[0].name %> <%= order[0].lastName %></h4>
+                    <h4>Estado: <%= order[0].description %></h4>
+                    <h4>Email: <%= order[0].email %></h4>
+                    <h4 style="font-weight: bold;">Total a pagar: $<%= order[0].monto %></h4>
+                    <div class="btns">
+                        <form action="/finance/customer-orders/close/<%= order[0].id %>" class="" method="POST">                                
+                            <input type="hidden" name="email" id="email" value="<%= order[0].email %>">
+                            <button class="main-btn" type="submit">Finalizar Orden</button>
+                            
+                        </form>
+
                         
-                        <th >Id Item</th>
-                       
-                        <th >Item</th>
-                        <th >Cantidad</th>   
-                        <th >Precio</th> 
-                        <th >Total</th>                 
-                    </thead>
-                    <tbody>
-                        <% for (var item of items) { %>
-                      <tr>
-                        <td data-label="Id"><%= item.itemId %></td>                    
                         
-    
-                      
-    
-                        <td data-label="Id Estado"> <%= item.name %> </td>
-    
-                        <td data-label="Estado"><%= item.quantity %> </td>
-    
-                        <td data-label="Estado"><%= item.price %> </td>
-                       
-                        <td data-label="Opciones"><%= item.total %>                        
-                             </td>
-                     
-                      </tr>
-                      
+                    </div>
                     
+                </div>
+            </section>
+
+
+
             
-                      <% } %>
-                      
-                    </tbody>
-                  </table>
+            <section class="order-products">
+                <h2>Productos de la Orden</h2>
+                <% if (!items) { %>
+                    <h4> No hay items en la orden.</h4>
+                    <%  }else{ %>
+                <table class="order-details-table">
+                    <tr>
+                        
+                        <th>Nombre Item</th>
+                        <th>Cantidad</th>
+                        <th>Valor</th>
+                        <th>Total</th>
+                    </tr>
+                    <% for (var item of items) { %>
+                        <tr class="item-detail-row">
+                            <td class="item-quantity"><%= item.name %></td>
+                            <td class="item-name"><%= item.quantity %></td>
+                            <td class="item-price">$<%= item.price %></td>
+                            <td class="item-price">$<%= item.total %></td>
+                       </tr>                     
+                       <% } %>
+                    
+                </table>
                   <%  } %>
-          
-      
-    </div>
+            </section>
+           
+        </article>
+    </main>
+
+
+
 </main>
 
   
