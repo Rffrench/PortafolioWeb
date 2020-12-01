@@ -33,6 +33,7 @@ exports.closeOrder = (req, res, next) => {
   const token = req.cookies.jwt;
   const orderId = req.params.orderId;
   const email = req.body.email; 
+  const userId = req.body.userId;
 
   const Invoice = {
     name:'',
@@ -41,7 +42,7 @@ exports.closeOrder = (req, res, next) => {
   }; 
 
   axios.all([
-    axios.patch(`${process.env.ORCHESTRATOR}/orders/${orderId}`, 
+    axios.patch(`${process.env.ORCHESTRATOR}/orders/${userId}`, 
       {
            statusId: 3
       }),
