@@ -1,6 +1,6 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/customers/stylesreservations.css">
-<link rel="stylesheet" href="/css/customers/mqsstylesreservations.css">
+<link rel="stylesheet" href="/css/products/stylesrecipes.css">
+
 </head>
 
 <body>
@@ -10,7 +10,6 @@
 
         <h1>Crear Receta</h1>
        
-        <h3 class="reservation-info">Ingrese los datos de la receta </h3>
 
         <form action="/warehouse/recipes/new" class="common-form" method="POST">
 
@@ -20,21 +19,21 @@
             <% } %>
 
 
-            <div class="form-field-group">
-                <label for="name">*<span class="reservation-field-label">Nombre: </span>
+            <div class="form-field-group-2">
+                <label for="name"><span class="reservation-field-label">Nombre </span>
                 </label>
                 <input type="text" name="name" id="name" class=""  required>
             </div>
-            <div class="form-field-group">
-                <label for="description">*<span class="reservation-field-label">Descripción: </span>
+            <div class="form-field-group-2">
+                <label for="description"><span class="reservation-field-label">Descripción </span>
                 </label>
-                <textarea name="description" id="description" rows="10"  required></textarea>
+                <textarea name="description" id="description" rows="6"  required></textarea>
                 
             </div>
                         
 
-            <div class="form-field-group">
-                <label for="party">*<span class="reservation-field-label">Tiempo de cocción </span>
+            <div class="form-field-group-2">
+                <label for="party"><span class="reservation-field-label">Tiempo de cocción (minutos) </span>
                 </label>
                 <input type="number" name="cookingTime" id="cookingTime" class="fill-input" min="1" value="15"
                      step="1" required>

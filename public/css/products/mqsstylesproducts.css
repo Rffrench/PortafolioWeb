@@ -43,6 +43,7 @@ padding-left:2em;
 padding-right:2em;
 border-style:none;
 color:white;
+font-weight:bold;
 }
 .btn3 {
     display:flex;
@@ -55,6 +56,8 @@ color:white;
     padding-right:2em;
     border-style:none;
     color:white;
+    
+font-weight:bold;
     }
 
 input[type=number] {
@@ -92,7 +95,9 @@ input[type=number] {
     align-items:center;
     width:90%;
 }
-
+.order .info h5{
+    font-size:1rem;
+}
 
 .crud-order {
 display:flex;

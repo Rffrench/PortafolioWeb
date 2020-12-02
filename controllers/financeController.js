@@ -122,7 +122,10 @@ exports.getOrderDetailsView = (req, res, next) => {
   const orderId = req.params.orderId;
 
   axios.all([
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`,
+    {
+      headers: { 'Authorization': 'Bearer ' + token }
+  }),
     axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)])        
     .then(axios.spread((customerOrder, orderItems) => {
         console.log(customerOrder.data);        
