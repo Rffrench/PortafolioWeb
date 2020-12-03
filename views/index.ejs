@@ -15,8 +15,32 @@
             <a href="/auth/login">Iniciar Sesión</a>
             <% } else { %>
                 <h1>Restaurante Siglo XXI</h1>
+            
+
+
+            <% switch (roleId) {
+            case '1': %>
             <p>¡Bienvenido de nuevo!</p>
             <a href="/orders/new">Ingresar Orden</a>
+            <% break; %>
+
+            <% case '3': %>
+            <p>¡Bienvenido al modulo de Bodega!</p>
+            <% break; %>
+
+            <% case '4': %>
+            <p>¡Bienvenido al modulo de Finanzas!</p>
+            <% break; %>
+    
+    
+    
+    
+    
+            <% default: %>
+            <p>¡Bienvenido de nuevo!</p>
+            <% break; 
+        } %>
+           
             <% } %>  
         </div>
     </section>
