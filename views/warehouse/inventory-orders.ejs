@@ -28,7 +28,6 @@
                 <tbody>
                     <% for (var order of orders) { %>
                   <tr>
-                    <form action="/warehouse/inventory-orders/products/<%= order.id %>" class="common-form" method="GET">
                     <td data-label="Id"><%= order.id %></td>                    
                     
 
@@ -39,8 +38,9 @@
 
                     <td data-label="Estado"><%= order.statusDescription %> </td>
                    
-                    <td data-label="Opciones"> <input type="image" src="/media/configuraciones.png" alt="Submit" width="20px"> </td>
-                  </form>
+                    <td data-label="Opciones"> <a  href="/warehouse/inventory-orders/products/<%= order.id %>"><input type="image" src="/media/configuraciones.png" alt="Submit" width="20px"></a>                       
+                    </td>
+                 
                   </tr>
                   
                 

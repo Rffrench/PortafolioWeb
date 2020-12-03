@@ -44,10 +44,11 @@
                     <td data-label="Estado">$<%= order.monto %> </td>
                    
                     <td data-label="Opciones">
-                        <form action="/finance/customer-orders/details/<%= order.orderId %>" method="GET">
+                        <a  href="/finance/customer-orders/details/<%= order.orderId %>"><input type="image" src="/media/configuraciones.png" alt="Submit" width="20px"></a>
+                       
                             
-                         <input type="image" src="/media/configuraciones.png" alt="Submit" width="20px">
-                        </form>
+                         
+                       
                          </td>
                  
                   </tr>
