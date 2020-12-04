@@ -46,8 +46,14 @@ exports.closeOrder = (req, res, next) => {
       {
            statusId: 3
       }),
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`),
-    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`)]
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/${orderId}`,
+    {
+      headers: { 'Authorization': 'Bearer ' + token }
+     }),
+    axios.get(`${process.env.ORCHESTRATOR}/finance/customer-order/items/${orderId}`,
+    {
+      headers: { 'Authorization': 'Bearer ' + token }
+     })]
     )        
     .then(axios.spread((orderPayment,customerOrder, orderItems) => {
      
