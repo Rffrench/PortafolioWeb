@@ -1,7 +1,14 @@
 // New order javascript
 document.addEventListener('DOMContentLoaded', () => {
-    setTotal();
-    addTipEvent();
+    try {
+        setSocket();
+        setTotal();
+        addTipEvent();
+    } catch (error) {
+        console.log(error);
+    }
+
+
 });
 
 const setTotal = () => {
@@ -41,6 +48,22 @@ const addTipEvent = () => {
         tip = parseInt(inputTip.value); // we get the input val
         totalNoTip = parseInt(orderTotalNoTip.textContent, 10); // total price without tip so we can add the tip
         orderTotal.textContent = parseInt(totalNoTip + tip, 10); // total price with tip 
+    })
+}
+
+const setSocket = () => {
+    const socket = io('http://localhost:3000');
+    socket.connect();
+
+
+    console.log(socket)
+    socket.on('connecting', () => {
+        alert('connection')
+    })
+
+    socket.on('paymentApproval', (data) => {
+        alert('d')
+        window.location.replace('./');
     })
 }
 

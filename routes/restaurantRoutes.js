@@ -26,8 +26,7 @@ router.post('/orders', restaurantController.postOrder);
 
 
 
-
-router.get('/orders/pay', restaurantController.requestPayment);
+router.get('/orders/payment-confirmed', restaurantController.getPaymentConfirmed);
 
 
 

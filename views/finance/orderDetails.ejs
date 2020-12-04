@@ -1,6 +1,7 @@
 <%- include('../includes/head.ejs') %>
 <link rel="stylesheet" href="/css/finance/stylesorders.css">
 <link rel="stylesheet" href="/css/finance/mqsstyleorders.css">
+<script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body>
@@ -21,10 +22,10 @@
                     <h4>Email: <%= order[0].email %></h4>
                     <h4 style="font-weight: bold;">Total a pagar: $<%= order[0].monto %></h4>
                     <div class="btns">
-                        <form action="/finance/customer-orders/close/<%= order[0].id %>" class="" method="POST">                                
+                        <form id="end-order-form" action="/finance/customer-orders/close/<%= order[0].id %>" class="" method="POST">                                
                             <input type="hidden" name="email" id="email" value="<%= order[0].email %>">
                             <input type="hidden" name="userId" id="userId" value="<%= order[0].customerId %>">
-                            <button class="main-btn" type="submit">Finalizar Orden</button>
+                            <button id="end-order-btn" class="main-btn" type="submit">Finalizar Orden</button>
                             
                         </form>
 
@@ -71,7 +72,8 @@
 
 </main>
 
-  
-
     <%- include('../includes/footer.ejs') %>
+
+    <script src="/js/order-details.js"></script>
+
     <%- include('../includes/end.ejs') %>

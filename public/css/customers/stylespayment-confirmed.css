@@ -1,0 +1,24 @@
+main{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    margin: 170px 0 100px;
+}
+
+main h1{
+    font-size: 3em;
+    margin: 20px 0px;
+}
+
+main h3{
+    padding: 0 5%;
+}
+
+.form-main-img{
+    margin: 15px 0;
+    align-self: center;
+    width: 50%;
+    height: 50%;
+}
+

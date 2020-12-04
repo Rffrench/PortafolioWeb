@@ -181,54 +181,6 @@ exports.deleteReservation = (req, res, next) => {
 
 // Orders
 
-////////////////////////////////////////////////////
-//Esto es solo para probar!!!!!! No tomar en serio//
-////////////////////////////////////////////////////
-
-exports.requestPayment = (req, res, next) => {
-    const userId = res.locals.userId || null;
-    // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
-
-    //const token = localStorage.getItem('token') || null;
-    axios.get(`${process.env.ORCHESTRATOR}/orders/` + userId)
-        .then(response => {
-            const orderId = response.data.id
-            console.log("se intenta pagar la orden" + response.data.id)
-            axios.get(`${process.env.ORCHESTRATOR}/orders/pay/` + orderId)
-                .then(response => {
-                    console.log(userId + " desea pagar. ")
-                    mensajero.send(userId + " desea pagar. ")
-                })
-                .catch(err => { throw (err) })
-        })
-        .catch(err => {
-            const errorResponse = err.response;
-            const errorStatus = errorResponse ? errorResponse.status : 500;
-            if (errorStatus != 404) { // si el error es distinto a 404 significa que no está logueado o ocurrio otro error desconocido
-                sendErrors(err.response, res);
-                return;
-            } else {
-                console.log("err")
-                res.render('restaurant/orders', { pageTitle: 'Ordenes', path: '/orders', successMessage: null, errorMessage: 'No hay una órden activa en este momento!' })
-                return; // si es 404 no puede pedir extra porq no hay ordenes activas
-            }
-        })
-
-    /*const token = req.cookies.jwt || null; // se cambio por cookie+jwt
-    const orderId = req.body.orderId
-    axios.get(`${process.env.ORCHESTRATOR}/orders/pay/`+,
-        {
-            headers: { 'Authorization': 'Bearer ' + token } // Se envian en los headers el token!
-        })
-        .then(response => {
-            res.render('restaurant/orders', { pageTitle: 'Órdenes', path: '/orders', successMessage: null, errorMessage: null })
-        })
-        .catch(err => {
-            sendErrors(err.response, res);
-        })*/
-}
-
-
 
 exports.getOrdersMenu = (req, res, next) => {
     // Para ver si el usuario está logueado o el token está correcto se le pregunta al orquestador. Se manda el Authorization header con el Bearer token
@@ -534,4 +486,8 @@ exports.postPayOrder = (req, res, next) => {
             return;
         })
 
+}
+
+exports.getPaymentConfirmed = (req, res, next) => {
+    res.render('restaurant/payment-confirmed', { pageTitle: 'Pago Confirmado', path: '/orders' })
 }
