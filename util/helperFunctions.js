@@ -20,9 +20,10 @@ exports.getToday = () => {
 //Genera la cabecera del reporte de ingresos
 exports.generateHeader = (doc) => {
     doc     
+      .image("public/media/logo.png", 50, 45, { width: 50 })
       .fillColor("#444444")
       .fontSize(20)
-      .text("Restaurant Siglo XXI", 110, 57)
+      .text("Restaurant Siglo XXI", 120, 64)
       .fontSize(10)
       .text("Restaurant Siglo XXI", 200, 50, { align: "right" })
       .text("452 Holzapfel", 200, 65, { align: "right" })
