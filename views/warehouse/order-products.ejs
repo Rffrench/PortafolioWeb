@@ -102,9 +102,10 @@
               </table>
               <% if (inventoryOrder[0].statusId==1) { %>
               <div class="add-product">
-                <h2>Agregar Producto</h2>
                 
-                  <form action="/warehouse/inventory-orders/products" method="POST">
+                
+                  <form action="/warehouse/inventory-orders/products" method="POST" class="add-product-form">
+                    <h2>Agregar Producto</h2>
                   <div class="form-field-group">
                   <label for="name">Orden</label>
                   <input type="number" name="order" id="order" value="<%= order %>" class="fill-input" min="1" value="15" step="1" disabled>

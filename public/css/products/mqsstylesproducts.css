@@ -2,7 +2,7 @@
 main{
  text-align:center;
     
-    margin: 120px 0 100px;
+    margin: 150px 0 100px;
 }
 
 main h1{
@@ -43,7 +43,11 @@ padding-left:2em;
 padding-right:2em;
 border-style:none;
 color:white;
-font-weight:bold;
+font-size:14px;
+}
+
+.btn2:hover{
+    background-color:#100d62;
 }
 .btn3 {
     display:flex;
@@ -56,9 +60,14 @@ font-weight:bold;
     padding-right:2em;
     border-style:none;
     color:white;
+    font-size:14px;
     
-font-weight:bold;
     }
+
+    .btn3:hover{
+        background-color:#7570f9 ;
+    }
+
 
 input[type=number] {
     -moz-appearance: textfield;
@@ -106,21 +115,34 @@ width:80%;
 }
 .crud-order .add-product{
     order:2;
+    
+        width:40%;
+        margin-left:5em;
+}
+.crud-order .add-product .add-product-form{
+    padding-left:2em;
+    padding-right:2em;
+    padding-top:1em;
+    
+    padding-bottom:2em;
     border:1px solid #e9ecf0;
-padding-left:2em;
-padding-right:2em;
-padding-top:1em;
-padding-bottom:1em;
-    width:40%;
-    margin-left:5em;
+    display:flex;
+    flex-direction: column;
 }
-.crud-order .add-product .btn2 {
+.crud-order .add-product .add-product-form .btn2 {
     margin-top:20px;
-    float:right;
+    width:120px;
+    margin-left:auto;
+    margin-right:auto;
 }
-.add-product h1{
+.add-product-form h2{
     padding-top:10px;
     margin-top:0px;
+    margin-bottom:1em;
+}
+
+.add-product-form .form-field-group{
+margin-bottom:20px;
 }
 .inventory-orders{
     width:100%;
@@ -141,7 +163,10 @@ padding-bottom:1em;
     order:1;
     
 }
-
+.table th{
+    text-transform: uppercase;
+    font-weight:normal;
+}
 .table td, .table th{
     padding:12px 15px;
     border:1px solid #ddd;
@@ -162,8 +187,7 @@ select {width: 50%;
     border: none;
     border-radius: 4px;
     background-color: #f1f1f1;
-    margin-top:1em;
-margin-bottom:1em;}
+    }
 
 @media(max-width:800px)
 {
