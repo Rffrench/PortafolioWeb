@@ -55,15 +55,9 @@ const setSocket = () => {
     const socket = io('http://localhost:3000');
     socket.connect();
 
-
-    console.log(socket)
-    socket.on('connecting', () => {
-        alert('connection')
-    })
-
+    // Show payment confirmation page after receiving socket message
     socket.on('paymentApproval', (data) => {
-        alert('d')
-        window.location.replace('./');
+        window.location.replace('./../payment-confirmed');
     })
 }
 

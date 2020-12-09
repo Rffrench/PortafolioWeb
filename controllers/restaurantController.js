@@ -460,7 +460,7 @@ exports.postPayOrder = (req, res, next) => {
 
                 res.redirect('back');
             } else {
-                res.redirect('/orders');
+                res.redirect('/orders/payment-confirmed');
             }
         })
         .catch(err => {
