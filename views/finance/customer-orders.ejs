@@ -67,7 +67,7 @@
     //agregado para manejar el refresco
 $(function () {
         console.log("escuchando");
-        var socket = io("http://localhost:3000");
+        var socket = io("http://52.67.94.106:3000");
         socket.connect()
         console.log(socket);
         socket.on('sendPayment', function(msg){
