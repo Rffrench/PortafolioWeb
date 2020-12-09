@@ -54,7 +54,7 @@ const addTipEvent = () => {
 const setSocket = () => {
     //const socket = io('http://localhost:3000'); LOCALHOST
 
-    const socket = io('52.67.94.106');
+    const socket = io('http://52.67.94.106:3000');
     socket.connect();
 
     // Show payment confirmation page after receiving socket message
