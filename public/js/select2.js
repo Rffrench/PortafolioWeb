@@ -1,7 +1,8 @@
 $( document ).ready(function() {
     $.ajax({
         type: "GET",
-        url: 'http://localhost:3001/api/v1/admin/products',
+        
+        url: 'http://18.229.150.241:3001/api/v1/admin/products',
         data: "check",
         success: function(data){
         let products = (data.products);
