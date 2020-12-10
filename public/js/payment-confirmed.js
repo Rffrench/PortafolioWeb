@@ -2,7 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         window.location.replace('./../'); // redirecting to index
-    }, 10 * 2000);
+    }, 10 * 4500);
 });
 
 
