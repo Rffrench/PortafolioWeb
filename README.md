@@ -1,1 +1,1 @@
-Proyecto final de Carrera. Sitio Web con arquitectura inspirada en microservicios usando principalmente Node JS y APIs REST en Node y Django
+ Proyecto final de Carrera. Sitio Web con arquitectura de microservicios usando Node JS y APIs REST con una BD MySQL 
