@@ -113,7 +113,7 @@ The above apps can be found as part of my forked repositories. I mention them be
 <br>
 
 ### Approve orders details
-<img src="https://github.com/Rffrench/PortafolioWeb/blob/master/Screenshots/approve-orders-details.png">
+<img src="https://github.com/Rffrench/PortafolioWeb/blob/master/Screenshots/approve-order-details.png">
 <br>
 
 ### Reports
