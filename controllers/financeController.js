@@ -19,7 +19,7 @@ exports.getCustomerOrdersView = (req, res, next) => {
     })
     .then(response => {
       console.log(response.data);
-      recibir(req);
+      //recibir(req);
       res.render('finance/customer-orders', { pageTitle: 'Reportes de Ingresos', orders: response.data.customerOrders });
     })
     .catch(err => {
@@ -245,7 +245,7 @@ exports.getCheckoutView = (req, res, next) => {
     })
     .then(response => {
       console.log(response.data);
-      recibir(req);
+      //recibir(req);
       res.render('finance/checkout', { pageTitle: 'Caja' });
     })
     .catch(err => {
