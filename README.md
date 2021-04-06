@@ -101,10 +101,6 @@ The above apps can be found as part of my forked repositories. I mention them be
 <img src="https://github.com/Rffrench/PortafolioWeb/blob/master/Screenshots/payment-confirmed.png">
 <br>
 
-### Payment requested
-<img src="https://github.com/Rffrench/PortafolioWeb/blob/master/Screenshots/payment-requested.png">
-<br>
-
 
 # Screenshots Finance
 
