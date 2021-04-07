@@ -9,6 +9,8 @@ The website is built with a microservices architecture but with a single MySQL d
 4. **Restaurant Microservice:** This microservice handles the main customers functionalities: reservations, orders and payments. GET, POST, PATCH, PUT or DELETE endpoints can be found. It also contains the logic of the menu items. For example, the service can add a new menu item with a POST request including the image. Images are stored on the server with a file path string in the database. When a customer wants to order something, the menu must be loaded so what happens internally is that the menu items images are compressed in a zip file using the archiver package and sent back to the frontend which uncompresses this zip and maps the images to the items of the menu. (see orders images below). Most of the code of this microservice was written by me.
 5. **Admin Microservice**: This microserservice contains all the logic of the administrator, finance, warehouse and waiters. It is quite big in size because of the amount of endpoints it has. All the apps have some kind of interaction with this mciroservice. NOTE: I didn't work so much on this microservice so the quality of the code is different than the other microservices.
 
+### User roles
+
 **Normal user**
 - Login/Signup
 - Order online with your account once you have been asigned a table
