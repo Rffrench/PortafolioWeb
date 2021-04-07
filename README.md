@@ -15,13 +15,13 @@ The website is built with a microservices architecture but with a single MySQL d
 - Login/Signup
 - Order online with your account once you have been asigned a table
 - Order extra functionality
-- Pay the bill with cash or card depending wtih a tip option
+- Pay the bill with cash or card. Tip option included too
 - Create a reserveation
 - Cancel a reservation
 
 **Finance user**
 - Generate a monthly income report in PDF
-- Approve and manage payment orders with cash (this will also send an email to the user with a PDF receipt)
+- Approve and manage payment orders with cash (this will also send an email to the user with a PDF receipt). Card payments are simulated and just approved instantly
 
 
 **Warehouse user**
@@ -36,7 +36,7 @@ The website is built with a microservices architecture but with a single MySQL d
 
 In addition to these user roles we have admins, waiters and cooks. Each one of these roles has a different app to interact with (not part of this repository): 
 The *admin* user interacts with a C# desktop application that can manage users, update the inventory, approve inventory orders, etc. 
-The *waiter* uses a Quasar totem that is basically used to assign a table to a customer, manage reservations, and receive alerts when customers want to pay their orders. 
+The *waiter* uses a Quasar totem app that is basically used to assign a table to a customer, manage reservations, and receive alerts when customers want to pay their orders. 
 The *kitchen* has a basic app that receives live orders and sorts them so that the cooks can decide what to start preparing first.
 
 The above apps can be found as part of my forked repositories. I mention them because they are a crucial part of the system and the architecture, all the apps communicate directly with the Orchestrator microservice which handles most of the logic.
